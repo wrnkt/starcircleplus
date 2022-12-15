@@ -1,9 +1,9 @@
 JC = javac
 
-all: TimelineManager.class Entry.class Star.class Circle.class Plus.class
+all: Prompter.class Entry.class Star.class Circle.class Plus.class
 
-TimelineManager.class: TimelineManager.java
-	$(JC) -d classes TimelineManager.java
+Prompter.class: Prompter.java
+	$(JC) -d classes Prompter.java
 
 Entry.class: Entry.java
 	$(JC) -d classes Entry.java
@@ -18,7 +18,7 @@ Plus.class: Plus.java
 	$(JC) -d classes Plus.java
 
 run:
-	java -cp classes/ TimelineManager
+	java -cp classes/ Prompter
 
 clean:
 	rm -r classes/*

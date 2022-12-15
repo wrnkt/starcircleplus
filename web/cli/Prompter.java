@@ -3,21 +3,21 @@ import java.util.ArrayList;
 
 import java.util.Scanner;
 
-public class TimelineManager
+public class Prompter
 {
     public static String divider = "--------------------";
     public static ArrayList<Entry> entryList = new ArrayList<Entry>();
 
-    public Entry getEntry()
+    public Entry promptForEntry()
     {
         Entry entry;
         try(Scanner scanner = new Scanner(System.in))
         {
-            char type = getEntryType(scanner);
+            char type = promptForEntryType(scanner);
             System.out.println();
-            String content = getEntryContent(scanner);
+            String content = promptForEntryContent(scanner);
             System.out.println();
-            var tagsList = getEntryTagsList(scanner);
+            var tagsList = promptForEntryTagsList(scanner);
             System.out.println();
 
             String[] tags = new String[tagsList.size()];
@@ -34,7 +34,7 @@ public class TimelineManager
         return entry;
     }
 
-    private char getEntryType(Scanner s)
+    private char promptForEntryType(Scanner s)
     {
         char type = 'N';
 
@@ -55,7 +55,7 @@ public class TimelineManager
         return type;
     }
 
-    private String getEntryContent(Scanner s)
+    private String promptForEntryContent(Scanner s)
     {
         String content = "";
 
@@ -68,7 +68,7 @@ public class TimelineManager
         return content;
     }
 
-    private ArrayList<String> getEntryTagsList(Scanner s)
+    private ArrayList<String> promptForEntryTagsList(Scanner s)
     {
         String[] tags = {};
 
@@ -97,12 +97,12 @@ public class TimelineManager
 
     public static void main(String... args)
     {
-        TimelineManager timelineManager = new TimelineManager();
+        Prompter prompter = new Prompter();
 
-        timelineManager.displayTimeline();
+        prompter.displayTimeline();
 
-        timelineManager.addEntry(timelineManager.getEntry());
-        timelineManager.displayTimeline();
+        prompter.addEntry(timelineManager.promptForEntry());
+        prompter.displayTimeline();
         
     }
 }

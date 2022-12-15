@@ -1,6 +1,5 @@
 public class Star extends Entry
 {
-
     public Star(String content, String... tags)
     {
         super(content, tags);
