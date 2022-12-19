@@ -1,6 +1,9 @@
 JC = javac
 
-all: Prompter.class Entry.class Star.class Circle.class Plus.class
+all: DBEntryManager.class Prompter.class Entry.class Star.class Circle.class Plus.class
+
+DBEntryManager.class: DBEntryManager.java
+	$(JC) -d classes DBEntryManager.java
 
 Prompter.class: Prompter.java
 	$(JC) -d classes Prompter.java
@@ -18,7 +21,7 @@ Plus.class: Plus.java
 	$(JC) -d classes Plus.java
 
 run:
-	java -cp classes/ Prompter
+	java -cp classes/ DBEntryManager
 
 clean:
 	rm -r classes/*
