@@ -17,17 +17,14 @@ public class Prompter
             System.out.println();
             String content = promptForEntryContent(scanner);
             System.out.println();
-            var tagsList = promptForEntryTagsList(scanner);
+            ArrayList<String> tagList = promptForEntryTagList(scanner);
             System.out.println();
 
-            String[] tags = new String[tagsList.size()];
-            tags = tagsList.toArray(tags);
-            
             entry = switch(type) {
-                case '*' -> new Star(content, tags);
-                case 'o' -> new Circle(content, tags);
-                case '+' -> new Plus(content, tags);
-                default -> new Plus(content, tags);
+                case '*' -> new Star(content, tagList);
+                case 'o' -> new Circle(content, tagList);
+                case '+' -> new Plus(content, tagList);
+                default -> new Plus(content, tagList);
             };
         }
         
@@ -68,7 +65,7 @@ public class Prompter
         return content;
     }
 
-    private ArrayList<String> promptForEntryTagsList(Scanner s)
+    private ArrayList<String> promptForEntryTagList(Scanner s)
     {
         String[] tags = {};
 
@@ -90,7 +87,7 @@ public class Prompter
     {
         for(Entry e : entryList)
         {
-            System.out.println(e.shortEntry());
+            System.out.println(e.detailEntry());
             System.out.println(divider);
         }
     }
@@ -101,7 +98,7 @@ public class Prompter
 
         prompter.displayTimeline();
 
-        prompter.addEntry(timelineManager.promptForEntry());
+        prompter.addEntry(prompter.promptForEntry());
         prompter.displayTimeline();
         
     }
