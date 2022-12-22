@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class DBEntryManager
 {
-    private String address = "jdbc:mysql://localhost:8008/";
+    private String address = "jdbc:mysql://localhost:6603/";
     private String user = "root";
     private String pass = "makeitwork";
 
@@ -18,6 +18,7 @@ public class DBEntryManager
             conn = DriverManager.getConnection(address, user, pass);
         } catch (SQLException e)
         {
+            System.out.println(e);
             System.out.println("Unable to connect to database.");
         }
     }

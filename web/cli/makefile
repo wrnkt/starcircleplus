@@ -21,7 +21,7 @@ Plus.class: Plus.java
 	$(JC) -d classes Plus.java
 
 run:
-	java -cp classes/ DBEntryManager
+	java -cp ./mysql-connector-j-8.0.31.jar:./classes DBEntryManager
 
 clean:
 	rm -r classes/*
