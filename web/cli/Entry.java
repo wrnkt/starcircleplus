@@ -35,6 +35,11 @@ public abstract class Entry implements Serializable
         return this.getClass().getSimpleName();
     }
 
+    public final boolean getCertainOfDate()
+    {
+        return certainOfDate;
+    }
+    
     public final ZonedDateTime getDateCreated()
     {
         return dateCreated;
