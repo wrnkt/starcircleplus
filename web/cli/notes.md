@@ -18,6 +18,11 @@ boolean isChecked; (Circle specific)
 
 #### Entries
 Columns: EntryID, Type, Content, DateCreated, CertainOfDate 
+ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+TYPE BIT(2)
+CONTENT VARCHAR(255)
+DATECREATED DATETIME
+CERTAINOFDATE BOOLEAN
 
 Entries should be ID'ed such that the ID mostly correlates with DateCreated.
 When deleting an entry, the location of the last deletions should be tracked,
