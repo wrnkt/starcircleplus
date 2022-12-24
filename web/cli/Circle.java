@@ -17,6 +17,11 @@ public class Circle extends Entry
         super(content, tags);
     }
 
+    public boolean checked()
+    {
+        return isChecked;
+    }
+
     public void unCheck()
     {
         isChecked = false;

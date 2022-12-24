@@ -1,3 +1,5 @@
+import java.lang.Class;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,11 +79,20 @@ public class DBEntryManager
 
         try(PreparedStatement statement = conn.prepareStatement(sql))
         {
-            // statement.setInt(1, n);
-            statement.setString(2, "b'00'");
+            switch(entry.getClass().getName())
+            {
+                case Star -> statement.setString(2, starBitVal);
+                case Plus -> statement.setString(2, plusBitVal);
+                case Circle ->
+                    entry.checked() :
+                        statement.setString(2, checkedCircleBitVal) ?
+                        statement.setString(2, uncheckedCircleBitVal);
+            }
             statement.setString(3, EntryFormatter.formatContent(entry));
-            // statement.setString(4, );
-            // statement.setBoolean(5, );
+            statement.setString(4, EntryFormatter.formatDateCreated(entry));
+            entry.getCertainOfDate() :
+                statement.setBoolean(5, true) ?
+                statement.setBoolean(5. false);
             int result = statement.executeUpdate();
         } catch (SQLException e)
         {
@@ -97,6 +108,5 @@ public class DBEntryManager
 
         Star testEntry = Star.testEntry();
         System.out.println(testEntry);
-        System.out.println(EntryFormatter.formatDateCreated(testEntry));
     }
 }
