@@ -9,6 +9,11 @@ public class DBEntryManager
     private String user = "root";
     private String pass = "makeitwork";
 
+    private String starBitVal = "b'00'";
+    private String plusBitVal = "b'01'";
+    private String uncheckedCircleBitVal = "b'10'";
+    private String checkedCircleBitVal = "b'11'";
+
     private Connection conn;
 
     public DBEntryManager()
@@ -16,10 +21,9 @@ public class DBEntryManager
         try
         {
             conn = DriverManager.getConnection(address, user, pass);
-
-            System.out.println("Authenticated.");
-            System.out.println("Connection established.");
-        } catch (SQLException e)
+            System.out.println("Connection established with authentication.");
+        }
+        catch (SQLException e)
         {
             System.out.println("Unable to connect to database.");
             System.out.println(e);
@@ -56,8 +60,7 @@ public class DBEntryManager
     {
         try
         {
-            var sql =
-                "CREATE TABLE Entries(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, TYPE BIT(2), CONTENT VARCHAR(255), DATECREATED DATETIME, CERTAINOFDATE INT)";
+            var sql = "CREATE TABLE Entries(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, TYPE BIT(2), CONTENT VARCHAR(255), DATECREATED TIMESTAMP, CERTAINOFDATE BOOLEAN)";
             PreparedStatement statement = conn.prepareStatement(sql);
             int result = statement.executeUpdate();
 
@@ -68,16 +71,22 @@ public class DBEntryManager
         }
     }
 
-    public void createEntry(Entry entry)
+    public void insertEntry(Entry entry)
     {
-        try
+        var sql = "INSERT into Entries (ID, TYPE, CONTENT, DATECREATED, CERTAINOFDATE) values (?, ?, ?, ?, ?)";
+
+        try(PreparedStatement statement = conn.prepareStatement(sql))
         {
-            var sql = "INSERT into Entries () values ()";
-            PreparedStatement statement =
-                conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            // statement.setInt(1, n);
+            statement.setString(2, "b'00'");
+            statement.setString(3, EntryFormatter.formatContent(entry));
+            // statement.setString(4, );
+            // statement.setBoolean(5, );
+            int result = statement.executeUpdate();
         } catch (SQLException e)
         {
             System.out.println("Unable to prepare statement.");
+            System.out.println(e);
         }
     }
 
@@ -86,9 +95,8 @@ public class DBEntryManager
         DBEntryManager dbManager = new DBEntryManager();
         dbManager.createIfNoEntriesTable();
 
-        /*
         Star testEntry = Star.testEntry();
         System.out.println(testEntry);
-        */
+        System.out.println(EntryFormatter.formatDateCreated(testEntry));
     }
 }
