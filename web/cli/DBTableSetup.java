@@ -18,8 +18,6 @@ public class DBTableSetup
         }
     }
 
-    // createEntriesTable()
-
     public void createEntriesTable()
     {
         try
@@ -35,7 +33,7 @@ public class DBTableSetup
         }
     }
 
-    public void createIfNoEntriesTable()
+    public boolean entryTableExists()
     {
         try
         {
@@ -46,18 +44,27 @@ public class DBTableSetup
             if (rs.next())
             {
                 System.out.println("Entries table exists.");
+                return true;
             }
             else
             {
                 System.out.println("Entries table doesn't exist.");
-                createEntriesTable();
-                System.out.println("Created Entries table.");
+                return false;
             }
 
         } catch (SQLException e)
         {
             System.out.println("Failed to execute show table query.");
             System.out.println(e);
+        }
+        return false;
+    }
+
+    public void createIfNoEntriesTable()
+    {
+        if(!entryTableExists())
+        {
+            createEntriesTable();
         }
     }
 
