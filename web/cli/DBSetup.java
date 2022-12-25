@@ -64,7 +64,6 @@ public class DBSetup
         }
     }
 
-
     public boolean inAppDB()
     {
         try
@@ -97,29 +96,33 @@ public class DBSetup
         } 
     }
 
-    public void enterAppDB()
+    public void useAppDB()
+    {
+        try
+        {
+            var sql = String.format("USE %s", DBName);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            int result = statement.executeUpdate();
+            System.out.println(String.format("Using db %s", DBName));
+        } catch (SQLException e) {
+            System.out.println(e);
+            System.out.println("Unable to enter DB");
+        } 
+    }
+
+    public void ensureInAppDB()
     {
         if(!inAppDB())
         {
-            try
-            {
-                var sql = String.format("USE %s", DBName);
-                PreparedStatement statement = conn.prepareStatement(sql);
-                int result = statement.executeUpdate();
-                System.out.println(String.format("Using db %s", DBName));
-            } catch (SQLException e) {
-                System.out.println(e);
-                System.out.println("Unable to enter DB");
-            } 
+            useAppDB();
         }
     }
-    
     
     public static void main(String[] args)
     {
         DBSetup dbs = new DBSetup();
         dbs.createAppDBIfNone();
-        dbs.enterAppDB();
+        dbs.ensureInAppDB();
     }
 
 }
