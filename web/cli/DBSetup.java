@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class DBSetup
 {
-    private static String DBName = "Test2";
+    private static String DBName = DBConfig.database;
     private Connection conn;
 
     public DBSetup()
@@ -53,7 +53,7 @@ public class DBSetup
         } catch (SQLException e) {
             System.out.println(e);
             System.out.println(String.format("Failed to create database %s", DBName));
-} 
+        } 
     }
 
     public void createAppDBIfNone()
@@ -106,6 +106,7 @@ public class DBSetup
                 var sql = String.format("USE %s", DBName);
                 PreparedStatement statement = conn.prepareStatement(sql);
                 int result = statement.executeUpdate();
+                System.out.println(String.format("Using db %s", DBName));
             } catch (SQLException e) {
                 System.out.println(e);
                 System.out.println("Unable to enter DB");
