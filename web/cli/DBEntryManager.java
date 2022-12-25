@@ -34,6 +34,13 @@ public class DBEntryManager
             System.out.println("Unable to connect to database.");
             System.out.println(e);
         }
+
+        DBSetup dbs = new DBSetup(conn);
+        dbs.createAppDBIfNone();
+        dbs.ensureInAppDB();
+
+        DBTableSetup dbts = new DBTableSetup(conn);
+        dbts.createIfNoEntriesTable();
     }
 
     public void insertEntry(Entry entry) throws Exception
@@ -87,14 +94,13 @@ public class DBEntryManager
 
     public static void main(String[] args)
     {
-        DBEntryManager dbManager = new DBEntryManager();
-        dbManager.createIfNoEntriesTable();
+        DBEntryManager dbem = new DBEntryManager();
 
         Star testEntry = Star.testEntry();
         System.out.println(testEntry);
 
         try {
-            dbManager.insertEntry(testEntry);
+            dbem.insertEntry(testEntry);
         } catch (Exception e)
         {
             System.out.println(e);

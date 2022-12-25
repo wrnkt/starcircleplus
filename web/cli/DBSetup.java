@@ -122,12 +122,4 @@ public class DBSetup
             useAppDB();
         }
     }
-    
-    public static void main(String[] args)
-    {
-        DBSetup dbs = new DBSetup();
-        dbs.createAppDBIfNone();
-        dbs.ensureInAppDB();
-    }
-
 }
