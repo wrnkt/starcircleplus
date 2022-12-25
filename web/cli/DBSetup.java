@@ -74,8 +74,15 @@ public class DBSetup
 
             if (rs.next())
             {
-                if (DBName.equals(rs.getString("database()")));
+                if (DBName.equals(rs.getString("database()")))
+                {
                     return true;
+                }
+                else
+                {
+                    System.out.println(String.format("Not in DB %s", DBName));
+                    return false;
+                }
             }
             else
             {
@@ -84,6 +91,7 @@ public class DBSetup
             }
 
         } catch (SQLException e) {
+            System.out.println(e);
             return false;
         } 
     }
@@ -104,7 +112,6 @@ public class DBSetup
     public static void main(String[] args)
     {
         DBSetup dbs = new DBSetup();
-        dbs.createAppDBIfNone();
         System.out.println(dbs.inAppDB());
     }
 
