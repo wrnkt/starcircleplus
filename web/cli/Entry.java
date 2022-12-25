@@ -30,6 +30,11 @@ public abstract class Entry implements Serializable
         setTagList(tags);
     }
 
+    public boolean checked()
+    {
+        return false;
+    }
+
     public final String getEntryType()
     {
         return this.getClass().getSimpleName();

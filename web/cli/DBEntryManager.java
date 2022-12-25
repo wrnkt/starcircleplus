@@ -11,10 +11,10 @@ public class DBEntryManager
     private String user = "root";
     private String pass = "makeitwork";
 
-    private String starBitVal = "b'00'";
-    private String plusBitVal = "b'01'";
-    private String uncheckedCircleBitVal = "b'10'";
-    private String checkedCircleBitVal = "b'11'";
+    private String starBitVal = "00";
+    private String plusBitVal = "01";
+    private String uncheckedCircleBitVal = "10";
+    private String checkedCircleBitVal = "11";
 
     private Connection conn;
 
@@ -62,7 +62,7 @@ public class DBEntryManager
     {
         try
         {
-            var sql = "CREATE TABLE Entries(ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, TYPE BIT(2), CONTENT VARCHAR(255), DATECREATED TIMESTAMP, CERTAINOFDATE BOOLEAN)";
+            var sql = "CREATE TABLE Entries(ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, TYPE BIT(2), CONTENT VARCHAR(255), DATECREATED TIMESTAMP, CERTAINOFDATE BOOLEAN)";
             PreparedStatement statement = conn.prepareStatement(sql);
             int result = statement.executeUpdate();
 
@@ -73,30 +73,45 @@ public class DBEntryManager
         }
     }
 
-    public void insertEntry(Entry entry)
+    public void insertEntry(Entry entry) throws Exception
     {
-        var sql = "INSERT into Entries (ID, TYPE, CONTENT, DATECREATED, CERTAINOFDATE) values (?, ?, ?, ?, ?)";
+        var sql = "INSERT into Entries (TYPE, CONTENT, DATECREATED, CERTAINOFDATE) values (b?, ?, ?, ?)";
 
         try(PreparedStatement statement = conn.prepareStatement(sql))
         {
-            switch(entry.getClass().getName())
+            if(entry instanceof Star)
             {
-                case Star -> statement.setString(2, starBitVal);
-                case Plus -> statement.setString(2, plusBitVal);
-                case Circle ->
-                    entry.checked() :
-                        statement.setString(2, checkedCircleBitVal) ?
-                        statement.setString(2, uncheckedCircleBitVal);
+                statement.setString(1, starBitVal);
             }
-            statement.setString(3, EntryFormatter.formatContent(entry));
-            statement.setString(4, EntryFormatter.formatDateCreated(entry));
-            entry.getCertainOfDate() :
-                statement.setBoolean(5, true) ?
-                statement.setBoolean(5. false);
+            else if(entry instanceof Plus)
+            {
+                statement.setString(1, plusBitVal);
+            }
+            else if(entry instanceof Circle)
+            {
+                if(entry.checked()) {
+                    statement.setString(1, checkedCircleBitVal);
+                } else {
+                    statement.setString(1, uncheckedCircleBitVal);
+                }
+            }
+            else
+            {
+                throw new Exception("Unhandled Entry type.");
+            }
+
+            statement.setString(2, EntryFormatter.formatContent(entry));
+            statement.setString(3, EntryFormatter.formatDateCreated(entry));
+            if(entry.getCertainOfDate()) {
+                statement.setBoolean(4, true);
+            } else {
+                statement.setBoolean(4, false);
+            }
+
             int result = statement.executeUpdate();
         } catch (SQLException e)
         {
-            System.out.println("Unable to prepare statement.");
+            System.out.println("Unable to save entry.");
             System.out.println(e);
         }
     }
@@ -108,5 +123,13 @@ public class DBEntryManager
 
         Star testEntry = Star.testEntry();
         System.out.println(testEntry);
+
+        try {
+            dbManager.insertEntry(testEntry);
+        } catch (Exception e)
+        {
+            System.out.println(e);
+            System.out.println("Unable to save entry.");
+        }
     }
 }
