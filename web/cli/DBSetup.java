@@ -19,7 +19,7 @@ public class DBSetup
         }
     }
 
-    public void createAppDBIfNone()
+    public boolean appDBExists()
     {
         try
         {
@@ -29,12 +29,11 @@ public class DBSetup
 
             if (rs.next())
             {
-                System.out.println(String.format("%s database exists.", DBName));
+                return true;
             }
             else
             {
-                System.out.println(String.format("%s database doesn't exist.", DBName));
-                // createAppDB();
+                return false;
             }
 
         } catch (SQLException e) {
@@ -51,9 +50,16 @@ public class DBSetup
         } catch (SQLException e) {
             System.out.println(String.format("Failed to create %s DB", DBName));
         } 
-            System.out.println(String.format("Created database %s", DBName));
-            
+        System.out.println(String.format("Created database %s", DBName));
+
     }
+
+    public void createAppDBIfNone()
+    {
+        if (!appDBExists());
+            createAppDB();
+    }
+
 
     public void enterAppDB()
     {
