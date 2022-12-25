@@ -1,20 +1,24 @@
-import java.lang.Class;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DBEntryManager
 {
-    private String database = "starcircleplus";
-    private String address = String.format("jdbc:mysql://localhost:6603/%s", database);
-    private String user = "root";
-    private String pass = "makeitwork";
+    // Extract these settings to properties file
+    // (.properties, xml, json)
+    // think about what might need to use this file in the future
+    // DBSetup needs to get the address of the server
+    // but will create the database if it doesnt exist.
+    // The database name needs to then be accessible by the DBEntryManager
+    private final String database = "starcircleplus";
+    private final String address = String.format("jdbc:mysql://localhost:6603/%s", database);
+    private final String user = "root";
+    private final String pass = "makeitwork";
 
-    private String starBitVal = "00";
-    private String plusBitVal = "01";
-    private String uncheckedCircleBitVal = "10";
-    private String checkedCircleBitVal = "11";
+    private final String starBitVal = "00";
+    private final String plusBitVal = "01";
+    private final String uncheckedCircleBitVal = "10";
+    private final String checkedCircleBitVal = "11";
 
     private Connection conn;
 
@@ -115,6 +119,12 @@ public class DBEntryManager
             System.out.println(e);
         }
     }
+
+    /*
+    public boolean doesEntryExist(Entry e)
+    {
+    }
+     */
 
     public static void main(String[] args)
     {
