@@ -37,15 +37,15 @@ public class Circle extends Entry
         return isChecked ? "[x]" : "[]";
     }
 
-    public static Circle testEntry()
+    public static Circle testUncheckedEntry()
     {
         return new Circle("this is a test circle entry", new ArrayList<String>(Arrays.asList("test1", "test2", "test3")));
     }
 
-    public static void main(String[] args)
+    public static Circle testCheckedEntry()
     {
-        var testCircleEntry = new Circle("this is a test circle entry", new ArrayList<String>(Arrays.asList("test1", "test2", "test3")));
-        System.out.println(testCircleEntry);
+        var testEntry = new Circle("this is a checked test circle entry", new ArrayList<String>(Arrays.asList("test1", "test2", "test3")));
+        testEntry.check();
+        return testEntry;
     }
-
 }
