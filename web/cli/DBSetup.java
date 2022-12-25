@@ -38,6 +38,7 @@ public class DBSetup
 
         } catch (SQLException e) {
         } 
+        return false;
     }
 
     public void createAppDB()
@@ -47,21 +48,23 @@ public class DBSetup
             var sql = String.format("CREATE DATABASE %s", DBName);
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.executeUpdate();
+            System.out.println(String.format("Created database %s", DBName));
         } catch (SQLException e) {
-            System.out.println(String.format("Failed to create %s DB", DBName));
-        } 
-        System.out.println(String.format("Created database %s", DBName));
-
+            System.out.println(e);
+            System.out.println(String.format("Failed to create database %s", DBName));
+} 
     }
 
     public void createAppDBIfNone()
     {
-        if (!appDBExists());
+        if (!appDBExists())
+        {
             createAppDB();
+        }
     }
 
 
-    public void enterAppDB()
+    public boolean inAppDB()
     {
         try
         {
@@ -71,14 +74,29 @@ public class DBSetup
 
             if (rs.next())
             {
-                System.out.println(rs.getString("database()"));
+                if (DBName.equals(rs.getString("database()")));
+                    return true;
             }
             else
             {
                 System.out.println(String.format("Not in DB %s", DBName));
+                return false;
             }
 
         } catch (SQLException e) {
+            return false;
+        } 
+    }
+
+    public void enterAppDB()
+    {
+        try
+        {
+            var sql = String.format("USE %s", DBName);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            int result = statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Unable to enter DB");
         } 
     }
     
@@ -86,8 +104,8 @@ public class DBSetup
     public static void main(String[] args)
     {
         DBSetup dbs = new DBSetup();
-        dbs.enterAppDB();
-        System.out.println("DBSetup running");
+        dbs.createAppDBIfNone();
+        System.out.println(dbs.inAppDB());
     }
 
 }
