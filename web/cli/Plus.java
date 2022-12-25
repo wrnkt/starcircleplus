@@ -20,10 +20,14 @@ public class Plus extends Entry
         return "+";
     }
 
+    public static Plus testEntry()
+    {
+        return new Plus("this is a test plus entry", new ArrayList<String>(Arrays.asList("test1", "test2", "test3")));
+    }
+
     public static void main(String[] args)
     {
-        var testPlusEntry = new Plus("this is a test plus entry", new ArrayList<String>(Arrays.asList("test1", "test2", "test3")));
-        System.out.println(testPlusEntry);
+        System.out.println(Plus.testEntry());
     }
 
 }

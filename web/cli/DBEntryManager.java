@@ -96,7 +96,7 @@ public class DBEntryManager
     {
         DBEntryManager dbem = new DBEntryManager();
 
-        Star testEntry = Star.testEntry();
+        Plus testEntry = Plus.testEntry();
         System.out.println(testEntry);
 
         try {
