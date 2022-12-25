@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class DBSetup
 {
-    private static String DBName = "Test";
+    private static String DBName = "Test2";
     private Connection conn;
 
     public DBSetup()
@@ -14,8 +14,8 @@ public class DBSetup
         }
         catch (SQLException e)
         {
-            System.out.println("Unable to connect to database.");
             System.out.println(e);
+            System.out.println("Unable to connect to database.");
         }
     }
 
@@ -37,6 +37,7 @@ public class DBSetup
             }
 
         } catch (SQLException e) {
+            System.out.println(e);
         } 
         return false;
     }
@@ -98,21 +99,26 @@ public class DBSetup
 
     public void enterAppDB()
     {
-        try
+        if(!inAppDB())
         {
-            var sql = String.format("USE %s", DBName);
-            PreparedStatement statement = conn.prepareStatement(sql);
-            int result = statement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Unable to enter DB");
-        } 
+            try
+            {
+                var sql = String.format("USE %s", DBName);
+                PreparedStatement statement = conn.prepareStatement(sql);
+                int result = statement.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e);
+                System.out.println("Unable to enter DB");
+            } 
+        }
     }
     
     
     public static void main(String[] args)
     {
         DBSetup dbs = new DBSetup();
-        System.out.println(dbs.inAppDB());
+        dbs.createAppDBIfNone();
+        dbs.enterAppDB();
     }
 
 }
