@@ -18,6 +18,11 @@ public class DBTableSetup
         }
     }
 
+    public DBTableSetup(Connection passedConn)
+    {
+        conn = passedConn;
+    }
+
     public void createEntriesTable()
     {
         try
@@ -66,12 +71,5 @@ public class DBTableSetup
         {
             createEntriesTable();
         }
-    }
-
-    public static void main(String[] args)
-    {
-        DBSetup dbs = new DBSetup();
-        dbs.createAppDBIfNone();
-        dbs.enterAppDB();
     }
 }
