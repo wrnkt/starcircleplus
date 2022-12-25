@@ -19,6 +19,11 @@ public class DBSetup
         }
     }
 
+    public DBSetup(Connection passedConn)
+    {
+        conn = passedConn;
+    }
+
     public boolean appDBExists()
     {
         try
