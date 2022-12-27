@@ -40,7 +40,7 @@ public class DBEntryManager
         dbs.ensureInAppDB();
 
         DBTableSetup dbts = new DBTableSetup(conn);
-        dbts.createIfNoEntriesTable();
+        dbts.setupTables();
     }
 
     public void insertEntry(Entry entry) throws Exception
@@ -96,7 +96,7 @@ public class DBEntryManager
     {
         DBEntryManager dbem = new DBEntryManager();
 
-        Plus testEntry = Plus.testEntry();
+        Circle testEntry = Circle.testCheckedEntry();
         System.out.println(testEntry);
 
         try {

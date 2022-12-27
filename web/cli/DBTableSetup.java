@@ -79,11 +79,19 @@ public class DBTableSetup
         return false;
     }
 
+    public void createIfNoEntriesTable()
+    {
+        if(!entryTableExists())
+        {
+            createEntriesTable();
+        }
+    }
+
     public void createTagsTable()
     {
         try
         {
-            var sql = "CREATE TABLE Tags(ID INT PRIMARY KEY AUTO_INCREMENT, TAG VARCHAR)";
+            var sql = "CREATE TABLE Tags(ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, TAG VARCHAR(255))";
             PreparedStatement statement = conn.prepareStatement(sql);
             int result = statement.executeUpdate();
 
@@ -119,11 +127,18 @@ public class DBTableSetup
         return false;
     }
 
-    public void createIfNoEntriesTable()
+    public void createIfNoTagsTable()
     {
-        if(!entryTableExists())
+        if(!tagsTableExists())
         {
-            createEntriesTable();
+            createTagsTable();
         }
+    }
+
+
+    public void setupTables()
+    {
+        createIfNoEntriesTable();
+        createIfNoTagsTable();
     }
 }
