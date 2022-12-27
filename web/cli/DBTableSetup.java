@@ -4,6 +4,9 @@ public class DBTableSetup
 {
     private Connection conn;
 
+    /**
+     * Class contructor defining a new connection for class methods to use.
+     */
     public DBTableSetup()
     {
         try
@@ -18,11 +21,17 @@ public class DBTableSetup
         }
     }
 
+    /**
+     * Class contructor providing a connection to be used instead of defining a new one.
+     */
     public DBTableSetup(Connection passedConn)
     {
         conn = passedConn;
     }
 
+    /**
+     * Creates the Entry Table. Currently the Entry table's structure is defined here.
+     */
     public void createEntriesTable()
     {
         try
@@ -38,6 +47,11 @@ public class DBTableSetup
         }
     }
 
+    /**
+     * Check if an entry table already exists.
+     *
+     * @return if Entries table exists.
+     */
     public boolean entryTableExists()
     {
         try
@@ -60,6 +74,46 @@ public class DBTableSetup
         } catch (SQLException e)
         {
             System.out.println("Failed to execute show table query.");
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public void createTagsTable()
+    {
+        try
+        {
+            var sql = "CREATE TABLE Tags(ID INT PRIMARY KEY AUTO_INCREMENT, TAG VARCHAR)";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            int result = statement.executeUpdate();
+
+        } catch (SQLException e)
+        {
+            System.out.println("Failed to create Entries table.");
+            System.out.println(e);
+        }
+    }
+
+    public boolean tagsTableExists()
+    {
+        try
+        {
+            var sql = "SHOW tables like 'Tags'";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            
+            if (rs.next())
+            {
+                System.out.println("Tags table exists.");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (SQLException e)
+        {
             System.out.println(e);
         }
         return false;
