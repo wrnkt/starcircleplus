@@ -135,10 +135,58 @@ public class DBTableSetup
         }
     }
 
+    public void createEntryTagTable()
+    {
+        try
+        {
+            var sql = "CREATE TABLE Entry_Tag(EntryID INT NOT NULL, TagID INT NOT NULL)";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            int result = statement.executeUpdate();
+
+        } catch (SQLException e)
+        {
+            System.out.println("Failed to create Entry_Tag table.");
+            System.out.println(e);
+        }
+    }
+
+    public boolean entryTagTableExists()
+    {
+        try
+        {
+            var sql = "SHOW tables like 'Entry_Tag'";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            
+            if (rs.next())
+            {
+                System.out.println("Entry_Tag table exists.");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public void createIfNoEntryTagTable()
+    {
+        if(!entryTagTableExists())
+        {
+            createEntryTagTable();
+        }
+    }
 
     public void setupTables()
     {
         createIfNoEntriesTable();
         createIfNoTagsTable();
+        createIfNoEntryTagTable();
     }
 }
