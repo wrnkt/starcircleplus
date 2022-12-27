@@ -29,45 +29,21 @@ public class DBTableSetup
         conn = passedConn;
     }
 
-    /**
-     * Creates the Entry Table. Currently the Entry table's structure is defined here.
-     */
-    public void createEntriesTable()
+    public boolean tableExists(String tableName)
     {
         try
         {
-            var sql = "CREATE TABLE Entries(ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, TYPE BIT(2), CONTENT VARCHAR(255), DATECREATED TIMESTAMP, CERTAINOFDATE BOOLEAN)";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            int result = statement.executeUpdate();
-
-        } catch (SQLException e)
-        {
-            System.out.println("Failed to create Entries table.");
-            System.out.println(e);
-        }
-    }
-
-    /**
-     * Check if an entry table already exists.
-     *
-     * @return if Entries table exists.
-     */
-    public boolean entryTableExists()
-    {
-        try
-        {
-            var sql = "SHOW tables like 'Entries'";
+            var sql = String.format("SHOW tables like '%s'", tableName);
             PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
-            
             if (rs.next())
             {
-                System.out.println("Entries table exists.");
+                System.out.println(String.format("%s table exists.", tableName));
                 return true;
             }
             else
             {
-                System.out.println("Entries table doesn't exist.");
+                System.out.println(String.format("%s table doesn't exist.", tableName));
                 return false;
             }
 
@@ -79,108 +55,48 @@ public class DBTableSetup
         return false;
     }
 
-    public void createIfNoEntriesTable()
-    {
-        if(!entryTableExists())
-        {
-            createEntriesTable();
-        }
-    }
-
-    public void createTagsTable()
+    public void createTable(String tableName, String columns)
     {
         try
         {
-            var sql = "CREATE TABLE Tags(ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, TAG VARCHAR(255))";
+            var sql = String.format("CREATE TABLE %s(%s)", tableName, columns);
             PreparedStatement statement = conn.prepareStatement(sql);
             int result = statement.executeUpdate();
-
-        } catch (SQLException e)
-        {
-            System.out.println("Failed to create Entries table.");
-            System.out.println(e);
-        }
-    }
-
-    public boolean tagsTableExists()
-    {
-        try
-        {
-            var sql = "SHOW tables like 'Tags'";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            
-            if (rs.next())
-            {
-                System.out.println("Tags table exists.");
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
         catch (SQLException e)
         {
+            System.out.println(String.format("Failed to create %s table.", tableName));
             System.out.println(e);
         }
-        return false;
+    }
+
+    public void createIfNoTable(String tableName, String columns)
+    {
+        if(!tableExists(tableName))
+        {
+            createTable(tableName, columns);
+        }
+    }
+
+    public void createIfNoEntriesTable()
+    {
+        String tableName = "Entries";
+        String columns = "ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, TYPE BIT(2), CONTENT VARCHAR(255), DATECREATED TIMESTAMP, CERTAINOFDATE BOOLEAN";
+        createIfNoTable(tableName, columns);
     }
 
     public void createIfNoTagsTable()
     {
-        if(!tagsTableExists())
-        {
-            createTagsTable();
-        }
-    }
-
-    public void createEntryTagTable()
-    {
-        try
-        {
-            var sql = "CREATE TABLE Entry_Tag(EntryID INT NOT NULL, TagID INT NOT NULL)";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            int result = statement.executeUpdate();
-
-        } catch (SQLException e)
-        {
-            System.out.println("Failed to create Entry_Tag table.");
-            System.out.println(e);
-        }
-    }
-
-    public boolean entryTagTableExists()
-    {
-        try
-        {
-            var sql = "SHOW tables like 'Entry_Tag'";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            
-            if (rs.next())
-            {
-                System.out.println("Entry_Tag table exists.");
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        catch (SQLException e)
-        {
-            System.out.println(e);
-        }
-        return false;
+        String tableName = "Tags";
+        String columns = "ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, TAG VARCHAR(255)";
+        createIfNoTable(tableName, columns);
     }
 
     public void createIfNoEntryTagTable()
     {
-        if(!entryTagTableExists())
-        {
-            createEntryTagTable();
-        }
+        String tableName = "Entry_Tag";
+        String columns = "EntryID INT NOT NULL, TagID INT NOT NULL";
+        createIfNoTable(tableName, columns);
     }
 
     public void setupTables()
