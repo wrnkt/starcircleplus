@@ -6,17 +6,6 @@ import java.util.Arrays;
 
 public class DBEntryManager
 {
-    // Extract these settings to properties file
-    // (.properties, xml, json)
-    // think about what might need to use this file in the future
-    // DBSetup needs to get the address of the server
-    // but will create the database if it doesnt exist.
-    // The database name needs to then be accessible by the DBEntryManager
-    private final String database = "starcircleplus";
-    private final String address = String.format("jdbc:mysql://localhost:6603/%s", database);
-    private final String user = "root";
-    private final String pass = "makeitwork";
-
     private final int starVal = 0;
     private final int plusVal = 1;
     private final int uncheckedCircleVal = 2;
@@ -30,7 +19,7 @@ public class DBEntryManager
     {
         try
         {
-            conn = DriverManager.getConnection(address, user, pass);
+            conn = DriverManager.getConnection(DBConfig.address, DBConfig.user, DBConfig.pass);
             System.out.println("Connection established with authentication.");
         }
         catch (SQLException e)
@@ -98,14 +87,7 @@ public class DBEntryManager
             System.out.println("Unable to save entry.");
             System.out.println(e);
         }
-        // entry.getTagList();
     }
-
-    /*
-    public boolean doesEntryExist(Entry e)
-    {
-    }
-     */
 
     public static void main(String[] args)
     {
