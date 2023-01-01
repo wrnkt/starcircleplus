@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +79,12 @@ public class DBEntryManager
             } else {
                 statement.setBoolean(4, false);
             }
-            statement.setString(5, EntryFormatter.formatDateChecked(entry));
+            if(entry.getDateChecked().isPresent())
+            {
+                statement.setString(5, EntryFormatter.formatDateChecked(entry));
+            } else {
+                statement.setString(5, null);
+            }
 
             int result = statement.executeUpdate();
         } catch (SQLException e)
@@ -97,13 +104,14 @@ public class DBEntryManager
     public static void main(String[] args)
     {
         DBEntryManager dbem = new DBEntryManager();
+        Prompter prompter = new Prompter();
 
-        Circle testEntry = Circle.testCheckedEntry();
-        System.out.println(testEntry);
-
+        Entry current = prompter.promptForEntry();
+        
         try {
-            dbem.insertEntry(testEntry);
-        } catch (Exception e)
+            dbem.insertEntry(current);
+        }
+        catch (Exception e)
         {
             System.out.println(e);
             System.out.println("Unable to save entry.");
