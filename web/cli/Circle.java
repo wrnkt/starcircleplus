@@ -1,4 +1,7 @@
 import java.io.Serializable;
+import java.util.Optional;
+
+import java.time.ZonedDateTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +9,8 @@ import java.util.Arrays;
 public class Circle extends Entry
 {
     private boolean isChecked = false;
+
+    private ZonedDateTime dateChecked;
 
     public Circle()
     {
@@ -30,6 +35,16 @@ public class Circle extends Entry
     public void check()
     {
         isChecked = true;
+        dateChecked = ZonedDateTime.now();
+    }
+
+    public Optional<ZonedDateTime> getDateChecked()
+    {
+        if (checked())
+        {
+            return Optional.of(dateChecked);
+        } 
+        return Optional.empty();
     }
 
     public String getIdentifier()

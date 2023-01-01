@@ -1,3 +1,7 @@
+import java.util.Optional;
+
+import java.time.ZonedDateTime;
+
 import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 
@@ -24,6 +28,16 @@ public class EntryFormatter
         DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String sqlFormattedDate = e.getDateCreated().format(formatter);
+        return sqlFormattedDate;
+    }
+
+    public static String formatDateChecked(Entry e)
+    {
+        DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        Optional<ZonedDateTime> dateTime = e.getDateChecked();
+        if (!dateTime.isPresent()) return "";
+        String sqlFormattedDate = e.getDateChecked().get().format(formatter);
         return sqlFormattedDate;
     }
 

@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Optional;
 
 import java.lang.Object;
 
@@ -53,6 +54,11 @@ public abstract class Entry implements Serializable
     public final void setDateCreated(ZonedDateTime newDateCreated)
     {
         this.dateCreated = newDateCreated;
+    }
+
+    public Optional<ZonedDateTime> getDateChecked()
+    {
+        return Optional.empty();
     }
 
     public abstract String getIdentifier();
