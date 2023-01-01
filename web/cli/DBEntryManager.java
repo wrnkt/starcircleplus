@@ -89,15 +89,33 @@ public class DBEntryManager
         }
     }
 
+    public int getLastInsertId()
+    {
+        try
+        {
+            var sql = String.format("SELECT LAST_INSERT_ID()");
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
     public static void main(String[] args)
     {
         DBEntryManager dbem = new DBEntryManager();
-        Prompter prompter = new Prompter();
 
+        Prompter prompter = new Prompter();
         Entry current = prompter.promptForEntry();
         
         try {
             dbem.insertEntry(current);
+            System.out.println(dbem.getLastInsertId());
         }
         catch (Exception e)
         {
