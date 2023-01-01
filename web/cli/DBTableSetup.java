@@ -80,23 +80,20 @@ public class DBTableSetup
 
     public void createIfNoEntriesTable()
     {
-        String tableName = "Entries";
         String columns = "ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, TYPE BIT(2), CONTENT VARCHAR(255), DATECREATED TIMESTAMP, CERTAINOFDATE BOOLEAN";
-        createIfNoTable(tableName, columns);
+        createIfNoTable("Entries", columns);
     }
 
     public void createIfNoTagsTable()
     {
-        String tableName = "Tags";
         String columns = "ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, TAG VARCHAR(30)";
-        createIfNoTable(tableName, columns);
+        createIfNoTable("Tags", columns);
     }
 
     public void createIfNoEntryTagTable()
     {
-        String tableName = "Entry_Tag";
         String columns = "EntryID INT NOT NULL, TagID INT NOT NULL";
-        createIfNoTable(tableName, columns);
+        createIfNoTable("Entry_Tag", columns);
     }
 
     public void setupTables()
