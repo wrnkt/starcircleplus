@@ -45,7 +45,7 @@ public class DBEntryManager
 
     public void insertEntry(Entry entry) throws Exception
     {
-        var sql = "INSERT into Entries (TYPE, CONTENT, DATECREATED, CERTAINOFDATE) values (b?, ?, ?, ?)";
+        var sql = "INSERT into Entries (TYPE, CONTENT, DATECREATED, CERTAINOFDATE, DATECHECKED) values (b?, ?, ?, ?, ?)";
 
         try(PreparedStatement statement = conn.prepareStatement(sql))
         {
@@ -77,6 +77,7 @@ public class DBEntryManager
             } else {
                 statement.setBoolean(4, false);
             }
+            statement.setString(5, EntryFormatter.formatDateChecked(entry));
 
             int result = statement.executeUpdate();
         } catch (SQLException e)
