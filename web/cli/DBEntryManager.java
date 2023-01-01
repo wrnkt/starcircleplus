@@ -24,6 +24,8 @@ public class DBEntryManager
 
     private Connection conn;
 
+    private DBTagManager dbtm;
+
     public DBEntryManager()
     {
         try
@@ -43,6 +45,8 @@ public class DBEntryManager
 
         DBTableSetup dbts = new DBTableSetup(conn);
         dbts.setupTables();
+
+        dbtm = new DBTagManager(conn);
     }
 
     public void insertEntry(Entry entry) throws Exception
@@ -85,6 +89,8 @@ public class DBEntryManager
             } else {
                 statement.setString(5, null);
             }
+
+            dbtm.updateTagsTable(entry);
 
             int result = statement.executeUpdate();
         } catch (SQLException e)
