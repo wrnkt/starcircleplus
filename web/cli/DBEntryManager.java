@@ -17,10 +17,10 @@ public class DBEntryManager
     private final String user = "root";
     private final String pass = "makeitwork";
 
-    private final String starBitVal = "00";
-    private final String plusBitVal = "01";
-    private final String uncheckedCircleBitVal = "10";
-    private final String checkedCircleBitVal = "11";
+    private final int starVal = 0;
+    private final int plusVal = 1;
+    private final int uncheckedCircleVal = 2;
+    private final int checkedCircleVal = 3;
 
     private Connection conn;
 
@@ -47,24 +47,24 @@ public class DBEntryManager
 
     public void insertEntry(Entry entry) throws Exception
     {
-        var sql = "INSERT into Entries (TYPE, CONTENT, DATECREATED, CERTAINOFDATE, DATECHECKED) values (b?, ?, ?, ?, ?)";
+        var sql = "INSERT into Entries (TYPE, CONTENT, DATECREATED, CERTAINOFDATE, DATECHECKED) values (?, ?, ?, ?, ?)";
 
         try(PreparedStatement statement = conn.prepareStatement(sql))
         {
             if(entry instanceof Star)
             {
-                statement.setString(1, starBitVal);
+                statement.setInt(1, starVal);
             }
             else if(entry instanceof Plus)
             {
-                statement.setString(1, plusBitVal);
+                statement.setInt(1, plusVal);
             }
             else if(entry instanceof Circle)
             {
                 if(entry.checked()) {
-                    statement.setString(1, checkedCircleBitVal);
+                    statement.setInt(1, checkedCircleVal);
                 } else {
-                    statement.setString(1, uncheckedCircleBitVal);
+                    statement.setInt(1, uncheckedCircleVal);
                 }
             }
             else
