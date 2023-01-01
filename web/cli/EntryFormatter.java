@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 
 public class EntryFormatter
@@ -26,7 +27,8 @@ public class EntryFormatter
         return sqlFormattedDate;
     }
 
-    public static void formatTagList(Entry e)
+    public static ArrayList<String> formatTagList(Entry e)
     {
+        return e.getTagList();
     }
 }

@@ -109,7 +109,8 @@ public class DBSetup
             PreparedStatement statement = conn.prepareStatement(sql);
             int result = statement.executeUpdate();
             System.out.println(String.format("Using db %s", DBName));
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.out.println(e);
             System.out.println("Unable to enter DB");
         } 

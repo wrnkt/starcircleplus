@@ -84,6 +84,7 @@ public class DBEntryManager
             System.out.println("Unable to save entry.");
             System.out.println(e);
         }
+        // entry.getTagList();
     }
 
     /*

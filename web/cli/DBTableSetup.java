@@ -88,7 +88,7 @@ public class DBTableSetup
     public void createIfNoTagsTable()
     {
         String tableName = "Tags";
-        String columns = "ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, TAG VARCHAR(255)";
+        String columns = "ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, TAG VARCHAR(30)";
         createIfNoTable(tableName, columns);
     }
 
