@@ -1,3 +1,25 @@
+An Entry implements an EntryFormat
+
+All Entries have:
+- a date DateCreated
+- content
+- type (Star, Circle, Plus)
+    The type shouldnt be hardcoded, it should be an enum in every Entry.
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## SQL TABLE DESIGN
 
 
@@ -46,5 +68,13 @@ Table of ID : Tag
 | -------------- |
 |     Health     |
 
+Table of Tag : Entry ID
 
-Table of Tag : Entry ID list
+#### queries
+
+INSERT into Entries (TYPE, CONTENT, DATECREATED, CERTAINOFDATE, DATECHECKED)
+SELECT LAST_INSERT_ID()
+
+INSERT into Tags (TAG)
+
+

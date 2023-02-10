@@ -5,6 +5,12 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 
+/*
+ * TODO: make it clear that this is the database formatter.
+ *
+ * This class defines the methods used to set SQL statement fields in the DBEntryManager.
+ */
+
 public class EntryFormatter
 {
     /*

@@ -89,6 +89,7 @@ public class DBEntryManager
         }
     }
 
+    // TODO: May need to change this to be table specific
     public int getLastInsertId()
     {
         try
