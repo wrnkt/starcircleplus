@@ -10,7 +10,13 @@ import java.time.ZonedDateTime;
 public abstract class Entry implements Serializable
 {
 
-    // done this way to allow reference as Entry.Type.Star
+    private transient final String divider = ":";
+    private ZonedDateTime dateCreated;
+    private boolean certainOfDate = false;
+    private String content;
+    private ArrayList<String> tags = new ArrayList<String>();
+
+    // done this way to allow external reference as Entry.Type.Star
     public enum Type
     {
         Star,
@@ -19,12 +25,6 @@ public abstract class Entry implements Serializable
     }
 
     private Type entryType;
-
-    private transient final String divider = ":";
-    private ZonedDateTime dateCreated;
-    private boolean certainOfDate = false;
-    private String content;
-    private ArrayList<String> tags = new ArrayList<String>();
 
     public Entry()
     {
@@ -47,9 +47,19 @@ public abstract class Entry implements Serializable
         return false;
     }
 
-    public final String getEntryType()
+    /*
+     * I originally wanted the entry type to be unchangeable
+     * but now I think it will be okay if it is exposed
+     * to change
+     */
+    public Type getEntryType()
     {
-        return this.getClass().getSimpleName();
+        return entryType;
+    }
+
+    public void setEntryType(Type t)
+    {
+        entryType = t;
     }
 
     public final boolean getCertainOfDate()
