@@ -31,6 +31,10 @@ public class DBTagManager
         conn = passedConn;
     }
 
+    public void updateEntryTagsTable(Entry e)
+    {
+    }
+
     public void updateTagsTable(Entry e)
     {
         ArrayList<String> tags = EntryFormatter.formatTagList(e);
@@ -55,7 +59,6 @@ public class DBTagManager
         {
             System.out.println(e);
         }
-        
     }
 
     private boolean tagInTable(String tag)
