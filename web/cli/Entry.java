@@ -40,6 +40,16 @@ public class Entry implements Serializable
         certainOfDate = true;
     }
 
+    public Entry(String content, ArrayList<String> tags, Type t)
+    {
+        this(content, tags);
+        setEntryType(t);
+    }
+
+    /*
+     * Check for entryType(Star and Plus should never be checked)
+     * Add setCheckedStatus(bool status) to set value of checked.
+     */
     public boolean checked()
     {
         return false;
@@ -122,6 +132,8 @@ public class Entry implements Serializable
         return content;
     }
 
+    // TODO: Remove this function, this code should be going
+    // into a display management class
     public String formatTagList()
     {
         StringBuilder sb = new StringBuilder();
@@ -150,6 +162,12 @@ public class Entry implements Serializable
         return detailEntry();
     }
 
-
+    public static void main(String[] args) {
+        /*
+        Entry e = new Entry("test", new ArrayList<String>());
+        e.setEntryType(Type.Star);
+        System.out.println(e.shortEntry());
+        */
+    }
 
 }
