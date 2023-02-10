@@ -21,10 +21,10 @@ public class Prompter
             System.out.println();
 
             entry = switch(type) {
-                case '*' -> new Star(content, tagList);
-                case 'o' -> new Circle(content, tagList);
-                case '+' -> new Plus(content, tagList);
-                default -> new Plus(content, tagList);
+                case '*' -> new Entry(content, tagList, Entry.Type.Star);
+                case 'o' -> new Entry(content, tagList, Entry.Type.Circle);
+                case '+' -> new Entry(content, tagList, Entry.Type.Plus);
+                default -> new Entry(content, tagList, Entry.Type.Plus);
             };
         }
         
