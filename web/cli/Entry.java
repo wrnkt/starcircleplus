@@ -9,6 +9,17 @@ import java.time.ZonedDateTime;
 
 public abstract class Entry implements Serializable
 {
+
+    // done this way to allow reference as Entry.Type.Star
+    public enum Type
+    {
+        Star,
+        Circle,
+        Plus;
+    }
+
+    private Type entryType;
+
     private transient final String divider = ":";
     private ZonedDateTime dateCreated;
     private boolean certainOfDate = false;
