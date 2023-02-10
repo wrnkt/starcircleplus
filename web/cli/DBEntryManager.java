@@ -44,25 +44,21 @@ public class DBEntryManager
 
         try(PreparedStatement statement = conn.prepareStatement(sql))
         {
-            if(entry instanceof Star)
+            switch(entry.getEntryType())
             {
-                statement.setInt(1, starVal);
-            }
-            else if(entry instanceof Plus)
-            {
-                statement.setInt(1, plusVal);
-            }
-            else if(entry instanceof Circle)
-            {
-                if(entry.checked()) {
-                    statement.setInt(1, checkedCircleVal);
-                } else {
+                case Entry.Type.Star:
+                    statement.setInt(1, starVal);
+                    break;
+                case Entry.Type.Circle:
                     statement.setInt(1, uncheckedCircleVal);
-                }
-            }
-            else
-            {
-                throw new Exception("Unhandled Entry type.");
+                    // add check for checked status
+                    break;
+                case Entry.Type.Plus:
+                    statement.setInt(1, plusVal);
+                    break;
+                default:
+                    throw new Exception("Unhandled Entry type.");
+
             }
 
             statement.setString(2, EntryFormatter.formatContent(entry));
