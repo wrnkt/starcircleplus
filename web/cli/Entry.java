@@ -9,12 +9,6 @@ import java.time.ZonedDateTime;
 
 public class Entry implements Serializable
 {
-
-    private ZonedDateTime dateCreated;
-    private boolean certainOfDate = false;
-    private String content;
-    private ArrayList<String> tags = new ArrayList<String>();
-
     // done this way to allow external reference as Entry.Type.Star
     public enum Type
     {
@@ -25,20 +19,25 @@ public class Entry implements Serializable
 
     private Type entryType;
 
+    private String content;
+    private ZonedDateTime dateCreated;
+    private ArrayList<String> tags = new ArrayList<String>();
+
+    private boolean certainOfDate = false;
+
+
     public Entry()
     {
-        dateCreated = ZonedDateTime.now();
+        this("", new ArrayList<String>());
         certainOfDate = false;
-        this.content = "";
-        this.tags = new ArrayList<String>();
     }
 
     public Entry(String content, ArrayList<String> tags)
     {
         dateCreated = ZonedDateTime.now();
-        certainOfDate = true;
         this.content = content;
         setTagList(tags);
+        certainOfDate = true;
     }
 
     public boolean checked()
