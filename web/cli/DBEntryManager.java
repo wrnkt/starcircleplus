@@ -61,8 +61,8 @@ public class DBEntryManager
 
             }
 
-            statement.setString(2, EntryFormatter.formatContent(entry));
-            statement.setString(3, EntryFormatter.formatDateCreated(entry));
+            statement.setString(2, DBEntryFormatter.formatContent(entry));
+            statement.setString(3, DBEntryFormatter.formatDateCreated(entry));
             if(entry.getCertainOfDate()) {
                 statement.setBoolean(4, true);
             } else {
@@ -70,7 +70,7 @@ public class DBEntryManager
             }
             if(entry.getDateChecked().isPresent())
             {
-                statement.setString(5, EntryFormatter.formatDateChecked(entry));
+                statement.setString(5, DBEntryFormatter.formatDateChecked(entry));
             } else {
                 statement.setString(5, null);
             }

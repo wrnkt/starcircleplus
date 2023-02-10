@@ -37,7 +37,7 @@ public class DBTagManager
 
     public void updateTagsTable(Entry e)
     {
-        ArrayList<String> tags = EntryFormatter.formatTagList(e);
+        ArrayList<String> tags = DBEntryFormatter.formatTagList(e);
         for (String tag : tags)
         {
             if(!tagInTable(tag))
