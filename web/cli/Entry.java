@@ -10,7 +10,6 @@ import java.time.ZonedDateTime;
 public class Entry implements Serializable
 {
 
-    private transient String divider = ":";
     private ZonedDateTime dateCreated;
     private boolean certainOfDate = false;
     private String content;
@@ -144,12 +143,14 @@ public class Entry implements Serializable
 
     public String shortEntry()
     {
-        return String.join(" ", getIdentifier(), divider, content);
+        return String.join(" ", getIdentifier(), ":", content);
     }
 
     public String toString()
     {
         return detailEntry();
     }
+
+
 
 }
