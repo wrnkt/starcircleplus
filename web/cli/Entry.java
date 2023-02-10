@@ -7,10 +7,10 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.time.ZonedDateTime;
 
-public abstract class Entry implements Serializable
+public class Entry implements Serializable
 {
 
-    private transient final String divider = ":";
+    private transient String divider = ":";
     private ZonedDateTime dateCreated;
     private boolean certainOfDate = false;
     private String content;
@@ -52,29 +52,25 @@ public abstract class Entry implements Serializable
      * but now I think it will be okay if it is exposed
      * to change
      */
-    public Type getEntryType()
-    {
-        return entryType;
-    }
-
     public void setEntryType(Type t)
     {
         entryType = t;
     }
 
-    public final boolean getCertainOfDate()
+    public Type getEntryType()
     {
-        return certainOfDate;
-    }
-    
-    public final ZonedDateTime getDateCreated()
-    {
-        return dateCreated;
+        return entryType;
     }
 
-    public final void setDateCreated(ZonedDateTime newDateCreated)
+
+    public void setDateCreated(ZonedDateTime newDateCreated)
     {
         this.dateCreated = newDateCreated;
+    }
+    
+    public ZonedDateTime getDateCreated()
+    {
+        return dateCreated;
     }
 
     public Optional<ZonedDateTime> getDateChecked()
@@ -82,13 +78,28 @@ public abstract class Entry implements Serializable
         return Optional.empty();
     }
 
-    public abstract String getIdentifier();
-
-    public String getContent()
+    public boolean getCertainOfDate()
     {
-        return content;
+        return certainOfDate;
     }
 
+    public String getIdentifier()
+    {
+        return (
+            switch(entryType)
+            {
+                case Star -> "*";
+                case Circle -> "o";
+                case Plus -> "+";
+                default -> "Unassigned entryType";
+            }
+        );
+    }
+
+    // NOTE: Adding an updateTagList function
+    // that works the way this one does may be more effective.
+    // It could also return true if an update was required
+    // and false otherwise.
     public void setTagList(ArrayList<String> tags)
     {
         for(String tag : tags)
@@ -106,6 +117,11 @@ public abstract class Entry implements Serializable
     public void setContent(String s)
     {
         content = s;
+    }
+
+    public String getContent()
+    {
+        return content;
     }
 
     public String formatTagList()
@@ -126,7 +142,7 @@ public abstract class Entry implements Serializable
         return shortEntry() + "\n" + formatTagList();
     }
 
-    public final String shortEntry()
+    public String shortEntry()
     {
         return String.join(" ", getIdentifier(), divider, content);
     }
