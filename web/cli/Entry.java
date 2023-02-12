@@ -5,6 +5,7 @@ import java.lang.Object;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.time.ZonedDateTime;
 
 public class Entry implements Serializable
@@ -55,11 +56,6 @@ public class Entry implements Serializable
         return false;
     }
 
-    /*
-     * I originally wanted the entry type to be unchangeable
-     * but now I think it will be okay if it is exposed
-     * to change
-     */
     public void setEntryType(Type t)
     {
         entryType = t;
@@ -108,6 +104,8 @@ public class Entry implements Serializable
     // that works the way this one does may be more effective.
     // It could also return true if an update was required
     // and false otherwise.
+    // This function could then call updateTagList on each value
+    // in the passed list
     public void setTagList(ArrayList<String> tags)
     {
         for(String tag : tags)
@@ -132,42 +130,18 @@ public class Entry implements Serializable
         return content;
     }
 
-    // TODO: Remove this function, this code should be going
-    // into a display management class
-    public String formatTagList()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Tags:");
-        for(String tag : tags)
-        {
-            sb.append(" #");
-            sb.append(tag);
-        }
-
-        return sb.toString();
-    }
-
-    public String detailEntry()
-    {
-        return shortEntry() + "\n" + formatTagList();
-    }
-
-    public String shortEntry()
-    {
-        return String.join(" ", getIdentifier(), ":", content);
-    }
-
     public String toString()
     {
-        return detailEntry();
+        return String.join(" ", getIdentifier(), ":", content) +
+            "\n" +
+            getTagList().stream().collect(Collectors.toList());
     }
 
+
     public static void main(String[] args) {
-        /*
         Entry e = new Entry("test", new ArrayList<String>());
         e.setEntryType(Type.Star);
-        System.out.println(e.shortEntry());
-        */
+        System.out.println(PrompterEntryFormatter.shortEntry(e));
     }
 
 }
