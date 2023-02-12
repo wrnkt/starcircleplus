@@ -1,6 +1,9 @@
 JC = javac
 
-all: DBEntryFormatter.class DBConfig.class DBSetup.class DBTableSetup.class DBTagManager.class DBEntryManager.class Prompter.class Entry.class Star.class Circle.class Plus.class
+all: DBEntryFormatter.class DBConfig.class DBSetup.class DBTableSetup.class DBTagManager.class DBEntryManager.class Prompter.class Entry.class
+
+PrompterEntryFormatter.class: PrompterEntryFormatter.java
+	$(JC) -d classes PrompterEntryFormatter.java
 
 DBTagManager.class: DBTagManager.java
 	$(JC) -d classes DBTagManager.java
@@ -25,15 +28,6 @@ Prompter.class: Prompter.java
 
 Entry.class: Entry.java
 	$(JC) -d classes Entry.java
-
-Star.class: Star.java
-	$(JC) -d classes Star.java
-
-Circle.class: Circle.java
-	$(JC) -d classes Circle.java
-
-Plus.class: Plus.java
-	$(JC) -d classes Plus.java
 
 run:
 	java -cp ./mysql-connector-j-8.0.31.jar:./classes DBEntryManager
