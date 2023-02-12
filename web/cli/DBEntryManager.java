@@ -46,14 +46,14 @@ public class DBEntryManager
         {
             switch(entry.getEntryType())
             {
-                case Entry.Type.Star:
+                case Star:
                     statement.setInt(1, starVal);
                     break;
-                case Entry.Type.Circle:
+                case Circle:
                     statement.setInt(1, uncheckedCircleVal);
                     // add check for checked status
                     break;
-                case Entry.Type.Plus:
+                case Plus:
                     statement.setInt(1, plusVal);
                     break;
                 default:
