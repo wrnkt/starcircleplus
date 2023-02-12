@@ -87,7 +87,7 @@ public class Prompter
     {
         for(Entry e : entryList)
         {
-            System.out.println(e.detailEntry());
+            System.out.println(PrompterEntryFormatter.detailEntry(e));
             System.out.println(divider);
         }
     }
