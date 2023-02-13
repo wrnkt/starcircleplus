@@ -13,6 +13,7 @@ public class Entry implements Serializable
     // done this way to allow external reference as Entry.Type.Star
     public enum Type
     {
+        // NOTE: may still need to create an undefined Type. Default will be Star for now.
         Star,
         Circle,
         Plus;
@@ -31,24 +32,24 @@ public class Entry implements Serializable
     public Entry()
     {
         this("", new ArrayList<String>());
-        certainOfDate = false;
     }
 
     public Entry(String content, ArrayList<String> tags)
     {
-        dateCreated = ZonedDateTime.now();
-        this.content = content;
-        setTagList(tags);
-        certainOfDate = true;
+        this(content, tags, Type.Star);
     }
 
     public Entry(String content, ArrayList<String> tags, Type t)
     {
-        this(content, tags);
+        setDateCreated(ZonedDateTime.now());
+        setCertainOfDate(true);
+
+        setContent(content);
+        setTagList(tags);
         setEntryType(t);
     }
 
-    public void setCheckedStatus(bool status)
+    public void setCheckedStatus(boolean status)
     {
         checked = status;
     }
@@ -60,7 +61,7 @@ public class Entry implements Serializable
 
     public boolean isChecked()
     {
-        if (getEntryType() == Star || getEntryType() == Plus)
+        if (getEntryType() == Type.Star || getEntryType() == Type.Plus)
             return false;
         else
             return getCheckedStatus();
@@ -89,6 +90,11 @@ public class Entry implements Serializable
     public Optional<ZonedDateTime> getDateChecked()
     {
         return Optional.empty();
+    }
+
+    public void setCertainOfDate(boolean b)
+    {
+        certainOfDate = b;
     }
 
     public boolean getCertainOfDate()
@@ -148,9 +154,11 @@ public class Entry implements Serializable
 
 
     public static void main(String[] args) {
+        /*
         Entry e = new Entry("test", new ArrayList<String>());
         e.setEntryType(Type.Star);
         System.out.println(PrompterEntryFormatter.shortEntry(e));
+        */
     }
 
 }
