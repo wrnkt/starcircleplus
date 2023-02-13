@@ -1,11 +1,20 @@
 An Entry implements an EntryFormat
 
 All Entries have:
-- a date DateCreated
-- content
-- type (Star, Circle, Plus)
-    The type shouldnt be hardcoded, it should be an enum in every Entry.
-- 
+- a ZonedDateTime DateCreated
+- String content
+- enum type (Star, Circle, Plus)
+- boolean checkedStatus
+- ArrayList<String> of tags
+
+
+Move Entry display formatting functions (detailEntry, shortEntry) to another class that handles the prompts and info display.
+
+
+entryDBFormatter
+EntryPromptFormatter
+
+[x] Fix old references to Star, Circle, and Plus
 
 
 
@@ -13,13 +22,7 @@ All Entries have:
 
 
 
-
-
-
-
-
-
-
+-------------------
 ## SQL TABLE DESIGN
 
 

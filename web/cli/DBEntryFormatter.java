@@ -6,16 +6,14 @@ import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 
 /*
- * TODO: make it clear that this is the database formatter.
- *
  * This class defines the methods used to set SQL statement fields in the DBEntryManager.
  */
 
-public class EntryFormatter
+public class DBEntryFormatter
 {
     /*
      * These methods could be defined as anonymous methods in the
-     * DBEntryManager. This EntryFormatter could actually be defined
+     * DBEntryManager. This DBEntryFormatter could actually be defined
      * as an inner class in DBEntryManager. Consider to avoid
      * splitting logic between files.
      */

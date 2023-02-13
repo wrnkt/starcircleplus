@@ -5,55 +5,76 @@ import java.lang.Object;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.time.ZonedDateTime;
 
-public abstract class Entry implements Serializable
+public class Entry implements Serializable
 {
-    private transient final String divider = ":";
-    private ZonedDateTime dateCreated;
-    private boolean certainOfDate = false;
+    // done this way to allow external reference as Entry.Type.Star
+    public enum Type
+    {
+        Star,
+        Circle,
+        Plus;
+    }
+
+    private Type entryType;
+
     private String content;
+    private ZonedDateTime dateCreated;
     private ArrayList<String> tags = new ArrayList<String>();
+
+    private boolean certainOfDate = false;
+
 
     public Entry()
     {
-        dateCreated = ZonedDateTime.now();
+        this("", new ArrayList<String>());
         certainOfDate = false;
-        this.content = "";
-        this.tags = new ArrayList<String>();
     }
 
     public Entry(String content, ArrayList<String> tags)
     {
         dateCreated = ZonedDateTime.now();
-        certainOfDate = true;
         this.content = content;
         setTagList(tags);
+        certainOfDate = true;
     }
 
+    public Entry(String content, ArrayList<String> tags, Type t)
+    {
+        this(content, tags);
+        setEntryType(t);
+    }
+
+    /*
+     * Check for entryType(Star and Plus should never be checked)
+     * Add setCheckedStatus(bool status) to set value of checked.
+     */
     public boolean checked()
     {
         return false;
     }
 
-    public final String getEntryType()
+    public void setEntryType(Type t)
     {
-        return this.getClass().getSimpleName();
+        entryType = t;
     }
 
-    public final boolean getCertainOfDate()
+    public Type getEntryType()
     {
-        return certainOfDate;
-    }
-    
-    public final ZonedDateTime getDateCreated()
-    {
-        return dateCreated;
+        return entryType;
     }
 
-    public final void setDateCreated(ZonedDateTime newDateCreated)
+
+    public void setDateCreated(ZonedDateTime newDateCreated)
     {
         this.dateCreated = newDateCreated;
+    }
+    
+    public ZonedDateTime getDateCreated()
+    {
+        return dateCreated;
     }
 
     public Optional<ZonedDateTime> getDateChecked()
@@ -61,13 +82,30 @@ public abstract class Entry implements Serializable
         return Optional.empty();
     }
 
-    public abstract String getIdentifier();
-
-    public String getContent()
+    public boolean getCertainOfDate()
     {
-        return content;
+        return certainOfDate;
     }
 
+    public String getIdentifier()
+    {
+        return (
+            switch(entryType)
+            {
+                case Star -> "*";
+                case Circle -> "o";
+                case Plus -> "+";
+                default -> "Unassigned entryType";
+            }
+        );
+    }
+
+    // NOTE: Adding an updateTagList function
+    // that works the way this one does may be more effective.
+    // It could also return true if an update was required
+    // and false otherwise.
+    // This function could then call updateTagList on each value
+    // in the passed list
     public void setTagList(ArrayList<String> tags)
     {
         for(String tag : tags)
@@ -87,32 +125,23 @@ public abstract class Entry implements Serializable
         content = s;
     }
 
-    public String formatTagList()
+    public String getContent()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Tags:");
-        for(String tag : tags)
-        {
-            sb.append(" #");
-            sb.append(tag);
-        }
-
-        return sb.toString();
-    }
-
-    public String detailEntry()
-    {
-        return shortEntry() + "\n" + formatTagList();
-    }
-
-    public final String shortEntry()
-    {
-        return String.join(" ", getIdentifier(), divider, content);
+        return content;
     }
 
     public String toString()
     {
-        return detailEntry();
+        return String.join(" ", getIdentifier(), ":", content) +
+            "\n" +
+            getTagList().stream().collect(Collectors.toList());
+    }
+
+
+    public static void main(String[] args) {
+        Entry e = new Entry("test", new ArrayList<String>());
+        e.setEntryType(Type.Star);
+        System.out.println(PrompterEntryFormatter.shortEntry(e));
     }
 
 }

@@ -28,6 +28,7 @@ public class DBEntryManager
             System.out.println(e);
         }
 
+        // NOTE: the next 8 lines should probably go into the try block
         DBSetup dbs = new DBSetup(conn);
         dbs.createAppDBIfNone();
         dbs.ensureInAppDB();
@@ -44,29 +45,25 @@ public class DBEntryManager
 
         try(PreparedStatement statement = conn.prepareStatement(sql))
         {
-            if(entry instanceof Star)
+            switch(entry.getEntryType())
             {
-                statement.setInt(1, starVal);
-            }
-            else if(entry instanceof Plus)
-            {
-                statement.setInt(1, plusVal);
-            }
-            else if(entry instanceof Circle)
-            {
-                if(entry.checked()) {
-                    statement.setInt(1, checkedCircleVal);
-                } else {
+                case Star:
+                    statement.setInt(1, starVal);
+                    break;
+                case Circle:
                     statement.setInt(1, uncheckedCircleVal);
-                }
-            }
-            else
-            {
-                throw new Exception("Unhandled Entry type.");
+                    // add check for checked status
+                    break;
+                case Plus:
+                    statement.setInt(1, plusVal);
+                    break;
+                default:
+                    throw new Exception("Unhandled Entry type.");
+
             }
 
-            statement.setString(2, EntryFormatter.formatContent(entry));
-            statement.setString(3, EntryFormatter.formatDateCreated(entry));
+            statement.setString(2, DBEntryFormatter.formatContent(entry));
+            statement.setString(3, DBEntryFormatter.formatDateCreated(entry));
             if(entry.getCertainOfDate()) {
                 statement.setBoolean(4, true);
             } else {
@@ -74,7 +71,7 @@ public class DBEntryManager
             }
             if(entry.getDateChecked().isPresent())
             {
-                statement.setString(5, EntryFormatter.formatDateChecked(entry));
+                statement.setString(5, DBEntryFormatter.formatDateChecked(entry));
             } else {
                 statement.setString(5, null);
             }
