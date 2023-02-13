@@ -8,6 +8,20 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.time.ZonedDateTime;
 
+/*
+ * TODO: make setter methods return the current Object
+ * Entry setContent(content)
+ *      ...
+ *      return this;
+ *
+ * This will allow me to construct an instance by doing this:
+ * Entry e = new Entry().setContent(c).setEntryType(Entry.Type.Plus);
+ *
+ * This will make building the instance with prompts easier
+ *
+ * WARNING: make sure to check how this will effect Prompter and database integration
+ */
+
 public class Entry implements Serializable
 {
     // done this way to allow external reference as Entry.Type.Star
@@ -42,6 +56,9 @@ public class Entry implements Serializable
     public Entry(String content, ArrayList<String> tags, Type t)
     {
         setDateCreated(ZonedDateTime.now());
+        // FIX: maybe the date and certainty should be set when the content is updated?
+        //      or maybe when a certain proportion of the content is changed?
+        //      this logic may need to be put another place.
         setCertainOfDate(true);
 
         setContent(content);
