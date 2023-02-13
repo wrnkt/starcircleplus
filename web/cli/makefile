@@ -30,7 +30,7 @@ Entry.class: Entry.java
 	$(JC) -d classes Entry.java
 
 run:
-	java -cp ./mysql-connector-j-8.0.31.jar:./classes DBEntryManager
+	java -cp ./mysql-connector-j-8.0.31.jar:./classes Prompter
 
 clean:
 	rm -r classes/*
