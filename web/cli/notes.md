@@ -11,6 +11,10 @@ All Entries have:
 Move Entry display formatting functions (detailEntry, shortEntry) to another class that handles the prompts and info display.
 
 
+entryDBFormatter
+EntryPromptFormatter
+
+[x] Fix old references to Star, Circle, and Plus
 
 
 
@@ -18,10 +22,7 @@ Move Entry display formatting functions (detailEntry, shortEntry) to another cla
 
 
 
-
-
-
-
+-------------------
 ## SQL TABLE DESIGN
 
 

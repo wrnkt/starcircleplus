@@ -28,6 +28,7 @@ public class DBEntryManager
             System.out.println(e);
         }
 
+        // NOTE: the next 8 lines should probably go into the try block
         DBSetup dbs = new DBSetup(conn);
         dbs.createAppDBIfNone();
         dbs.ensureInAppDB();
