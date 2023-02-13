@@ -25,6 +25,7 @@ public class Entry implements Serializable
     private ArrayList<String> tags = new ArrayList<String>();
 
     private boolean certainOfDate = false;
+    private boolean checked = false;
 
 
     public Entry()
@@ -47,13 +48,22 @@ public class Entry implements Serializable
         setEntryType(t);
     }
 
-    /*
-     * Check for entryType(Star and Plus should never be checked)
-     * Add setCheckedStatus(bool status) to set value of checked.
-     */
-    public boolean checked()
+    public void setCheckedStatus(bool status)
     {
-        return false;
+        checked = status;
+    }
+
+    public boolean getCheckedStatus()
+    {
+        return checked;
+    }
+
+    public boolean isChecked()
+    {
+        if (getEntryType() == Star || getEntryType() == Plus)
+            return false;
+        else
+            return getCheckedStatus();
     }
 
     public void setEntryType(Type t)
@@ -65,7 +75,6 @@ public class Entry implements Serializable
     {
         return entryType;
     }
-
 
     public void setDateCreated(ZonedDateTime newDateCreated)
     {
