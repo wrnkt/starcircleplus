@@ -27,7 +27,7 @@ public class DBEntryFormatter
         return e.getCertainOfDate() ? 1 : 0; 
     }
 
-    public static String formatDateCreated(Entry e)
+    public static String sqlFormatDateCreated(Entry e)
     {
         DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -35,7 +35,7 @@ public class DBEntryFormatter
         return sqlFormattedDate;
     }
 
-    public static String formatDateChecked(Entry e)
+    public static String sqlFormatDateChecked(Entry e)
     {
         DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

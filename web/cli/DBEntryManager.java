@@ -61,9 +61,10 @@ public class DBEntryManager
                     throw new Exception("Unhandled Entry type.");
 
             }
+            // formatDateCreated
 
             statement.setString(2, DBEntryFormatter.formatContent(entry));
-            statement.setString(3, DBEntryFormatter.formatDateCreated(entry));
+            statement.setString(3, DBEntryFormatter.sqlFormatDateCreated(entry));
             if(entry.getCertainOfDate()) {
                 statement.setBoolean(4, true);
             } else {
@@ -71,7 +72,7 @@ public class DBEntryManager
             }
             if(entry.getDateChecked().isPresent())
             {
-                statement.setString(5, DBEntryFormatter.formatDateChecked(entry));
+                statement.setString(5, DBEntryFormatter.sqlFormatDateChecked(entry));
             } else {
                 statement.setString(5, null);
             }

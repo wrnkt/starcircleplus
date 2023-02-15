@@ -1,4 +1,4 @@
-public class PrompterEntryFormatter
+public class PrompterEntryFormatter extends EntryFormatter
 {
     public static String detailEntry(Entry e)
     {
@@ -23,3 +23,4 @@ public class PrompterEntryFormatter
         return sb.toString();
     }
 }
+
