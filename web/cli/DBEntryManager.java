@@ -4,6 +4,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.Optional;
+
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class DBEntryManager
 {
     private final int starVal = 0;
@@ -62,9 +67,11 @@ public class DBEntryManager
 
             }
             // formatDateCreated
+            // TODO: separate logic building the sql statement from the insert 
+            //       this means a function that returns a sql statement when given an Entry
 
-            statement.setString(2, DBEntryFormatter.formatContent(entry));
-            statement.setString(3, DBEntryFormatter.sqlFormatDateCreated(entry));
+            statement.setString(2, EntryInfoFormatter.formatContent(entry));
+            statement.setString(3, EntryInfoFormatter.sqlFormatDateCreated(entry));
             if(entry.getCertainOfDate()) {
                 statement.setBoolean(4, true);
             } else {
@@ -72,7 +79,7 @@ public class DBEntryManager
             }
             if(entry.getDateChecked().isPresent())
             {
-                statement.setString(5, DBEntryFormatter.sqlFormatDateChecked(entry));
+                statement.setString(5, EntryInfoFormatter.sqlFormatDateChecked(entry));
             } else {
                 statement.setString(5, null);
             }
@@ -105,6 +112,8 @@ public class DBEntryManager
         return 0;
     }
 
+    
+
     public static void main(String[] args)
     {
         DBEntryManager dbem = new DBEntryManager();
@@ -123,3 +132,41 @@ public class DBEntryManager
         }
     }
 }
+
+
+class EntryInfoFormatter implements Formatter
+{
+    public static String formatContent(Entry e)
+    {
+        return e.getContent();
+    }
+
+    public static int formatCertainOfDate(Entry e)
+    {
+        return e.getCertainOfDate() ? 1 : 0; 
+    }
+
+    public static String sqlFormatDateCreated(Entry e)
+    {
+        DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String sqlFormattedDate = e.getDateCreated().format(formatter);
+        return sqlFormattedDate;
+    }
+
+    public static String sqlFormatDateChecked(Entry e)
+    {
+        DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        Optional<ZonedDateTime> dateTime = e.getDateChecked();
+        if (!dateTime.isPresent()) return "";
+        String sqlFormattedDate = e.getDateChecked().get().format(formatter);
+        return sqlFormattedDate;
+    }
+
+    public static ArrayList<String> formatTagList(Entry e)
+    {
+        return e.getTagList();
+    }
+}
+
