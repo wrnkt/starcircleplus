@@ -8,11 +8,26 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.time.ZonedDateTime;
 
+/*
+ * TODO: make setter methods return the current Object
+ * Entry setContent(content)
+ *      ...
+ *      return this;
+ *
+ * This will allow me to construct an instance by doing this:
+ * Entry e = new Entry().setContent(c).setEntryType(Entry.Type.Plus);
+ *
+ * This will make building the instance with prompts easier
+ *
+ * WARNING: make sure to check how this will effect Prompter and database integration
+ */
+
 public class Entry implements Serializable
 {
     // done this way to allow external reference as Entry.Type.Star
     public enum Type
     {
+        // NOTE: may still need to create an undefined Type. Default will be Star for now.
         Star,
         Circle,
         Plus;
@@ -25,35 +40,48 @@ public class Entry implements Serializable
     private ArrayList<String> tags = new ArrayList<String>();
 
     private boolean certainOfDate = false;
+    private boolean checked = false;
 
 
     public Entry()
     {
         this("", new ArrayList<String>());
-        certainOfDate = false;
     }
 
     public Entry(String content, ArrayList<String> tags)
     {
-        dateCreated = ZonedDateTime.now();
-        this.content = content;
-        setTagList(tags);
-        certainOfDate = true;
+        this(content, tags, Type.Star);
     }
 
     public Entry(String content, ArrayList<String> tags, Type t)
     {
-        this(content, tags);
+        setDateCreated(ZonedDateTime.now());
+        // FIX: maybe the date and certainty should be set when the content is updated?
+        //      or maybe when a certain proportion of the content is changed?
+        //      this logic may need to be put another place.
+        setCertainOfDate(true);
+
+        setContent(content);
+        setTagList(tags);
         setEntryType(t);
     }
 
-    /*
-     * Check for entryType(Star and Plus should never be checked)
-     * Add setCheckedStatus(bool status) to set value of checked.
-     */
-    public boolean checked()
+    public void setCheckedStatus(boolean status)
     {
-        return false;
+        checked = status;
+    }
+
+    public boolean getCheckedStatus()
+    {
+        return checked;
+    }
+
+    public boolean isChecked()
+    {
+        if (getEntryType() == Type.Star || getEntryType() == Type.Plus)
+            return false;
+        else
+            return getCheckedStatus();
     }
 
     public void setEntryType(Type t)
@@ -65,7 +93,6 @@ public class Entry implements Serializable
     {
         return entryType;
     }
-
 
     public void setDateCreated(ZonedDateTime newDateCreated)
     {
@@ -80,6 +107,11 @@ public class Entry implements Serializable
     public Optional<ZonedDateTime> getDateChecked()
     {
         return Optional.empty();
+    }
+
+    public void setCertainOfDate(boolean b)
+    {
+        certainOfDate = b;
     }
 
     public boolean getCertainOfDate()
