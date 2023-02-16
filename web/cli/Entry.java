@@ -171,11 +171,9 @@ public class Entry implements Serializable
 
 
     public static void main(String[] args) {
-        /*
         Entry e = new Entry("test", new ArrayList<String>());
         e.setEntryType(Type.Star);
-        System.out.println(PrompterEntryFormatter.shortEntry(e));
-        */
+        System.out.println(e);
     }
 
 }

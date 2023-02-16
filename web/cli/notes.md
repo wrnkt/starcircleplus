@@ -17,8 +17,15 @@ EntryPromptFormatter
 [x] Fix old references to Star, Circle, and Plus
 
 
+Entry e = new Entry()
+    .setEntryType(promptForEntryType(scanner))
+    .setContent(promptForEntryContent(scanner))
+    .setTagList(promptForEntryTagList(scanner));
+
+NOTE: think about whether Entry getters and setters should be exposed
 
 
+Maybe the statement needs to be created and returned from an external class?
 
 
 

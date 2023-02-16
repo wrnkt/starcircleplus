@@ -37,7 +37,7 @@ public class DBTagManager
 
     public void updateTagsTable(Entry e)
     {
-        ArrayList<String> tags = DBEntryFormatter.formatTagList(e);
+        ArrayList<String> tags = TagInfoFormatter.formatTagList(e);
         for (String tag : tags)
         {
             if(!tagInTable(tag))
@@ -82,4 +82,12 @@ public class DBTagManager
         }
         return false;
     }
+}
+
+class TagInfoFormatter implements Formatter
+{
+    public static ArrayList<String> formatTagList(Entry e)
+    {
+        return e.getTagList();
+        }
 }
