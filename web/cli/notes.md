@@ -25,6 +25,9 @@ Entry e = new Entry()
 NOTE: think about whether Entry getters and setters should be exposed
 
 
+Maybe the statement needs to be created and returned from an external class?
+
+
 
 -------------------
 ## SQL TABLE DESIGN
