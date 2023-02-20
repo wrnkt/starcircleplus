@@ -10,6 +10,27 @@ import java.util.Optional;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+interface StringFieldFormatter
+{
+    public String format(Entry e);
+}
+
+interface IntFieldFormatter
+{
+    public int format(Entry e);
+}
+
+interface BooleanFieldFormatter
+{
+    public boolean format(Entry e);
+}
+
+interface ListFormatter
+{
+    public ArrayList<String> format(Entry e);
+}
+
+
 public class DBEntryManager
 {
     private static HashMap<Entry.Type, Integer> entryTypeToTableKey = new HashMap<>();
@@ -80,32 +101,14 @@ public class DBEntryManager
 
         try(PreparedStatement statement = conn.prepareStatement(sql))
         {
-            /*
-            switch(entry.getEntryType())
-            {
-                case Star:
-                    statement.setInt(1, starVal);
-                    break;
-                case Circle:
-                    statement.setInt(1, uncheckedCircleVal);
-                    // add check for checked status
-                    break;
-                case Plus:
-                    statement.setInt(1, plusVal);
-                    break;
-                default:
-                    throw new Exception("Unhandled Entry type.");
-
-            }
-            */
-
-            statement.setInt(1, typeFormatter.format(entry));
 
             // TODO: separate logic building the sql statement from the insert 
             //       this means a function that returns a sql statement when given an Entry
 
+            statement.setInt(1, typeFormatter.format(entry));
             statement.setString(2, contentFormatter.format(entry));
             statement.setString(3, dateCreatedFormatter.format(entry));
+
             if(entry.getCertainOfDate()) {
                 statement.setBoolean(4, true);
             } else {
@@ -167,23 +170,4 @@ public class DBEntryManager
     }
 }
 
-interface StringFieldFormatter
-{
-    public String format(Entry e);
-}
-
-interface IntFieldFormatter
-{
-    public int format(Entry e);
-}
-
-interface BooleanFieldFormatter
-{
-    public boolean format(Entry e);
-}
-
-interface ListFormatter
-{
-    public ArrayList<String> format(Entry e);
-}
 
