@@ -86,7 +86,9 @@ public class DBEntryManager
     };
 
     private StringFieldFormatter contentFormatter = (Entry e) -> (e.getContent());
-    private IntFieldFormatter certainOfDateFormatter = (Entry e) -> (e.getCertainOfDate() ? 1 : 0);
+
+    private BooleanFieldFormatter certainOfDateFormatter = (Entry e) -> (e.getCertainOfDate());
+
     private StringFieldFormatter dateCreatedFormatter = (Entry e) -> {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = e.getDateCreated().format(formatter);
@@ -116,15 +118,10 @@ public class DBEntryManager
             statement.setInt(1, typeFormatter.format(entry));
             statement.setString(2, contentFormatter.format(entry));
             statement.setString(3, dateCreatedFormatter.format(entry));
-
-            // TODO: clean 4 and 5 up, add checked field to table
-            if(entry.getCertainOfDate()) {
-                statement.setBoolean(4, true);
-            } else {
-                statement.setBoolean(4, false);
-            }
-
+            statement.setBoolean(4, certainOfDateFormatter.format(entry));
             statement.setString(5, dateCheckedFormatter.format(entry));
+
+            // TODO: add checked field to table
 
             dbtm.updateTagsTable(entry);
 
