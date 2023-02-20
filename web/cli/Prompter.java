@@ -5,26 +5,26 @@ import java.util.Scanner;
 
 public class Prompter
 {
-    public static ArrayList<Entry> entryList = new ArrayList<Entry>();
+    private ArrayList<Entry> entryList = new ArrayList<Entry>();
+    private DBEntryManager dbEntryManager = new DBEntryManager();
 
     public Entry promptForEntry()
     {
         Entry entry;
         try(Scanner scanner = new Scanner(System.in))
         {
-            char type = promptForEntryType(scanner);
-            System.out.println();
-            String content = promptForEntryContent(scanner);
-            System.out.println();
-            ArrayList<String> tagList = promptForEntryTagList(scanner);
-            System.out.println();
-
-            Entry.Type entryType = switch(type) {
+            Entry.Type entryType = switch(promptForEntryType(scanner)) {
                 case '*' -> Entry.Type.Star;
                 case 'o' -> Entry.Type.Circle;
                 case '+' -> Entry.Type.Plus;
                 default -> Entry.Type.Plus;
             };
+            System.out.println();
+            
+            String content = promptForEntryContent(scanner);
+            System.out.println();
+
+            ArrayList<String> tagList = promptForEntryTagList(scanner);
             System.out.println();
 
             entry = new Entry(content, tagList, entryType);
@@ -95,13 +95,31 @@ public class Prompter
         }
     }
 
+    public boolean sendEntryListToDB()
+    {
+        boolean status = false;
+        for (Entry e : entryList) {
+            if (e == null) {
+                continue;
+            }
+            try {
+                dbEntryManager.insertEntry(e);
+            } catch (Exception exception) {
+                System.out.println(exception);
+                System.out.println("Unable to save entry.");
+            }
+        }
+        return status;
+    }
+
     public static void main(String... args)
     {
         Prompter prompter = new Prompter();
 
-        prompter.displayTimeline();
-
         prompter.addEntry(prompter.promptForEntry());
+        prompter.sendEntryListToDB();
+        prompter.entryList.clear(); // reassigns list refs to null values, does not resize list
+
         prompter.displayTimeline();
         
     }
