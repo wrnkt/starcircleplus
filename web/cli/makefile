@@ -2,9 +2,6 @@ JC = javac
 
 all: DBConfig.class DBSetup.class DBTableSetup.class DBTagManager.class DBEntryManager.class Prompter.class Entry.class
 
-PrompterEntryFormatter.class: PrompterEntryFormatter.java
-	$(JC) -d classes PrompterEntryFormatter.java
-
 DBTagManager.class: DBTagManager.java
 	$(JC) -d classes DBTagManager.java
 
