@@ -93,9 +93,13 @@ public class DBEntryManager
         return formattedDate;
     };
     private StringFieldFormatter dateCheckedFormatter = (Entry e) -> {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = e.getDateChecked().get().format(formatter);
-        return formattedDate;
+        if (e.getDateChecked().isPresent()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = e.getDateChecked().get().format(formatter);
+            return formattedDate;
+        } else {
+            return null;
+        }
     };
     private ListFormatter tagListFormatter = (Entry e) -> (e.getTagList());
 
@@ -113,17 +117,14 @@ public class DBEntryManager
             statement.setString(2, contentFormatter.format(entry));
             statement.setString(3, dateCreatedFormatter.format(entry));
 
+            // TODO: clean 4 and 5 up, add checked field to table
             if(entry.getCertainOfDate()) {
                 statement.setBoolean(4, true);
             } else {
                 statement.setBoolean(4, false);
             }
-            if(entry.getDateChecked().isPresent())
-            {
-                statement.setString(5, dateCheckedFormatter.format(entry));
-            } else {
-                statement.setString(5, null);
-            }
+
+            statement.setString(5, dateCheckedFormatter.format(entry));
 
             dbtm.updateTagsTable(entry);
 
