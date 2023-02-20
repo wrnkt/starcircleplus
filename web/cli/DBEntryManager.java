@@ -81,6 +81,10 @@ public class DBEntryManager
         return entryTypeToTableKeyRef.get(e.getEntryType()).intValue();
     };
 
+    private BooleanFieldFormatter checkedStatusFormatter = (Entry e) -> {
+        return e.getCheckedStatus() && (e.getEntryType() == Entry.Type.Circle);
+    };
+
     private StringFieldFormatter contentFormatter = (Entry e) -> (e.getContent());
     private IntFieldFormatter certainOfDateFormatter = (Entry e) -> (e.getCertainOfDate() ? 1 : 0);
     private StringFieldFormatter dateCreatedFormatter = (Entry e) -> {
