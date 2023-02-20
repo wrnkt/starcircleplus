@@ -20,11 +20,13 @@ import java.time.ZonedDateTime;
  * This will make building the instance with prompts easier
  *
  * WARNING: make sure to check how this will effect Prompter and database integration
+ *
+ * FEATURE: tag entries with the current date every time over 50% of them are changed.
+ *          possibly 30% with smaller content and 40% with larger content
  */
 
 public class Entry implements Serializable
 {
-    // done this way to allow external reference as Entry.Type.Star
     public enum Type
     {
         // NOTE: may still need to create an undefined Type. Default will be Star for now.
@@ -47,7 +49,6 @@ public class Entry implements Serializable
     {
         this("", new ArrayList<String>());
     }
-
     public Entry(String content, ArrayList<String> tags)
     {
         this(content, tags, Type.Star);
