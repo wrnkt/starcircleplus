@@ -33,12 +33,12 @@ interface ListFormatter
 
 public class DBEntryManager
 {
-    private static HashMap<Entry.Type, Integer> entryTypeToTableKey = new HashMap<>();
+    private static HashMap<Entry.Type, Integer> entryTypeToTableKeyRef = new HashMap<>();
 
     static {
-        entryTypeToTableKey.put(Entry.Type.Star, 0);
-        entryTypeToTableKey.put(Entry.Type.Plus, 1);
-        entryTypeToTableKey.put(Entry.Type.Circle, 2);
+        entryTypeToTableKeyRef.put(Entry.Type.Star, 0);
+        entryTypeToTableKeyRef.put(Entry.Type.Plus, 1);
+        entryTypeToTableKeyRef.put(Entry.Type.Circle, 2);
     }
 
     private final int starVal = 0;
@@ -78,7 +78,7 @@ public class DBEntryManager
 
     // Formatters for building statement
     private IntFieldFormatter typeFormatter = (Entry e) -> {
-        return entryTypeToTableKey.get(e.getEntryType()).intValue();
+        return entryTypeToTableKeyRef.get(e.getEntryType()).intValue();
     };
 
     private StringFieldFormatter contentFormatter = (Entry e) -> (e.getContent());
