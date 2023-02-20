@@ -19,14 +19,18 @@ public class Prompter
             ArrayList<String> tagList = promptForEntryTagList(scanner);
             System.out.println();
 
-            entry = switch(type) {
-                case '*' -> new Entry(content, tagList, Entry.Type.Star);
-                case 'o' -> new Entry(content, tagList, Entry.Type.Circle);
-                case '+' -> new Entry(content, tagList, Entry.Type.Plus);
-                default -> new Entry(content, tagList, Entry.Type.Plus);
+            Entry.Type entryType = switch(type) {
+                case '*' -> Entry.Type.Star;
+                case 'o' -> Entry.Type.Circle;
+                case '+' -> Entry.Type.Plus;
+                default -> Entry.Type.Plus;
             };
+            System.out.println();
+
+            entry = new Entry(content, tagList, entryType);
         }
         
+        // NOTE: possibly returning a null reference
         return entry;
     }
 
