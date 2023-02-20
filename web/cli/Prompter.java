@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class Prompter
 {
-    public static String divider = "--------------------";
     public static ArrayList<Entry> entryList = new ArrayList<Entry>();
 
     public Entry promptForEntry()
@@ -87,8 +86,8 @@ public class Prompter
     {
         for(Entry e : entryList)
         {
-            System.out.println(PrompterEntryFormatter.detailEntry(e));
-            System.out.println(divider);
+            System.out.println(detailEntry.format(e));
+            System.out.println(divider.format(e));
         }
     }
 
@@ -102,23 +101,15 @@ public class Prompter
         prompter.displayTimeline();
         
     }
-}
 
+    // NOTE: could be based on length of tagList.format(e)
+    DisplayFormat divider = (Entry e) -> ("----------------------------");
 
-class PrompterEntryFormatter implements Formatter
-{
-    public static String detailEntry(Entry e)
-    {
-        return shortEntry(e) + "\n" + formatTagList(e);
-    }
-
-    public static String shortEntry(Entry e)
-    {
+    DisplayFormat shortEntry = (Entry e) -> {
         return String.join(" ", e.getIdentifier(), ":", e.getContent());
-    }
+    };
 
-    public static String formatTagList(Entry e)
-    {
+    DisplayFormat tagList = (Entry e) -> {
         StringBuilder sb = new StringBuilder();
         sb.append("Tags:");
         for(String tag : e.getTagList())
@@ -128,6 +119,15 @@ class PrompterEntryFormatter implements Formatter
         }
 
         return sb.toString();
-    }
+    };
+
+    DisplayFormat detailEntry = (Entry e) -> {
+        return shortEntry.format(e) + "\n" + tagList.format(e);
+    };
+
 }
 
+interface DisplayFormat
+{
+    public String format(Entry e);
+}
