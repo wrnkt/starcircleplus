@@ -1,3 +1,5 @@
+The formatter types need to eventually be shared by all Managers.
+
 An Entry implements an EntryFormat
 
 All Entries have:

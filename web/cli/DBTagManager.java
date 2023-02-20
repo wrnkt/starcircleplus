@@ -35,9 +35,11 @@ public class DBTagManager
     {
     }
 
+    private ListProcessor tagListProcessor = (Entry e) -> (e.getTagList());
+
     public void updateTagsTable(Entry e)
     {
-        ArrayList<String> tags = TagInfoFormatter.formatTagList(e);
+        ArrayList<String> tags = tagListProcessor.format(e);
         for (String tag : tags)
         {
             if(!tagInTable(tag))
@@ -82,12 +84,10 @@ public class DBTagManager
         }
         return false;
     }
+
 }
 
-class TagInfoFormatter implements Formatter
+interface ListProcessor
 {
-    public static ArrayList<String> formatTagList(Entry e)
-    {
-        return e.getTagList();
-        }
+    public ArrayList<String> format(Entry e);
 }
