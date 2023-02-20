@@ -111,15 +111,60 @@ public class Prompter
         return status;
     }
 
+    public boolean writeEntryToDB(Entry e)
+    {
+        try {
+            dbEntryManager.insertEntry(e);
+            return true;
+        } catch (Exception exception) {
+            System.out.println(exception);
+            System.out.println("Unable to write Entry");
+            return false;
+        }
+    }
+    
+    public boolean desireContinueDisplayTimeline()
+    {
+        return true;
+    }
+
+    public boolean desireNewEntry()
+    {
+        return true;
+    }
+
+    public DisplayFormat promptTimeLineFilter()
+    {
+        return ENTRY_FORMAT_1;
+    }
+
+    public void promptLoop(){
+        while(desireContinueDisplayTimeline())
+        {
+            displayTimeline(promptTimeLineFilter());
+            while(desireNewEntry())
+            {
+                Entry e;
+                if(writeEntryToDB(e = promptForEntry())) {
+                    // successful write
+                } else {
+                    entryList.add(e);
+                }
+            }
+
+        }
+    }
+
     public static void main(String... args)
     {
         Prompter prompter = new Prompter();
+        prompter.promptLoop();
 
-        prompter.addEntry(prompter.promptForEntry());
+        // prompter.addEntry(prompter.promptForEntry());
         // prompter.sendEntryListToDB();
         // prompter.entryList.clear(); // reassigns list refs to null values, does not resize list
 
-        prompter.displayTimeline(Prompter.ENTRY_FORMAT_1);
+        // prompter.displayTimeline(Prompter.ENTRY_FORMAT_1);
         
     }
 
