@@ -86,12 +86,11 @@ public class Prompter
         entryList.add(e);
     }
 
-    public void displayTimeline()
+    public void displayTimeline(DisplayFormat entryDisplayFormat)
     {
         for(Entry e : entryList)
         {
-            System.out.println(detailEntry.format(e));
-            System.out.println(divider.format(e));
+            System.out.println(entryDisplayFormat.format(e));
         }
     }
 
@@ -117,21 +116,21 @@ public class Prompter
         Prompter prompter = new Prompter();
 
         prompter.addEntry(prompter.promptForEntry());
-        prompter.sendEntryListToDB();
-        prompter.entryList.clear(); // reassigns list refs to null values, does not resize list
+        // prompter.sendEntryListToDB();
+        // prompter.entryList.clear(); // reassigns list refs to null values, does not resize list
 
-        prompter.displayTimeline();
+        prompter.displayTimeline(Prompter.ENTRY_FORMAT_1);
         
     }
 
     // NOTE: could be based on length of tagList.format(e)
-    DisplayFormat divider = (Entry e) -> ("----------------------------");
+    static DisplayFormat divider = (Entry e) -> ("----------------------------");
 
-    DisplayFormat shortEntry = (Entry e) -> {
+    static DisplayFormat shortEntry = (Entry e) -> {
         return String.join(" ", e.getIdentifier(), ":", e.getContent());
     };
 
-    DisplayFormat tagList = (Entry e) -> {
+    static DisplayFormat tagList = (Entry e) -> {
         StringBuilder sb = new StringBuilder();
         sb.append("Tags:");
         for(String tag : e.getTagList())
@@ -143,8 +142,12 @@ public class Prompter
         return sb.toString();
     };
 
-    DisplayFormat detailEntry = (Entry e) -> {
+    static DisplayFormat detailEntry = (Entry e) -> {
         return shortEntry.format(e) + "\n" + tagList.format(e);
+    };
+
+    static DisplayFormat ENTRY_FORMAT_1 = (Entry e) -> {
+        return detailEntry.format(e) + "\n" + divider.format(e);
     };
 
 }
