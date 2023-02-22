@@ -41,12 +41,6 @@ public class DBEntryManager
         entryTypeToTableKeyRef.put(Entry.Type.Circle, 2);
     }
 
-    private final int starVal = 0;
-    private final int plusVal = 1;
-    private final int uncheckedCircleVal = 2;
-    private final int checkedCircleVal = 3;
-    // FIX: checked should just be a separate field only observed in circles.
-
     private Connection conn;
 
     private DBTagManager dbtm;
