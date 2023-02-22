@@ -155,6 +155,7 @@ public class DBEntryManager
 
     public static void main(String[] args)
     {
+        /*
         DBEntryManager dbem = new DBEntryManager();
 
         Prompter prompter = new Prompter();
@@ -169,6 +170,7 @@ public class DBEntryManager
             System.out.println(e);
             System.out.println("Unable to save entry.");
         }
+        */
     }
 }
 
