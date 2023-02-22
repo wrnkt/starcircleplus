@@ -8,28 +8,25 @@ public class Prompter
     private ArrayList<Entry> entryList = new ArrayList<Entry>();
     private DBEntryManager dbEntryManager = new DBEntryManager();
 
-    public Entry promptForEntry()
+    public Entry promptForEntry(Scanner s)
     {
         Entry entry;
-        try(Scanner scanner = new Scanner(System.in))
-        {
-            Entry.Type entryType = switch(promptForEntryType(scanner)) {
-                case '*' -> Entry.Type.Star;
-                case 'o' -> Entry.Type.Circle;
-                case '+' -> Entry.Type.Plus;
-                default -> Entry.Type.Plus;
-            };
-            System.out.println();
-            
-            String content = promptForEntryContent(scanner);
-            System.out.println();
-
-            ArrayList<String> tagList = promptForEntryTagList(scanner);
-            System.out.println();
-
-            entry = new Entry(content, tagList, entryType);
-        }
+        Entry.Type entryType = switch(promptForEntryType(s)) {
+            case '*' -> Entry.Type.Star;
+            case 'o' -> Entry.Type.Circle;
+            case '+' -> Entry.Type.Plus;
+            default -> Entry.Type.Plus;
+        };
+        System.out.println();
         
+        String content = promptForEntryContent(s);
+        System.out.println();
+
+        ArrayList<String> tagList = promptForEntryTagList(s);
+        System.out.println();
+
+        entry = new Entry(content, tagList, entryType);
+    
         // NOTE: possibly returning a null reference
         return entry;
     }
@@ -88,10 +85,14 @@ public class Prompter
 
     public void displayTimeline(DisplayFormat entryDisplayFormat)
     {
+        System.out.println();
+        System.out.println();
         for(Entry e : entryList)
         {
             System.out.println(entryDisplayFormat.format(e));
         }
+        System.out.println();
+        System.out.println();
     }
 
     public boolean sendEntryListToDB()
@@ -123,32 +124,66 @@ public class Prompter
         }
     }
     
-    public boolean desireContinueDisplayTimeline()
+    public char promptTimelineEntryOrExit(Scanner s)
     {
-        return true;
+        char type = 'N';
+
+        System.out.println("Would you like to display the [t]imeline, enter an [e]ntry, or e[x]it?");
+        System.out.print("> ");
+
+        if(s.hasNextLine())
+        {
+            type = s.nextLine().charAt(0);
+            while(!(type == 't' || type == 'e' || type == 'x'))
+            {
+                System.out.println("Invalid input.");
+                System.out.println("Enter a 't', 'e', or 'x': ");
+                System.out.print("> ");
+                type = s.nextLine().charAt(0);
+            }
+        }
+        return type;
     }
 
-    public boolean desireNewEntry()
+    public DisplayFormat promptTimelineFilter(Scanner s)
     {
-        return true;
-    }
+        char type = 'N';
 
-    public DisplayFormat promptTimeLineFilter()
-    {
+        System.out.println("Enter star[*], circle[o], or plus[+] to filter Entries or [a] to view all.");
+        System.out.print("> ");
+
+        if(s.hasNextLine())
+        {
+            type = s.nextLine().charAt(0);
+            while(!(type == '*' || type == 'o' || type == '+' || type == 'a'))
+            {
+                System.out.println("Invalid input.");
+                System.out.println("Enter a '*', 'o', '+', or 'a': ");
+                System.out.print("> ");
+                type = s.nextLine().charAt(0);
+            }
+        }
+
         return ENTRY_FORMAT_1;
     }
 
     public void promptLoop(){
-        while(desireContinueDisplayTimeline())
-        {
-            displayTimeline(promptTimeLineFilter());
-            while(desireNewEntry())
+        try (Scanner scanner = new Scanner(System.in)) {
+
+            while(true)
             {
-                Entry e;
-                if(writeEntryToDB(e = promptForEntry())) {
-                    // successful write
-                } else {
-                    entryList.add(e);
+                char menuChoice;
+                menuChoice = promptTimelineEntryOrExit(scanner);
+                if (menuChoice == 'x') break;
+                else if (menuChoice == 't') displayTimeline(promptTimelineFilter(scanner)); // NOTE: implement filter and saving to list instead of db
+                else if (menuChoice == 'e') {
+                    Entry e;
+                    if(writeEntryToDB(e = promptForEntry(scanner))) {
+                        // successful write
+                        entryList.add(e); // Adding for testing purposes
+                    } else {
+                        entryList.add(e); // save for later saving if db not available
+                    }
                 }
             }
 
