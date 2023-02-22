@@ -194,13 +194,6 @@ public class Prompter
     {
         Prompter prompter = new Prompter();
         prompter.promptLoop();
-
-        // prompter.addEntry(prompter.promptForEntry());
-        // prompter.sendEntryListToDB();
-        // prompter.entryList.clear(); // reassigns list refs to null values, does not resize list
-
-        // prompter.displayTimeline(Prompter.ENTRY_FORMAT_1);
-        
     }
 
     // NOTE: could be based on length of tagList.format(e)
