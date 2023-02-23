@@ -225,8 +225,28 @@ public class Prompter
     // NOTE: could be based on length of tagList.format(e)
     static DisplayFormat divider = (Entry e) -> ("----------------------------");
 
+    static DisplayFormat identifier = (Entry e) -> {
+        String identifier;
+        switch(e.getEntryType())
+        {
+            case Star:
+                identifier = "*";
+                break;
+            case Circle:
+                if(e.isChecked()) identifier = "[x]";
+                else identifier = "[]";
+                break;
+            case Plus:
+                identifier = "+";
+                break;
+            default:
+                identifier = "Unassigned entryType";
+        }
+        return identifier;
+    };
+
     static DisplayFormat shortEntry = (Entry e) -> {
-        return String.join(" ", e.getIdentifier(), ":", e.getContent());
+        return String.join(" ", identifier.format(e), ":", e.getContent());
     };
 
     static DisplayFormat tagList = (Entry e) -> {

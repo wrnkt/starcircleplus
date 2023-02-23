@@ -107,27 +107,6 @@ public class Entry implements Serializable
         return certainOfDate;
     }
 
-    public String getIdentifier()
-    {
-        String identifier;
-        switch(entryType)
-        {
-            case Star:
-                identifier = "*";
-                break;
-            case Circle:
-                if(isChecked()) identifier = "[x]";
-                else identifier = "[]";
-                break;
-            case Plus:
-                identifier = "+";
-                break;
-            default:
-                identifier = "Unassigned entryType";
-        }
-        return identifier;
-    }
-
     // NOTE: Adding an updateTagList function
     // that works the way this one does may be more effective.
     // It could also return true if an update was required
