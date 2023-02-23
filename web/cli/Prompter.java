@@ -26,6 +26,8 @@ public class Prompter
         System.out.println();
 
         entry = new Entry(content, tagList, entryType);
+
+        entry.setCheckedStatus(promptForCheckedStatus(s));
     
         // NOTE: possibly returning a null reference
         return entry;
@@ -76,6 +78,30 @@ public class Prompter
             tags = s.nextLine().split("\\s");
 
         return new ArrayList<String>(Arrays.asList(tags));
+    }
+
+    private boolean promptForCheckedStatus(Scanner s)
+    {
+        char type = 'N';
+
+        System.out.println("Should this Entry be checked? [y] or [n]");
+        System.out.print("> ");
+
+        if(s.hasNextLine())
+        {
+            type = s.nextLine().charAt(0);
+            while(!(type == 'n' || type == 'y'))
+            {
+                System.out.println("Invalid input.");
+                System.out.println("Enter [y] or [n]. ");
+                System.out.print("> ");
+                type = s.nextLine().charAt(0);
+            }
+        }
+
+        if (type == 'y') return true;
+        else if (type == 'n') return false;
+        else return false;
     }
 
     public void addEntry(Entry e)
