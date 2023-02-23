@@ -9,18 +9,6 @@ import java.util.stream.Collectors;
 import java.time.ZonedDateTime;
 
 /*
- * TODO: make setter methods return the current Object
- * Entry setContent(content)
- *      ...
- *      return this;
- *
- * This will allow me to construct an instance by doing this:
- * Entry e = new Entry().setContent(c).setEntryType(Entry.Type.Plus);
- *
- * This will make building the instance with prompts easier
- *
- * WARNING: make sure to check how this will effect Prompter and database integration
- *
  * FEATURE: tag entries with the current date every time over 50% of them are changed.
  *          possibly 30% with smaller content and 40% with larger content
  */
@@ -29,7 +17,6 @@ public class Entry implements Serializable
 {
     public enum Type
     {
-        // NOTE: may still need to create an undefined Type. Default will be Star for now.
         Star,
         Circle,
         Plus;
@@ -122,15 +109,23 @@ public class Entry implements Serializable
 
     public String getIdentifier()
     {
-        return (
-            switch(entryType)
-            {
-                case Star -> "*";
-                case Circle -> "o";
-                case Plus -> "+";
-                default -> "Unassigned entryType";
-            }
-        );
+        String identifier;
+        switch(entryType)
+        {
+            case Star:
+                identifier = "*";
+                break;
+            case Circle:
+                if(isChecked()) identifier = "[x]";
+                else identifier = "[]";
+                break;
+            case Plus:
+                identifier = "+";
+                break;
+            default:
+                identifier = "Unassigned entryType";
+        }
+        return identifier;
     }
 
     // NOTE: Adding an updateTagList function
