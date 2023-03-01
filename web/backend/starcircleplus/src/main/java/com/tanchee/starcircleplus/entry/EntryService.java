@@ -1,4 +1,4 @@
-package com.tanchee.starcircleplus;
+package com.tanchee.starcircleplus.entry;
 
 import java.util.List;
 

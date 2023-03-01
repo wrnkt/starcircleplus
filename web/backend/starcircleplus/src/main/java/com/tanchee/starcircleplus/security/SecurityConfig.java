@@ -1,4 +1,4 @@
-package com.tanchee.starcircleplus;
+package com.tanchee.starcircleplus.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;

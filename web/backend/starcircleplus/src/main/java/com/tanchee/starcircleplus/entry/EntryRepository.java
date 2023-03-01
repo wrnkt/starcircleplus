@@ -1,4 +1,4 @@
-package com.tanchee.starcircleplus;
+package com.tanchee.starcircleplus.entry;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

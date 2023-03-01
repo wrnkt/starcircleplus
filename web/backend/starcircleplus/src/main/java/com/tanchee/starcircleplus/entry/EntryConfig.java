@@ -1,4 +1,4 @@
-package com.tanchee.starcircleplus;
+package com.tanchee.starcircleplus.entry;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 @Configuration
 public class EntryConfig
 {
+    /*
       @Bean
       public EntryService entryService()
       {
@@ -16,6 +17,7 @@ public class EntryConfig
       public EntryRepository entryRepository() {
         return new EntryRepository();
       }
+      */
 }
 
 /*
