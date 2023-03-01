@@ -3,6 +3,9 @@ package com.tanchee.starcircleplus;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -19,8 +22,19 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
                                         "com.tanchee.starcircleplus.security.*"})
 public class StarcircleplusApplication
 {
+    private static ApplicationContext applicationContext;
+
 	public static void main(String[] args) {
 		SpringApplication.run(StarcircleplusApplication.class, args);
+
+        applicationContext = new AnnotationConfigApplicationContext(StarcircleplusApplication.class);
+
+        for (String beanName : applicationContext.getBeanDefinitionNames())
+        {
+            System.out.println(beanName);
+        }
+
+
 	}
 
 }
