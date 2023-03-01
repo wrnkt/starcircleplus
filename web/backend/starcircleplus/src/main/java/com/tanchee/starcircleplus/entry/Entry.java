@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 // import org.springframework.data.annotation.Id;
 
@@ -22,15 +24,14 @@ enum Type
 @Entity
 public class Entry implements Serializable
 {
-    /*
-long id, long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags
-    */
-
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     private Long uuid;
+
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     private boolean checked;
     private ZonedDateTime dateCreated;
@@ -40,6 +41,7 @@ long id, long uuid, Type type, boolean checked, ZonedDateTime dateCreated, Array
     {
         this.id = id;
         this.uuid = uuid;
+        this.type = type;
         this.checked = checked;
         this.dateCreated = dateCreated;
         this.tags = tags;
