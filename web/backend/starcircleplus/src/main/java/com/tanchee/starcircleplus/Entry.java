@@ -3,6 +3,8 @@ package com.tanchee.starcircleplus;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 // import org.springframework.data.annotation.Id;
@@ -15,7 +17,7 @@ enum Type
 }
 
 @Entity
-public class Entry
+public class Entry implements Serializable
 {
     /*
 long id, long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags
