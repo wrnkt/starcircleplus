@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 // import org.springframework.data.annotation.Id;
 
