@@ -38,17 +38,20 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //@EnableAutoConfiguration
 public class StarcircleplusApplication
 {
-    private static ApplicationContext applicationContext;
+    //private static ApplicationContext applicationContext;
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(StarcircleplusApplication.class, args);
 
+        /*
         applicationContext = new AnnotationConfigApplicationContext(StarcircleplusApplication.class);
 
         for (String beanName : applicationContext.getBeanDefinitionNames())
         {
             System.out.println(beanName);
         }
+        */
 
 
 	}
