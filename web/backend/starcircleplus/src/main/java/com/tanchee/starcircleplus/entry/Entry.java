@@ -12,8 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 
-// import org.springframework.data.annotation.Id;
-
 enum Type
 {
     STAR,
@@ -37,6 +35,7 @@ public class Entry implements Serializable
     private ZonedDateTime dateCreated;
     private ArrayList<String> tags;
 
+    // WARN: EntryID ID is missing from constructor. May not be needed.
     public Entry(long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags)
     {
         this.id = id;
