@@ -10,15 +10,19 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.validation.Valid;
+//import jakarta.validation.Valid;
+
+import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@RestController
+//@RestController
+@Controller
 public class EntryController
 {
     // private ApplicationContext context = new AnnotationConfigApplicationContext(EntryConfig.class);
@@ -41,8 +45,9 @@ public class EntryController
         return new Entry(uID, Type.STAR, true, dateCreated, tags);
     }
 
+    // NOTE: Add @Valid before @RequestBody
     @PostMapping("/saveentry")
-    public Entry saveEntry(@Valid @RequestBody Entry entry)
+    public Entry saveEntry(@RequestBody Entry entry)
     {
         Entry testEntry = new Entry(
                 1L,
