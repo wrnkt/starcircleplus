@@ -36,7 +36,7 @@ public class Entry implements Serializable
     private ArrayList<String> tags;
 
     // WARN: EntryID ID is missing from constructor. May not be needed.
-    public Entry(long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags)
+    public Entry(Long id, Long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags)
     {
         this.id = id;
         this.uuid = uuid;

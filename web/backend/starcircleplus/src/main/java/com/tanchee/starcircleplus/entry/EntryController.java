@@ -42,7 +42,7 @@ public class EntryController
     @GetMapping("/testentry")
     public Entry getTestEntry()
     {
-        return new Entry(uID, Type.STAR, true, dateCreated, tags);
+        return new Entry(entryID.incrementAndGet(), uID, Type.STAR, true, dateCreated, tags);
     }
 
     // NOTE: Add @Valid before @RequestBody
@@ -50,6 +50,7 @@ public class EntryController
     public Entry saveEntry(@RequestBody Entry entry)
     {
         Entry testEntry = new Entry(
+                entryID.incrementAndGet(),
                 1L,
                 Type.STAR,
                 true,
