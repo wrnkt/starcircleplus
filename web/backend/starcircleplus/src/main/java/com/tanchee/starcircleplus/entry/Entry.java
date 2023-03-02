@@ -37,6 +37,10 @@ public class Entry implements Serializable
 
     private String content;
 
+    public Entry()
+    {
+    }
+
     public Entry(Long id, Long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
     {
         this.id = id;
