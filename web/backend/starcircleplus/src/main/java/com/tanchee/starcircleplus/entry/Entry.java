@@ -35,8 +35,9 @@ public class Entry implements Serializable
     private ZonedDateTime dateCreated;
     private ArrayList<String> tags;
 
-    // WARN: EntryID ID is missing from constructor. May not be needed.
-    public Entry(Long id, Long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags)
+    private String content;
+
+    public Entry(Long id, Long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
     {
         this.id = id;
         this.uuid = uuid;
@@ -44,5 +45,6 @@ public class Entry implements Serializable
         this.checked = checked;
         this.dateCreated = dateCreated;
         this.tags = tags;
+        this.content = content;
     }
 }

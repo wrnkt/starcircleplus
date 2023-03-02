@@ -48,7 +48,7 @@ public class EntryController
     @GetMapping(path="/test")
     public @ResponseBody Entry getTestEntry()
     {
-        return new Entry(entryID.incrementAndGet(), uID, Type.STAR, true, dateCreated, tags);
+        return new Entry(entryID.incrementAndGet(), uID, Type.STAR, true, dateCreated, tags, content);
     }
 
     // NOTE: Add @Valid before @RequestBody
@@ -61,7 +61,8 @@ public class EntryController
                 Type.STAR,
                 true,
                 ZonedDateTime.now(),
-                new ArrayList(Arrays.asList("tag1", "tag2"))
+                new ArrayList(Arrays.asList("tag1", "tag2")),
+                content
                 );
         // testEntry = repo.save(testEntry);
         // TEST: FOR TESTING
