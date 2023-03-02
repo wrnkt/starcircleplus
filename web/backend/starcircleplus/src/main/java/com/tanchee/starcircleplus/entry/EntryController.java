@@ -20,16 +20,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 //@RestController
 @Controller
+@RequestMapping(path="/entry")
 public class EntryController
 {
     // private ApplicationContext context = new AnnotationConfigApplicationContext(EntryConfig.class);
 
     // EntryRepository repo = context.getBean(EntryRepository.class);
 
-    // NOTE: switch controller to use service which uses repository
+    // WARN: switch controller to use service which uses repository
     //@Autowired private EntryService entryService;
 
     @Autowired
@@ -42,16 +44,16 @@ public class EntryController
     private static final ArrayList<String> tags = new ArrayList(Arrays.asList("tag1", "tag2"));
     private static final ZonedDateTime dateCreated = ZonedDateTime.now();
 
-    //EntryEntity
-    @GetMapping("/test")
-    public Entry getTestEntry()
+
+    @GetMapping(path="/test")
+    public @ResponseBody Entry getTestEntry()
     {
         return new Entry(entryID.incrementAndGet(), uID, Type.STAR, true, dateCreated, tags);
     }
 
     // NOTE: Add @Valid before @RequestBody
-    @PostMapping("/saveentry")
-    public Entry saveEntry(@RequestBody Entry entry)
+    @PostMapping(path="/save")
+    public @ResponseBody Entry saveEntry(@RequestParam String content)
     {
         Entry testEntry = new Entry(
                 entryID.incrementAndGet(),
@@ -63,6 +65,6 @@ public class EntryController
                 );
         // testEntry = repo.save(testEntry);
         // TEST: FOR TESTING
-        return entryService.saveEntry(testEntry);
+        return entryRepository.save(testEntry);
     }
 }
