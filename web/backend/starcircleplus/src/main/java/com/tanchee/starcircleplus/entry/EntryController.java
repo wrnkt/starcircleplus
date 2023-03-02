@@ -53,7 +53,7 @@ public class EntryController
 
     // NOTE: Add @Valid before @RequestBody
     @PostMapping(path="/save")
-    public @ResponseBody Entry saveEntry(@RequestParam String content)
+    public @ResponseBody Entry addEntry(@RequestParam String content)
     {
         Entry testEntry = new Entry(
                 entryID.incrementAndGet(),
@@ -64,8 +64,9 @@ public class EntryController
                 new ArrayList(Arrays.asList("tag1", "tag2")),
                 content
                 );
-        // testEntry = repo.save(testEntry);
-        // TEST: FOR TESTING
-        return entryRepository.save(testEntry);
+        entryRepository.save(
+                testEntry
+                );
+        return testEntry;
     }
 }
