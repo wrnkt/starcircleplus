@@ -25,8 +25,8 @@ public class SecurityConfig
                     //.requestMatchers("/db/**").access(new WebExpressionAuthorizationManager("hasRole('ADMIN') and hasRole('DBA')"))
                     //.anyRequest().denyAll()
             )
-            //.logout((logout) -> logout.permitAll())
-            .httpBasic(withDefaults());
+            .csrf().disable() // WARN: must be removed
+            .logout((logout) -> logout.permitAll());
 
         return http.build();
     }
