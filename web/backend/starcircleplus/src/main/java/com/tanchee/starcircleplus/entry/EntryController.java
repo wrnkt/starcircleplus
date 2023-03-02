@@ -29,7 +29,11 @@ public class EntryController
 
     // EntryRepository repo = context.getBean(EntryRepository.class);
 
-    @Autowired private EntryService entryService;
+    // NOTE: switch controller to use service which uses repository
+    //@Autowired private EntryService entryService;
+
+    @Autowired
+    private EntryRepository entryRepository;
 
     // NOTE: Test values.
     private final AtomicLong entryID = new AtomicLong();
@@ -39,7 +43,7 @@ public class EntryController
     private static final ZonedDateTime dateCreated = ZonedDateTime.now();
 
     //EntryEntity
-    @GetMapping("/testentry")
+    @GetMapping("/test")
     public Entry getTestEntry()
     {
         return new Entry(entryID.incrementAndGet(), uID, Type.STAR, true, dateCreated, tags);
