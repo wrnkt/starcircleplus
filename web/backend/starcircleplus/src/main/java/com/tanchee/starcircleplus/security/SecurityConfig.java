@@ -17,8 +17,8 @@ public class SecurityConfig
     {
         http
             .authorizeHttpRequests((authz) -> authz
-                    .requestMatchers("/", "/home").permitAll()
-                    .requestMatchers("/user").access(new WebExpressionAuthorizationManager("hasRole('USER')"))
+                    .requestMatchers("/", "/home", "/user/**").permitAll()
+                    //.requestMatchers("/user").access(new WebExpressionAuthorizationManager("hasRole('USER')"))
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .requestMatchers("/db/**").access(new WebExpressionAuthorizationManager("hasRole('ADMIN') and hasRole('DBA')"))
                     .anyRequest().denyAll());
