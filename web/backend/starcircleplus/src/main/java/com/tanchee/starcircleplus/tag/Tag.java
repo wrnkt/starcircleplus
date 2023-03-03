@@ -31,6 +31,11 @@ public class Tag
     )
     Set<Entry> entry = new HashSet<Entry>();;
 
+
+    public Tag
+    {
+    }
+
     public Tag(String name)
     {
         this.name = name;
