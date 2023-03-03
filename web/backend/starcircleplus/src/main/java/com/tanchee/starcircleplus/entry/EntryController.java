@@ -60,17 +60,15 @@ public class EntryController
     @PostMapping(path="/save")
     public Entry addEntry(@RequestBody Entry entry)
     {
-        Entry testEntry = new Entry(
+        Entry newEntry = new Entry(
                 1L,
                 entry.getType(),
                 entry.getChecked(),
                 ZonedDateTime.now(),
                 entry.getTags(),
                 entry.getContent()
-                );
-        entryRepository.save(
-                testEntry
-                );
-        return testEntry;
+        );
+
+        return entryRepository.save(newEntry);
     }
 }
