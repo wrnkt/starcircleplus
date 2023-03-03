@@ -54,7 +54,7 @@ public class EntryDataTransferController
 
     // NOTE: Add @Valid before @RequestBody
     @PostMapping(path="/save")
-    public Entry addEntry(@RequestBody EntryDataTransfer entry)
+    public EntryDataTransfer addEntry(@RequestBody EntryDataTransfer entry)
     {
         EntryDataTransfer newEntryDataTransfer = new EntryDataTransfer(
                 1L,
@@ -99,6 +99,6 @@ public class EntryDataTransferController
             
         }
 
-        return newEntry;
+        return newEntryDataTransfer;
     }
 }
