@@ -38,17 +38,12 @@ public class EntryDataTransferController
     @Autowired
     private TagRepository tagRepository;
 
-    /*
-    @GetMapping(path="/test")
-    public @ResponseBody EntryDataTransfer getTestEntryDataTransfer()
-    {
-        return new EntryDataTransfer(uID, Type.STAR, true, dateCreated, tags, content);
-    }
-    */
 
     @GetMapping(path="/all")
     public Iterable<Entry> getAll()
     {
+        // NOTE: return data transfer function needs to be built from
+        // names of all queried associated tags
         return entryRepository.findAll();
     }
 
@@ -101,4 +96,5 @@ public class EntryDataTransferController
 
         return newEntryDataTransfer;
     }
+
 }
