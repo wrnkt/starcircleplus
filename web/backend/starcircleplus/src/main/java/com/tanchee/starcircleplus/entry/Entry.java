@@ -1,5 +1,10 @@
 package com.tanchee.starcircleplus.entry;
 
+import com.tanchee.starcircleplus.tag.*;
+
+import java.util.Set;
+import java.util.HashSet;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
@@ -11,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.ManyToMany;
 
 enum Type
 {
@@ -35,6 +41,9 @@ public class Entry implements Serializable
     private ZonedDateTime dateCreated;
 
     private String content;
+
+    @ManyToMany(mappedBy = "entry")
+    private Set<Tag> tags = new HashSet<Tag>();
 
     public Entry()
     {
