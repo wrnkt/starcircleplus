@@ -62,11 +62,11 @@ public class EntryController
     {
         Entry testEntry = new Entry(
                 1L,
-                Type.STAR,
-                true,
+                entry.getType(),
+                entry.getChecked(),
                 ZonedDateTime.now(),
                 new ArrayList(Arrays.asList("tag1", "tag2")),
-                content
+                entry.getContent()
                 );
         entryRepository.save(
                 testEntry

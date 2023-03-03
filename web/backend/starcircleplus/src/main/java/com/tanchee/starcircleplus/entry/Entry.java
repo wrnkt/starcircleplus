@@ -50,4 +50,25 @@ public class Entry implements Serializable
         this.tags = tags;
         this.content = content;
     }
+
+    public Type getType()
+    {
+        return this.type;
+    }
+
+    public boolean getChecked()
+    {
+        return this.checked;
+    }
+
+    public ZonedDateTime getDateCreated()
+    {
+        return this.dateCreated;
+    }
+
+    public String getContent()
+    {
+        return this.content;
+    }
+
 }
