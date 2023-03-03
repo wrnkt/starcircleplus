@@ -66,6 +66,11 @@ public class Entry implements Serializable
         return this.dateCreated;
     }
 
+    public ArrayList<String> getTags()
+    {
+        return this.tags;
+    }
+
     public String getContent()
     {
         return this.content;

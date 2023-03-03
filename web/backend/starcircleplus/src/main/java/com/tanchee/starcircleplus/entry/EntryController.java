@@ -65,7 +65,7 @@ public class EntryController
                 entry.getType(),
                 entry.getChecked(),
                 ZonedDateTime.now(),
-                new ArrayList(Arrays.asList("tag1", "tag2")),
+                entry.getTags(),
                 entry.getContent()
                 );
         entryRepository.save(
