@@ -29,10 +29,10 @@ public class Tag
         joinColumns = { @JoinColumn(name = "tag_id") }, 
         inverseJoinColumns = { @JoinColumn(name = "entry_id") }
     )
-    Set<Entry> entry = new HashSet<Entry>();;
+    Set<Entry> entry = new HashSet<Entry>();
 
 
-    public Tag
+    public Tag()
     {
     }
 
