@@ -81,16 +81,21 @@ public class EntryDataTransferController
 
         for (String tagName : newEntryDataTransfer.getTags())
         {
-            List<Tag> tagMatchList = tagRepository.findByNameEquals(tagName);
+            List<Tag> dbTagMatchList = tagRepository.findByNameEquals(tagName);
 
-            if (tagMatchList.isEmpty()) {
+            if (dbTagMatchList.isEmpty()) {
                 Tag newTag = new Tag(tagName);
+
                 newTag.addEntry(newEntry);
+                newEntry.addTag(newTag);
+
                 tagRepository.save(newTag);
             } else {
-                Tag tagMatch = tagMatchList.remove(0);
+                Tag tagMatch = dbTagMatchList.remove(0);
+                tagMatch.addEntry(newEntry);
                 //tagMatch.getId()
             }
+            entryRepository.save(newEntry);
             
         }
 
