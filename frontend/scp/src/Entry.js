@@ -1,11 +1,15 @@
 import './Entry.css';
 
-function Entry() {
+const Entry = (props) => {
+  const { entry } = props;
   return (
     <div className="Entry">
-      Test test test
+      {entry.type}
+      {entry.checked}
+      {entry.dateCreated}
+      {entry.content}
     </div>
   );
-}
+};
 
 export default Entry;
