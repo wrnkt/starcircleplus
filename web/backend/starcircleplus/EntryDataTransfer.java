@@ -1,10 +1,5 @@
 package com.tanchee.starcircleplus.entry;
 
-import com.tanchee.starcircleplus.tag.*;
-
-import java.util.Set;
-import java.util.HashSet;
-
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
@@ -16,8 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.CascadeType;
 
 enum Type
 {
@@ -27,36 +20,34 @@ enum Type
 }
 
 @Entity
-public class Entry implements Serializable
+public class EntryDataTransfer implements Serializable
 {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-    //private Long uuid;
+    private Long uuid;
 
     @Enumerated(EnumType.STRING)
     private Type type;
 
     private boolean checked;
     private ZonedDateTime dateCreated;
+    private ArrayList<String> tags;
 
     private String content;
 
-    @ManyToMany(
-        mappedBy = "entry", cascade = CascadeType.ALL
-    )
-    private Set<Tag> tags = new HashSet<Tag>();
-
-    public Entry()
+    public EntryDataTransfer()
     {
     }
 
-    public Entry(Type type, boolean checked, ZonedDateTime dateCreated, String content)
+    public EntryDataTransfer(Long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
     {
+        this.uuid = uuid;
         this.type = type;
         this.checked = checked;
         this.dateCreated = dateCreated;
+        this.tags = tags;
         this.content = content;
     }
 
@@ -75,14 +66,14 @@ public class Entry implements Serializable
         return this.dateCreated;
     }
 
+    public ArrayList<String> getTags()
+    {
+        return this.tags;
+    }
+
     public String getContent()
     {
         return this.content;
-    }
-    
-    public void addTag(Tag tag)
-    {
-        tags.add(tag);
     }
 
 }
