@@ -69,6 +69,9 @@ public class EntryDataTransferController
                 newEntry
         );
 
+        // NOTE: Check for entryID here and do tags stuff
+        // after ID is set.
+
         return newEntry;
     }
 }
