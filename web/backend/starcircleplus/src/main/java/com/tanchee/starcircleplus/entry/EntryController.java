@@ -22,8 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-//@RestController
-@Controller
+@RestController
 @RequestMapping(path="/entry")
 public class EntryController
 {
@@ -51,9 +50,15 @@ public class EntryController
         return new Entry(entryID.incrementAndGet(), uID, Type.STAR, true, dateCreated, tags, content);
     }
 
+    @GetMapping(path="/all")
+    public Iterable<Entry> getAll()
+    {
+        return entryRepository.findAll();
+    }
+
     // NOTE: Add @Valid before @RequestBody
     @PostMapping(path="/save")
-    public @ResponseBody Entry addEntry(@RequestParam String content)
+    public Entry addEntry(@RequestBody Entry entry)
     {
         Entry testEntry = new Entry(
                 entryID.incrementAndGet(),
