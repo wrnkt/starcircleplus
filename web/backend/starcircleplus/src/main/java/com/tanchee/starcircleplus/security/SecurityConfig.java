@@ -19,7 +19,7 @@ public class SecurityConfig
     {
         http
             .authorizeHttpRequests((requests) -> requests
-                    .requestMatchers("/", "/home", "/user/**", "/entry/**").permitAll().anyRequest()
+                    .requestMatchers("/", "/home", "/user/**", "/entry/**", "/tag/**").permitAll().anyRequest()
                     //.requestMatchers("/user").access(new WebExpressionAuthorizationManager("hasRole('USER')"))
                     //.requestMatchers("/admin/**").hasRole("ADMIN")
                     //.requestMatchers("/db/**").access(new WebExpressionAuthorizationManager("hasRole('ADMIN') and hasRole('DBA')"))
