@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.CascadeType;
 
 enum Type
 {
@@ -42,7 +43,9 @@ public class Entry implements Serializable
 
     private String content;
 
-    @ManyToMany(mappedBy = "entry")
+    @ManyToMany(
+        mappedBy = "entry", cascade = CascadeType.ALL
+    )
     private Set<Tag> tags = new HashSet<Tag>();
 
     public Entry()
@@ -75,6 +78,11 @@ public class Entry implements Serializable
     public String getContent()
     {
         return this.content;
+    }
+    
+    public void addTag(Tag tag)
+    {
+        tags.add(tag);
     }
 
 }

@@ -3,6 +3,7 @@ package com.tanchee.starcircleplus.entry;
 import com.tanchee.starcircleplus.tag.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 import java.time.ZonedDateTime;
 
@@ -80,9 +81,22 @@ public class EntryDataTransferController
 
         for (String tagName : newEntryDataTransfer.getTags())
         {
-            Tag newTag = new Tag(tagName);
-            newTag.addEntry(newEntry);
-            tagRepository.save(newTag);
+            List<Tag> dbTagMatchList = tagRepository.findByNameEquals(tagName);
+
+            if (dbTagMatchList.isEmpty()) {
+                Tag newTag = new Tag(tagName);
+
+                newTag.addEntry(newEntry);
+                newEntry.addTag(newTag);
+
+                tagRepository.save(newTag);
+            } else {
+                Tag tagMatch = dbTagMatchList.remove(0);
+                tagMatch.addEntry(newEntry);
+                //tagMatch.getId()
+            }
+            entryRepository.save(newEntry);
+            
         }
 
         return newEntry;
