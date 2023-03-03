@@ -1,5 +1,7 @@
 package com.tanchee.starcircleplus.entry;
 
+import com.tanchee.starcircleplus.tag.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.time.ZonedDateTime;
@@ -32,12 +34,16 @@ public class EntryDataTransferController
     @Autowired
     private EntryRepository entryRepository;
 
+    @Autowired
+    private TagRepository tagRepository;
 
+    /*
     @GetMapping(path="/test")
     public @ResponseBody EntryDataTransfer getTestEntryDataTransfer()
     {
         return new EntryDataTransfer(uID, Type.STAR, true, dateCreated, tags, content);
     }
+    */
 
     @GetMapping(path="/all")
     public Iterable<Entry> getAll()
@@ -71,6 +77,13 @@ public class EntryDataTransferController
 
         // NOTE: Check for entryID here and do tags stuff
         // after ID is set.
+
+        for (String tagName : newEntryDataTransfer.getTags())
+        {
+            Tag newTag = new Tag(tagName);
+            newTag.addEntry(newEntry);
+            tagRepository.save(newTag);
+        }
 
         return newEntry;
     }
