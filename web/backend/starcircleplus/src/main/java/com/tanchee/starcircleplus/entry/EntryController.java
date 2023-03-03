@@ -47,7 +47,7 @@ public class EntryController
     @GetMapping(path="/test")
     public @ResponseBody Entry getTestEntry()
     {
-        return new Entry(entryID.incrementAndGet(), uID, Type.STAR, true, dateCreated, tags, content);
+        return new Entry(uID, Type.STAR, true, dateCreated, tags, content);
     }
 
     @GetMapping(path="/all")
@@ -61,7 +61,6 @@ public class EntryController
     public Entry addEntry(@RequestBody Entry entry)
     {
         Entry testEntry = new Entry(
-                entryID.incrementAndGet(),
                 1L,
                 Type.STAR,
                 true,

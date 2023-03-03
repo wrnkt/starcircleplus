@@ -41,9 +41,8 @@ public class Entry implements Serializable
     {
     }
 
-    public Entry(Long id, Long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
+    public Entry(Long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
     {
-        this.id = id;
         this.uuid = uuid;
         this.type = type;
         this.checked = checked;
