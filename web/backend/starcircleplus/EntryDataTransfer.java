@@ -20,31 +20,34 @@ enum Type
 }
 
 @Entity
-public class Entry implements Serializable
+public class EntryDataTransfer implements Serializable
 {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-    //private Long uuid;
+    private Long uuid;
 
     @Enumerated(EnumType.STRING)
     private Type type;
 
     private boolean checked;
     private ZonedDateTime dateCreated;
+    private ArrayList<String> tags;
 
     private String content;
 
-    public Entry()
+    public EntryDataTransfer()
     {
     }
 
-    public Entry(Type type, boolean checked, ZonedDateTime dateCreated, String content)
+    public EntryDataTransfer(Long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
     {
+        this.uuid = uuid;
         this.type = type;
         this.checked = checked;
         this.dateCreated = dateCreated;
+        this.tags = tags;
         this.content = content;
     }
 
@@ -61,6 +64,11 @@ public class Entry implements Serializable
     public ZonedDateTime getDateCreated()
     {
         return this.dateCreated;
+    }
+
+    public ArrayList<String> getTags()
+    {
+        return this.tags;
     }
 
     public String getContent()

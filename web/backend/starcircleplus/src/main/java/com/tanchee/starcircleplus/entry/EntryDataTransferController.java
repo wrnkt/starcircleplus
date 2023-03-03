@@ -24,14 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 @RequestMapping(path="/entry")
-public class EntryController
+public class EntryDataTransferController
 {
-    // private ApplicationContext context = new AnnotationConfigApplicationContext(EntryConfig.class);
-
-    // EntryRepository repo = context.getBean(EntryRepository.class);
-
     // WARN: switch controller to use service which uses repository
-    //@Autowired private EntryService entryService;
+    //@Autowired private EntryDataTransferService entryService;
 
     @Autowired
     private EntryRepository entryRepository;
@@ -45,9 +41,9 @@ public class EntryController
 
 
     @GetMapping(path="/test")
-    public @ResponseBody Entry getTestEntry()
+    public @ResponseBody EntryDataTransfer getTestEntry()
     {
-        return new Entry(uID, Type.STAR, true, dateCreated, tags, content);
+        return new EntryDataTransfer(uID, Type.STAR, true, dateCreated, tags, content);
     }
 
     @GetMapping(path="/all")
@@ -58,9 +54,9 @@ public class EntryController
 
     // NOTE: Add @Valid before @RequestBody
     @PostMapping(path="/save")
-    public Entry addEntry(@RequestBody Entry entry)
+    public EntryDataTransfer addEntry(@RequestBody EntryDataTransfer entry)
     {
-        Entry newEntry = new Entry(
+        EntryDataTransfer newEntryDataTransfer = new EntryDataTransfer(
                 1L,
                 entry.getType(),
                 entry.getChecked(),
@@ -69,6 +65,15 @@ public class EntryController
                 entry.getContent()
         );
 
-        return entryRepository.save(newEntry);
+        entryRepository.save(
+                new Entry(
+                    newEntryDataTransfer.getType(),
+                    newEntryDataTransfer.getChecked(),
+                    newEntryDataTransfer.getDateCreated(),
+                    newEntryDataTransfer.getContent()
+                )
+        );
+
+        return newEntryDataTransfer;
     }
 }
