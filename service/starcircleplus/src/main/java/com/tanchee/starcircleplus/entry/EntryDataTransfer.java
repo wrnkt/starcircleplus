@@ -34,9 +34,8 @@ public class EntryDataTransfer implements Serializable
     {
     }
 
-    public EntryDataTransfer(Long uuid, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
+    public EntryDataTransfer(Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
     {
-        this.uuid = uuid;
         this.type = type;
         this.checked = checked;
         this.dateCreated = dateCreated;

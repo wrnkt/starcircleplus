@@ -52,7 +52,6 @@ public class EntryDataTransferController
     public EntryDataTransfer addEntry(@RequestBody EntryDataTransfer entry)
     {
         EntryDataTransfer newEntryDataTransfer = new EntryDataTransfer(
-                1L,
                 entry.getType(),
                 entry.getChecked(),
                 ZonedDateTime.now(),
