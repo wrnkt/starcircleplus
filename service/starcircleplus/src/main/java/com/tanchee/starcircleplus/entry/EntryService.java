@@ -20,4 +20,6 @@ public interface EntryService
     */
 
     void deleteEntryByID(Long entryID);
+
+    EntryDataTransfer getEntryDataTransferFrom(Entry e);
 }

@@ -30,7 +30,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class EntryDataTransferController
 {
     // WARN: switch controller to use service which uses repository
-    //@Autowired private EntryDataTransferService entryService;
+
+    @Autowired
+    private EntryServiceImplementation entryService;
 
     @Autowired
     private EntryRepository entryRepository;
@@ -40,19 +42,24 @@ public class EntryDataTransferController
 
 
     @GetMapping(path="/all")
-    public Iterable<Entry> getAll()
+    public Iterable<EntryDataTransfer> getAll()
     {
-        // NOTE: return data transfer function needs to be built from
-        // names of all queried associated tags
-        return entryRepository.findAll();
+        ArrayList<EntryDataTransfer> dataTransferList = new ArrayList<EntryDataTransfer>();
+        for(Entry entry : entryRepository.findAll())
+        {
+            dataTransferList.add(
+                    entryService.getEntryDataTransferFrom(entry)
+                    );
+        }
+        return dataTransferList;
     }
+
 
     // NOTE: Add @Valid before @RequestBody
     @PostMapping(path="/save")
     public EntryDataTransfer addEntry(@RequestBody EntryDataTransfer entry)
     {
         EntryDataTransfer newEntryDataTransfer = new EntryDataTransfer(
-                1L,
                 entry.getType(),
                 entry.getChecked(),
                 ZonedDateTime.now(),
