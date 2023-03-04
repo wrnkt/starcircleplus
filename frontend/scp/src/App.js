@@ -25,3 +25,11 @@ function Entry({entry}) {
     </div>
   );
 };
+
+function TypeIdentifier({ type }) {
+  return (
+    <div className="type-identifier">
+      Type:{type}
+    </div>
+  );
+};
