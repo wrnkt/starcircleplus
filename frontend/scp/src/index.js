@@ -1,24 +1,20 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 
+import './index.css';
+
 import App from './App.js';
-import Entry from './Entry.js';
-import Table from './Table.js';
 
-const testEntry = {
-        "type": "STAR",
-        "checked": false,
-        "dateCreated": "2023-03-03T14:04:21.374638-05:00",
-        "content": "new entry"
-};
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(
+  document.getElementById('root')
+);
+
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <App />
-  </React.StrictMode>
+  </StrictMode>
 );
 
 // #34495E
