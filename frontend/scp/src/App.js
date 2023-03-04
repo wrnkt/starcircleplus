@@ -11,7 +11,7 @@ export default function App() {
 }
 
 function EntryListView() { return (
-    <div>
+    <div className="entry-list-view">
         <span>I'm a div</span>
         <Entry />
     </div>
@@ -20,7 +20,7 @@ function EntryListView() { return (
 
 function Entry({entry}) {
   return (
-    <div className="Entry">
+    <div className="entry">
       <h1>Entry rendered.</h1>
     </div>
   );
