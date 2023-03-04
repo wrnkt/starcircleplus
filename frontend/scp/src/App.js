@@ -1,26 +1,27 @@
 import React, { Component } from "react";
 
-import Entry from './Entry.js';
+//import Entry from './Entry.js';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      entry: {
-        type: "STAR",
-        checked: false,
-        dateCreated: "2023-03-03T14:04:21.374638-05:00",
-        content: "new entry"
-      },
-    };
-  }
-  render() {
-    return (
-      <div>
-        <Entry entry={this.state.entry} />
-      </div>
-    );
-  }
+export default function App() {
+  return (
+    <div>
+      <EntryListView />
+    </div>
+  );
 }
 
-export default App;
+function EntryListView() { return (
+    <div>
+        <span>I'm a div</span>
+        <Entry />
+    </div>
+    );
+}
+
+function Entry({entry}) {
+  return (
+    <div className="Entry">
+      <h1>Entry rendered.</h1>
+    </div>
+  );
+};
