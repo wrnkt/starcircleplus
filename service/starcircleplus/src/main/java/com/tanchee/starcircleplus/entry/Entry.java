@@ -55,7 +55,12 @@ public class Entry implements Serializable
     public Entry(Type type, boolean checked, ZonedDateTime dateCreated, String content)
     {
         this.type = type;
-        this.checked = checked;
+        if (this.type == Type.CIRCLE ) {
+            this.checked = checked;
+        } else {
+            this.checked = false;
+        }
+
         this.dateCreated = dateCreated;
         this.content = content;
     }
