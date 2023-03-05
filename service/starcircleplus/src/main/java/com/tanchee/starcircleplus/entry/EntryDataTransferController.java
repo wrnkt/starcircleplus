@@ -101,7 +101,7 @@ public class EntryDataTransferController
             
         }
 
-        return newEntryDataTransfer;
+        return entryService.getEntryDataTransferFrom(newEntry);
     }
 
 }
