@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.http.ResponseEntity;
 
@@ -35,6 +36,9 @@ public class TagDataTransferController
 
     @Autowired
     private EntryRepository entryRepository;
+
+    @Autowired
+    private EntryService entryService;
 
     @Autowired
     private TagRepository tagRepository;
@@ -56,10 +60,26 @@ public class TagDataTransferController
     }
     */
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<?> getAllTagsWithFrequency()
     {
         return ResponseEntity.ok(tagDataTransferService.getTagFreqMapForAllTags());
+    }
+
+    @GetMapping("/{tagname}")
+    public ResponseEntity<?> individualTagView(@PathVariable String tagname)
+    {
+        ArrayList<EntryDataTransfer> entryDataList = new ArrayList<EntryDataTransfer>();
+        List<Entry> entryList = entryRepository.findByTagsEquals(
+                tagRepository.findByNameEquals(tagname).get(0)
+        );
+        
+        for (Entry entry : entryList)
+        {
+            entryDataList.add(entryService.getEntryDataTransferFrom(entry));
+        }
+
+        return ResponseEntity.ok(entryDataList);
     }
 
 }
