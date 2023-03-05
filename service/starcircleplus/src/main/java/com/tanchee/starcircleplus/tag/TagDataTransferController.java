@@ -25,12 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.springframework.http.ResponseEntity;
+
+
 @RestController
 @RequestMapping(path="/tag")
 public class TagDataTransferController
 {
-    // WARN: switch controller to use service which uses repository
-    //@Autowired private EntryDataTransferService entryService;
 
     @Autowired
     private EntryRepository entryRepository;
@@ -38,7 +39,11 @@ public class TagDataTransferController
     @Autowired
     private TagRepository tagRepository;
 
+    @Autowired
+    private TagDataTransferService tagDataTransferService;
 
+
+    /*
     @GetMapping
     public TagDataTransfer getAll()
     {
@@ -48,6 +53,13 @@ public class TagDataTransferController
             tagNameList.add(tag.getName());
         }
         return new TagDataTransfer(tagNameList);
+    }
+    */
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllTagsWithFrequency()
+    {
+        return ResponseEntity.ok(tagDataTransferService.getTagFreqMapForAllTags());
     }
 
 }
