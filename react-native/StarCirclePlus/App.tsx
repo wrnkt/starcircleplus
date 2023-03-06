@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 /*
-// TODO: Add ID from table for unique key prop
 const ENTRYDATAFORMAT = [
     {
         "type": "PLUS",
@@ -96,8 +95,9 @@ const App = () => {
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={data}
-                renderItem={({item}) => <Entry entry={item} />}
-                keyExtractor={entry => entry.id}
+                extraData={data.key}
+                renderItem={({item}) => <Entry key={item.key} entry={item} />}
+                keyExtractor={entry => entry.key}
             />
         </SafeAreaView>
     );
