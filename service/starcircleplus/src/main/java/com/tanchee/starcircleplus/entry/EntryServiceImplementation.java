@@ -52,6 +52,7 @@ public class EntryServiceImplementation implements EntryService
 
         return
             new EntryDataTransfer(
+                    entry.getId(),
                     entry.getType(),
                     entry.getChecked(),
                     entry.getDateCreated(),
