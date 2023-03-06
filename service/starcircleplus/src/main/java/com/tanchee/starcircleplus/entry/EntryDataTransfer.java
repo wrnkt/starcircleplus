@@ -19,8 +19,6 @@ public class EntryDataTransfer implements Serializable
     @Id
     private Long id;
 
-    private Long uuid;
-
     @Enumerated(EnumType.STRING)
     private Type type;
 
