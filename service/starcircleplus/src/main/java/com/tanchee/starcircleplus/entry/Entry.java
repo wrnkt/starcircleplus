@@ -65,6 +65,11 @@ public class Entry implements Serializable
         this.content = content;
     }
 
+    public Long getId()
+    {
+        return this.id;
+    }
+
     public Type getType()
     {
         return this.type;
