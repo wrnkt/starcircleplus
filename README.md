@@ -5,6 +5,7 @@
 + Service:
     - Spring Data JPA
     - Jakarta Persistence API
+    - Hibernate
     - Spring MVC
     - Jackson
     - MySQL Database
