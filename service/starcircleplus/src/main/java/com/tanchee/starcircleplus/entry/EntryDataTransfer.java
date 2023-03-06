@@ -19,6 +19,8 @@ public class EntryDataTransfer implements Serializable
     @Id
     private Long id;
 
+    private Long key;
+
     @Enumerated(EnumType.STRING)
     private Type type;
 
@@ -39,6 +41,26 @@ public class EntryDataTransfer implements Serializable
         this.dateCreated = dateCreated;
         this.tags = tags;
         this.content = content;
+    }
+
+    public EntryDataTransfer(Long key, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
+    {
+        this.key = key;
+        this.type = type;
+        this.checked = checked;
+        this.dateCreated = dateCreated;
+        this.tags = tags;
+        this.content = content;
+    }
+
+    public void setKey(Long key)
+    {
+        this.key = key;
+    }
+
+    public Long getKey()
+    {
+        return this.key;
     }
 
     public Type getType()
