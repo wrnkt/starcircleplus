@@ -43,7 +43,7 @@ const ENTRYDATAFORMAT = [
 
 
 const EntryTypeDisplay = ({type, checked}) => (
-        <View>
+        <View style={styles.entrytypedisplay}>
             <Text type={styles.entrytypedisplay}>{type}</Text>
         </View>
 );
@@ -118,13 +118,21 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#34495E',
     marginTop: StatusBar.currentHeight || 0,
   },
   entry: {
     backgroundColor: '#f9c2ff',
     padding: 20,
+    width: '100%',
+    height: 70,
     marginVertical: 8,
-    marginHorizontal: 16,
+    flexDirection: 'row',
+  },
+  entrytypedisplay: {
+      width: 50,
+      height: '100%',
+      //alignItems: 'center',
   },
   content: {
     fontSize: 32,
