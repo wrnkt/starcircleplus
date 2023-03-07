@@ -68,6 +68,7 @@ const Entry = ({entry}) => (
   </View>
 );
 
+
 const App = () => {
     const [data,setData]=useState([]);
     const getData=()=>{
@@ -91,11 +92,22 @@ const App = () => {
     useEffect(()=>{
         getData()
         },[])
+
+    const header = () => {
+        return (
+                <View style={styles.headerStyle}>
+                <Text style={styles.titleStyle}>POSTS</Text>
+                </View>
+               );
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={data}
-                extraData={data.key}
+                //extraData={data.key}
+                ListHeaderComponent={header}
+                stickyHeaderIndices={[0]}
                 renderItem={({item}) => <Entry key={item.key} entry={item} />}
                 keyExtractor={entry => entry.key}
             />
@@ -116,6 +128,17 @@ const styles = StyleSheet.create({
   },
   content: {
     fontSize: 32,
+  },
+  headerStyle: {
+    flex: 1,
+    height: 40,
+    width: '100%',
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleStyle: {
+    color: 'white',
   },
 });
 
