@@ -28,4 +28,4 @@ jobs:
           context: .
           file: ./service/starcircleplus/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/starcircleplusservice:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/starcircleplus:latest
