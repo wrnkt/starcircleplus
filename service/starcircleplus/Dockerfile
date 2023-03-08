@@ -7,3 +7,6 @@ System.out.println("Welcome to Amazon Corretto!"); \
 }' > Hello.java
 RUN javac Hello.java
 CMD ["java", "Hello"] 
+WORKDIR /service/starcircleplus
+EXPOSE 8080
+CMD []
