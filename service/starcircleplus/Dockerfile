@@ -9,4 +9,4 @@ RUN javac Hello.java
 CMD ["java", "Hello"] 
 WORKDIR /service/starcircleplus
 EXPOSE 8080
-CMD []
+CMD ["java", "-jar", "target/starcircleplus-0.0.1-SNAPSHOT.jar"]
