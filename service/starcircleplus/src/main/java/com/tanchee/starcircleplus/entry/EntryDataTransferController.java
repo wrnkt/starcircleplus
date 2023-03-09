@@ -41,7 +41,7 @@ public class EntryDataTransferController
     private TagRepository tagRepository;
 
 
-    @GetMapping(path="/all")
+    @GetMapping(path="/")
     public Iterable<EntryDataTransfer> getAll()
     {
         ArrayList<EntryDataTransfer> dataTransferList = new ArrayList<EntryDataTransfer>();
