@@ -12,7 +12,6 @@ services:
       - "6603:6603"
   backend:
     image: "wrnkt/scpbackend:latest"
-    restart: always
     build: .
     ports:
       - "8080:8080"
