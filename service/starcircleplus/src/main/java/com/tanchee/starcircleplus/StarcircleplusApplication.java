@@ -16,6 +16,8 @@ import java.util.stream.Stream;
 import javax.sql.DataSource;
 import org.springframework.boot.jdbc.DatabaseDriver;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 @SpringBootApplication
 public class StarcircleplusApplication {
 
@@ -24,7 +26,7 @@ public class StarcircleplusApplication {
     }
 
     @Autowired
-    DataSource dataSource;
+    HikariDataSource dataSource;
 
     @Bean
     public DatabaseStartupValidator databaseStartupValidator(DataSource dataSource) {
