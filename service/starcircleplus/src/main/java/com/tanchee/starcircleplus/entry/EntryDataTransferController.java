@@ -41,7 +41,7 @@ public class EntryDataTransferController
     private TagRepository tagRepository;
 
 
-    @GetMapping(path="/")
+    @GetMapping(path="/all")
     public Iterable<EntryDataTransfer> getAll()
     {
         ArrayList<EntryDataTransfer> dataTransferList = new ArrayList<EntryDataTransfer>();
@@ -57,31 +57,24 @@ public class EntryDataTransferController
 
     // NOTE: Add @Valid before @RequestBody
     @PostMapping(path="/save")
-    public EntryDataTransfer addEntry(@RequestBody EntryDataTransfer entry)
+    public EntryDataTransfer saveEntry(@RequestBody EntryDataTransfer entryData)
     {
-        EntryDataTransfer newEntryDataTransfer = new EntryDataTransfer(
-                entry.getType(),
-                entry.getChecked(),
-                ZonedDateTime.now(),
-                entry.getTags(),
-                entry.getContent()
-        );
+        Entry newEntry = new Entry();
+        newEntry.setId(entryData.getKey()); // WARN: may set null key
+        newEntry.setType(entryData.getType());
+        newEntry.setChecked(entryData.getChecked());
+        newEntry.setDateCreated(ZonedDateTime.now());
+        newEntry.setContent(entryData.getContent());
 
-        Entry newEntry = new Entry(
-                newEntryDataTransfer.getType(),
-                newEntryDataTransfer.getChecked(),
-                newEntryDataTransfer.getDateCreated(),
-                newEntryDataTransfer.getContent()
-        );
+    
+        //for tag in tags 
 
-        entryRepository.save(
-                newEntry
-        );
+        entryRepository.save(newEntry);
 
         // NOTE: Check for entryID here and do tags stuff
         // after ID is set.
 
-        for (String tagName : newEntryDataTransfer.getTags())
+        for (String tagName : entryData.getTags())
         {
             List<Tag> dbTagMatchList = tagRepository.findByNameEquals(tagName);
 
