@@ -47,6 +47,7 @@ public class EntryServiceImplementation implements EntryService
         entryRepository.deleteById(entryID);
     }
 
+    /*
     public EntryDataTransfer getEntryDataTransferFrom(Entry entry)
     {
         ArrayList<String> tagList = new ArrayList<String>();
@@ -65,10 +66,23 @@ public class EntryServiceImplementation implements EntryService
 
         return entryDataTransfer;
     }
+    */
 
     public EntryDataTransfer convertToDTO(Entry entry)
     {
         EntryDataTransfer entryData = modelMapper.map(entry, EntryDataTransfer.class);
         return entryData;
     }
+
+    /*
+    public Entry convertToEntity(EntryDataTransfer entryData) throws ParseException
+    {
+        Entry entry = modelMapper.map(entryData, Entry.class);
+        if( entryData.getId != null ) {
+            Entry oldEntry = getEntryById(entryData.getId());
+            entry.setType(oldEntry.getType());
+            //etc
+        }
+    }
+    */
 }
