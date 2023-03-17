@@ -27,6 +27,12 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -41,6 +47,8 @@
             <version>8.0.32</version>
 			<scope>runtime</scope>
         </dependency>
+
+        <!-- TESTING -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.modelmapper.ModelMapper;
+
 @Service
 public class EntryServiceImplementation implements EntryService
 {
@@ -18,6 +20,9 @@ public class EntryServiceImplementation implements EntryService
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public Entry saveEntry(Entry entry)
@@ -59,5 +64,11 @@ public class EntryServiceImplementation implements EntryService
         entryDataTransfer.setContent(entry.getContent());
 
         return entryDataTransfer;
+    }
+
+    public EntryDataTransfer convertToDTO(Entry entry)
+    {
+        EntryDataTransfer entryData = modelMapper.map(entry, EntryDataTransfer.class);
+        return entryData;
     }
 }
