@@ -48,7 +48,7 @@ public class EntryDataTransferController
     public Iterable<EntryDataTransfer> getAll()
     {
         ArrayList<EntryDataTransfer> dataTransferList = new ArrayList<EntryDataTransfer>();
-        for(Entry entry : entryRepository.findAll())
+        for(Entry entry : entryService.fetchEntryList())
         {
             dataTransferList.add(entryService.convertToDTO(entry));
         }
@@ -106,7 +106,7 @@ public class EntryDataTransferController
             
         }
 
-        return entryService.getEntryDataTransferFrom(newEntry);
+        return entryService.convertToDTO(newEntry);
     }
 
 }
