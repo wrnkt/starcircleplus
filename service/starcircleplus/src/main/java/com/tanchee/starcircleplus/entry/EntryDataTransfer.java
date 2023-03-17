@@ -16,7 +16,7 @@ import jakarta.persistence.EnumType;
 @Entity
 public class EntryDataTransfer implements Serializable
 {
-    @Id
+    //@Id
     private Long id;
 
     private Long key;
@@ -53,14 +53,14 @@ public class EntryDataTransfer implements Serializable
         this.content = content;
     }
 
-    public void setKey(Long key)
-    {
-        this.key = key;
-    }
-
     public Long getKey()
     {
         return this.key;
+    }
+
+    public void setKey(Long key)
+    {
+        this.key = key;
     }
 
     public Type getType()
@@ -68,9 +68,19 @@ public class EntryDataTransfer implements Serializable
         return this.type;
     }
 
+    public void setType(Type type)
+    {
+        this.type = type;
+    }
+
     public boolean getChecked()
     {
         return this.checked;
+    }
+
+    public void setChecked(boolean checked)
+    {
+        this.checked = checked;
     }
 
     public ZonedDateTime getDateCreated()
@@ -78,14 +88,29 @@ public class EntryDataTransfer implements Serializable
         return this.dateCreated;
     }
 
+    public void setDateCreated(ZonedDateTime dateCreated)
+    {
+        this.dateCreated = dateCreated;
+    }
+
     public ArrayList<String> getTags()
     {
         return this.tags;
     }
 
+    public void setTags(ArrayList<String> tags)
+    {
+        this.tags = tags;
+    }
+
     public String getContent()
     {
         return this.content;
+    }
+
+    public void setContent(String content)
+    {
+        this.content = content;
     }
 
 }

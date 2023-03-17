@@ -18,6 +18,8 @@ import org.springframework.boot.jdbc.DatabaseDriver;
 
 import com.zaxxer.hikari.HikariDataSource;
 
+import org.modelmapper.ModelMapper;
+
 @SpringBootApplication
 public class StarcircleplusApplication {
 
@@ -48,6 +50,11 @@ public class StarcircleplusApplication {
                 .map(bf::getBeanDefinition)
                 .forEach(it -> it.setDependsOn("databaseStartupValidator"));
         };
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
 }

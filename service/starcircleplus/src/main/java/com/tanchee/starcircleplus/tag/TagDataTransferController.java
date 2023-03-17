@@ -38,7 +38,7 @@ public class TagDataTransferController
     private EntryRepository entryRepository;
 
     @Autowired
-    private EntryService entryService;
+    private EntryServiceImplementation entryService;
 
     @Autowired
     private TagRepository tagRepository;
@@ -76,7 +76,7 @@ public class TagDataTransferController
         
         for (Entry entry : entryList)
         {
-            entryDataList.add(entryService.getEntryDataTransferFrom(entry));
+            entryDataList.add(entryService.convertToDTO(entry));
         }
 
         return ResponseEntity.ok(entryDataList);

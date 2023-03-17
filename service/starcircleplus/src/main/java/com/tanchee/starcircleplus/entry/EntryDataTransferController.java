@@ -2,6 +2,7 @@ package com.tanchee.starcircleplus.entry;
 
 import com.tanchee.starcircleplus.tag.*;
 
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.modelmapper.ModelMapper;
+
 @RestController
 @RequestMapping(path="/entry")
 public class EntryDataTransferController
@@ -45,43 +48,45 @@ public class EntryDataTransferController
     public Iterable<EntryDataTransfer> getAll()
     {
         ArrayList<EntryDataTransfer> dataTransferList = new ArrayList<EntryDataTransfer>();
-        for(Entry entry : entryRepository.findAll())
+        for(Entry entry : entryService.fetchEntryList())
         {
-            dataTransferList.add(
-                    entryService.getEntryDataTransferFrom(entry)
-                    );
+            dataTransferList.add(entryService.convertToDTO(entry));
         }
         return dataTransferList;
     }
 
-
     // NOTE: Add @Valid before @RequestBody
     @PostMapping(path="/save")
-    public EntryDataTransfer addEntry(@RequestBody EntryDataTransfer entry)
+    public EntryDataTransfer saveEntry(@RequestBody EntryDataTransfer entryData)
     {
-        EntryDataTransfer newEntryDataTransfer = new EntryDataTransfer(
-                entry.getType(),
-                entry.getChecked(),
-                ZonedDateTime.now(),
-                entry.getTags(),
-                entry.getContent()
-        );
+            
+        Optional<Entry> dbEntryOpt = entryRepository.findById(entryData.getKey());
+        Entry newEntry = new Entry();
 
-        Entry newEntry = new Entry(
-                newEntryDataTransfer.getType(),
-                newEntryDataTransfer.getChecked(),
-                newEntryDataTransfer.getDateCreated(),
-                newEntryDataTransfer.getContent()
-        );
+        if (dbEntryOpt.isPresent()) {
+            Entry dbEntry = dbEntryOpt.get();
+            newEntry.setId(dbEntry.getId()); // NOTE: it shoulde be doing this automatically already in dbEntry.get();
+            newEntry.setType(entryData.getType());
+            newEntry.setChecked(entryData.getChecked());
+            newEntry.setContent(entryData.getContent());
+            //newEntry.setTags(); // WARN: will require looping through previous tags, removing ones that are now missing
+        } else { // new entry, with unspecified key or id, must be returned after entry is saved
+            //newEntry.setId(entryData.getKey()); // WARN: may set null key
+            newEntry.setType(entryData.getType());
+            newEntry.setChecked(entryData.getChecked());
+            newEntry.setDateCreated(ZonedDateTime.now());
+            newEntry.setContent(entryData.getContent());
+        }
 
-        entryRepository.save(
-                newEntry
-        );
+    
+        //for tag in tags 
+
+        newEntry = entryRepository.save(newEntry);
 
         // NOTE: Check for entryID here and do tags stuff
         // after ID is set.
 
-        for (String tagName : newEntryDataTransfer.getTags())
+        for (String tagName : entryData.getTags())
         {
             List<Tag> dbTagMatchList = tagRepository.findByNameEquals(tagName);
 
@@ -97,11 +102,11 @@ public class EntryDataTransferController
                 tagMatch.addEntry(newEntry);
                 //tagMatch.getId()
             }
-            entryRepository.save(newEntry);
+            newEntry = entryRepository.save(newEntry);
             
         }
 
-        return entryService.getEntryDataTransferFrom(newEntry);
+        return entryService.convertToDTO(newEntry);
     }
 
 }
