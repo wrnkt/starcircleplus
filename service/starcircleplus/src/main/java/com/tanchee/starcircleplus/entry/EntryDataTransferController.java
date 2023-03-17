@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.modelmapper.ModelMapper;
+
 @RestController
 @RequestMapping(path="/entry")
 public class EntryDataTransferController
@@ -48,9 +50,7 @@ public class EntryDataTransferController
         ArrayList<EntryDataTransfer> dataTransferList = new ArrayList<EntryDataTransfer>();
         for(Entry entry : entryRepository.findAll())
         {
-            dataTransferList.add(
-                    entryService.getEntryDataTransferFrom(entry)
-                    );
+            dataTransferList.add(entryService.convertToDTO(entry));
         }
         return dataTransferList;
     }
@@ -59,10 +59,8 @@ public class EntryDataTransferController
     @PostMapping(path="/save")
     public EntryDataTransfer saveEntry(@RequestBody EntryDataTransfer entryData)
     {
-        Optional<Entry> dbEntryOpt;
-        if (entryData.getKey() == null) {
-            dbEntryOpt = entryRepository.findById(entryData.getKey());
-        }
+            
+        Optional<Entry> dbEntryOpt = entryRepository.findById(entryData.getKey());
         Entry newEntry = new Entry();
 
         if (dbEntryOpt.isPresent()) {
