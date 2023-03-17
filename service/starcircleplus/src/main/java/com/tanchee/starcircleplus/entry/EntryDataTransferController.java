@@ -2,6 +2,7 @@ package com.tanchee.starcircleplus.entry;
 
 import com.tanchee.starcircleplus.tag.*;
 
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -54,22 +55,35 @@ public class EntryDataTransferController
         return dataTransferList;
     }
 
-
     // NOTE: Add @Valid before @RequestBody
     @PostMapping(path="/save")
     public EntryDataTransfer saveEntry(@RequestBody EntryDataTransfer entryData)
     {
+        Optional<Entry> dbEntryOpt;
+        if (entryData.getKey() == null) {
+            dbEntryOpt = entryRepository.findById(entryData.getKey());
+        }
         Entry newEntry = new Entry();
-        newEntry.setId(entryData.getKey()); // WARN: may set null key
-        newEntry.setType(entryData.getType());
-        newEntry.setChecked(entryData.getChecked());
-        newEntry.setDateCreated(ZonedDateTime.now());
-        newEntry.setContent(entryData.getContent());
+
+        if (dbEntryOpt.isPresent()) {
+            Entry dbEntry = dbEntryOpt.get();
+            newEntry.setId(dbEntry.getId()); // NOTE: it shoulde be doing this automatically already in dbEntry.get();
+            newEntry.setType(entryData.getType());
+            newEntry.setChecked(entryData.getChecked());
+            newEntry.setContent(entryData.getContent());
+            //newEntry.setTags(); // WARN: will require looping through previous tags, removing ones that are now missing
+        } else { // new entry, with unspecified key or id, must be returned after entry is saved
+            //newEntry.setId(entryData.getKey()); // WARN: may set null key
+            newEntry.setType(entryData.getType());
+            newEntry.setChecked(entryData.getChecked());
+            newEntry.setDateCreated(ZonedDateTime.now());
+            newEntry.setContent(entryData.getContent());
+        }
 
     
         //for tag in tags 
 
-        entryRepository.save(newEntry);
+        newEntry = entryRepository.save(newEntry);
 
         // NOTE: Check for entryID here and do tags stuff
         // after ID is set.
@@ -90,7 +104,7 @@ public class EntryDataTransferController
                 tagMatch.addEntry(newEntry);
                 //tagMatch.getId()
             }
-            entryRepository.save(newEntry);
+            newEntry = entryRepository.save(newEntry);
             
         }
 
