@@ -21,5 +21,5 @@ public interface EntryService
 
     void deleteEntryByID(Long entryID);
 
-    EntryDataTransfer getEntryDataTransferFrom(Entry e);
+    //EntryDataTransfer getEntryDataTransferFrom(Entry e);
 }
