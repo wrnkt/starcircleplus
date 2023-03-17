@@ -50,14 +50,14 @@ public class EntryServiceImplementation implements EntryService
             tagList.add(tag.getName());
         }
 
-        return
-            new EntryDataTransfer(
-                    entry.getId(),
-                    entry.getType(),
-                    entry.getChecked(),
-                    entry.getDateCreated(),
-                    tagList,
-                    entry.getContent()
-                    );
+        EntryDataTransfer entryDataTransfer = new EntryDataTransfer();
+        entryDataTransfer.setKey(entry.getId());
+        entryDataTransfer.setType(entry.getType());
+        entryDataTransfer.setChecked(entry.getChecked());
+        entryDataTransfer.setDateCreated(entry.getDateCreated());
+        entryDataTransfer.setTags(tagList);
+        entryDataTransfer.setContent(entry.getContent());
+
+        return entryDataTransfer;
     }
 }

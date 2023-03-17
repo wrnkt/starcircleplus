@@ -33,8 +33,6 @@ public class Entry implements Serializable
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-    //private Long uuid;
-
     @Enumerated(EnumType.STRING)
     private Type type;
 
@@ -43,9 +41,7 @@ public class Entry implements Serializable
 
     private String content;
 
-    @ManyToMany(
-        mappedBy = "entry", cascade = CascadeType.ALL
-    )
+    @ManyToMany(mappedBy = "entry", cascade = CascadeType.ALL)
     private Set<Tag> tags = new HashSet<Tag>();
 
     public Entry()
@@ -65,9 +61,28 @@ public class Entry implements Serializable
         this.content = content;
     }
 
+    public Entry(Long id, Type type, boolean checked, ZonedDateTime dateCreated, String content)
+    {
+        this.id = id;
+        this.type = type;
+        if (this.type == Type.CIRCLE ) {
+            this.checked = checked;
+        } else {
+            this.checked = false;
+        }
+
+        this.dateCreated = dateCreated;
+        this.content = content;
+    }
+
     public Long getId()
     {
         return this.id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
     }
 
     public Type getType()
@@ -75,9 +90,19 @@ public class Entry implements Serializable
         return this.type;
     }
 
+    public void setType(Type type)
+    {
+        this.type = type;
+    }
+
     public boolean getChecked()
     {
         return this.checked;
+    }
+
+    public void setChecked(boolean checked)
+    {
+        this.checked = checked;
     }
 
     public ZonedDateTime getDateCreated()
@@ -85,14 +110,33 @@ public class Entry implements Serializable
         return this.dateCreated;
     }
 
+    public void setDateCreated(ZonedDateTime dateCreated)
+    {
+        this.dateCreated = dateCreated;
+    }
+
     public String getContent()
     {
         return this.content;
+    }
+
+    public void setContent(String content)
+    {
+        this.content = content;
     }
     
     public void addTag(Tag tag)
     {
         tags.add(tag);
     }
+
+    /*
+    public void removeTag(Tag tag)
+    {
+        tags.remove(
+                tagRepository.
+                );
+    }
+    */
 
 }
