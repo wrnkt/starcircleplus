@@ -43,7 +43,7 @@ const ENTRYDATAFORMAT = [
 
 
 const EntryTypeDisplay = ({type, checked}) => (
-        <View>
+        <View style={styles.entrytypedisplay}>
             <Text type={styles.entrytypedisplay}>{type}</Text>
         </View>
 );
@@ -68,6 +68,7 @@ const Entry = ({entry}) => (
   </View>
 );
 
+
 const App = () => {
     const [data,setData]=useState([]);
     const getData=()=>{
@@ -91,11 +92,22 @@ const App = () => {
     useEffect(()=>{
         getData()
         },[])
+
+    const header = () => {
+        return (
+                <View style={styles.headerStyle}>
+                <Text style={styles.titleStyle}>POSTS</Text>
+                </View>
+               );
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={data}
-                extraData={data.key}
+                //extraData={data.key}
+                ListHeaderComponent={header}
+                stickyHeaderIndices={[0]}
                 renderItem={({item}) => <Entry key={item.key} entry={item} />}
                 keyExtractor={entry => entry.key}
             />
@@ -106,16 +118,35 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#34495E',
     marginTop: StatusBar.currentHeight || 0,
   },
   entry: {
     backgroundColor: '#f9c2ff',
     padding: 20,
+    width: '100%',
+    height: 70,
     marginVertical: 8,
-    marginHorizontal: 16,
+    flexDirection: 'row',
+  },
+  entrytypedisplay: {
+      width: 50,
+      height: '100%',
+      //alignItems: 'center',
   },
   content: {
     fontSize: 32,
+  },
+  headerStyle: {
+    flex: 1,
+    height: 40,
+    width: '100%',
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleStyle: {
+    color: 'white',
   },
 });
 
