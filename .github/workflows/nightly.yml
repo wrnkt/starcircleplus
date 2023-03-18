@@ -1,0 +1,28 @@
+name: Nightly Feature Auto Merge
+on: 
+  schedule:
+    - cron: "*/5 5 * * *"
+jobs:
+  automerge:
+    name: Merge features into main
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Set Config
+      run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+    - name: Merge spring-services into main
+      run: |
+        git merge --no-ff main spring-services
+        git checkout main
+        git commit -m "Auto-merge spring-services into main"
+        git push
+    - name: Merge react-native-ios into main
+      run: |
+        git merge --no-ff main react-native-ios
+        git checkout main
+        git commit -m "Auto-merge react-native-ios into main"
+        git push
+      
