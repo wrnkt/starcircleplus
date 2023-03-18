@@ -1,4 +1,4 @@
-name: Main update flow
+name: Main Update Flow
 
 on:
   push:
