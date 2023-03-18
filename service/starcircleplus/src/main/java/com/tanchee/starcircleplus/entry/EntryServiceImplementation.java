@@ -6,6 +6,7 @@ import com.tanchee.starcircleplus.tag.Tag;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.time.ZonedDateTime;
 
 import java.text.ParseException;
 
@@ -76,6 +77,8 @@ public class EntryServiceImplementation implements EntryService
             entry.setTags(oldEntry.getTags());
             // NOTE: check for values existing in the data transfer
             // and only load those to the new entry
+        } else {
+            entry.setDateCreated(ZonedDateTime.now());
         }
         return entry;
     }
