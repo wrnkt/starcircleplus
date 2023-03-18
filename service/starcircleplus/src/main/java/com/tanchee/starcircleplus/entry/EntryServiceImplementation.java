@@ -6,6 +6,8 @@ import com.tanchee.starcircleplus.tag.Tag;
 import java.util.List;
 import java.util.ArrayList;
 
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,10 +80,13 @@ public class EntryServiceImplementation implements EntryService
     public Entry convertToEntity(EntryDataTransfer entryData) throws ParseException
     {
         Entry entry = modelMapper.map(entryData, Entry.class);
-        if( entryData.getId != null ) {
+        if( entryData.getId() != null ) {
             Entry oldEntry = getEntryById(entryData.getId());
             entry.setType(oldEntry.getType());
-            //etc
+            entry.setChecked(oldEntry.getChecked());
+            entry.setDateCreated(oldEntry.getDateCreated());
+            // NOTE: check for values existing in the data transfer
+            // and only load those to the new entry
         }
     }
     */
