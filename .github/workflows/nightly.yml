@@ -24,10 +24,12 @@ jobs:
       run: |
         git checkout main
         git merge --no-ff main origin/react-native-ios
-        git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge react-native-ios into main" && git push; }
+        git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge react-native-ios into main"; }
+        git push
     - name: Merge spring-services into main
       run: |
         git checkout main
         git merge --no-ff main origin/spring-services
-        git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge spring-services into main" && git push; }
+        git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge spring-services into main"; }
+        git push
       
