@@ -19,16 +19,15 @@ jobs:
     - name: List Branches
       run: |
           git branch -a
-    - name: Merge spring-services into main
-      run: |
-        git merge --no-ff main origin/spring-services
-        git checkout main
-        git commit -m "Auto-merge spring-services into main"
-        git push
+
     - name: Merge react-native-ios into main
       run: |
-        git merge --no-ff main origin/react-native-ios
         git checkout main
-        git commit -m "Auto-merge react-native-ios into main"
-        git push
+        git merge --no-ff main origin/react-native-ios
+        git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge react-native-ios into main" && git push }
+    - name: Merge spring-services into main
+      run: |
+        git checkout main
+        git merge --no-ff main origin/spring-services
+        git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge spring-services into main" && git push }
       
