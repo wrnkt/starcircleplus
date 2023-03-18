@@ -20,7 +20,7 @@ public class EntryServiceUnitTest {
     private EntryServiceImplementation entryService;
     private EntryRepository entryRepository;
     private TagRepository tagRepository;
-    private ModelMapper modelMapper;
+    private ModelMapper modelMapper = new ModelMapper();
 
     @BeforeEach
     void initEntryService()
