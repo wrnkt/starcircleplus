@@ -1,7 +1,7 @@
 name: Nightly Feature Auto Merge
 on: 
   schedule:
-    - cron: "*/5 5 * * *"
+    - cron: "*/5 * * * *"
 jobs:
   automerge:
     name: Merge features into main
@@ -9,6 +9,9 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GH_BOT_PAT }}
+        
     - name: Set Config
       run: |
           git config --local user.email "actions@github.com"
