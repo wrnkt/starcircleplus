@@ -1,7 +1,7 @@
 name: Nightly Feature Auto Merge
 on: 
   schedule:
-    - cron: "0 4 * * *"
+    - cron: "24 0 * * *"
 jobs:
   merge-service-back-to-main:
     runs-on: ubuntu-latest
