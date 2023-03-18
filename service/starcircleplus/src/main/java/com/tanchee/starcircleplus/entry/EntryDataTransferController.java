@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import java.time.ZonedDateTime;
+import java.text.ParseException;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -32,8 +33,6 @@ import org.modelmapper.ModelMapper;
 @RequestMapping(path="/entry")
 public class EntryDataTransferController
 {
-    // WARN: switch controller to use service which uses repository
-
     @Autowired
     private EntryServiceImplementation entryService;
 
@@ -106,6 +105,41 @@ public class EntryDataTransferController
             
         }
 
+        return entryService.convertToDTO(newEntry);
+    }
+
+    @PostMapping(path="/save2")
+    public EntryDataTransfer saveEntryRework(@RequestBody EntryDataTransfer entryData) throws ParseException
+    {
+            
+        Entry newEntry = entryService.convertToEntity(entryData);
+        newEntry = entryRepository.save(newEntry);
+
+
+        // NOTE: Check for entryID here and do tags stuff
+        // after ID is set.
+
+        /*
+        for (String tagName : entryData.getTags())
+        {
+            List<Tag> dbTagMatchList = tagRepository.findByNameEquals(tagName);
+
+            if (dbTagMatchList.isEmpty()) {
+                Tag newTag = new Tag(tagName);
+
+                newTag.addEntry(newEntry);
+                newEntry.addTag(newTag);
+
+                tagRepository.save(newTag);
+            } else {
+                Tag tagMatch = dbTagMatchList.remove(0);
+                tagMatch.addEntry(newEntry);
+                //tagMatch.getId()
+            }
+            newEntry = entryRepository.save(newEntry);
+            
+        }
+        */
         return entryService.convertToDTO(newEntry);
     }
 
