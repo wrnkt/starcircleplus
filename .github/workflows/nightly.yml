@@ -1,7 +1,7 @@
 name: Nightly Feature Auto Merge
 on: 
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 8 * * *"
 jobs:
   automerge:
     name: Merge features into main
@@ -10,9 +10,9 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
       with:
-        token: ${{ secrets.GH_BOT_PAT }}
         fetch-depth: 0
-    - name: Set Config
+        token: ${{ secrets.GH_BOT_PAT }}
+    - name: Set config values
       run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "Github Actions"
@@ -23,13 +23,13 @@ jobs:
     - name: Merge react-native-ios into main
       run: |
         git checkout main
-        git merge --no-ff main origin/react-native-ios
+        git merge --no-ff origin/react-native-ios
         git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge react-native-ios into main"; }
         git push
     - name: Merge spring-services into main
       run: |
         git checkout main
-        git merge --no-ff main origin/spring-services
+        git merge --no-ff origin/spring-services
         git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge spring-services into main"; }
         git push
       
