@@ -5,6 +5,7 @@ import com.tanchee.starcircleplus.tag.Tag;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import java.text.ParseException;
 
@@ -25,6 +26,7 @@ public class EntryServiceImplementation implements EntryService
 
     @Autowired
     private ModelMapper modelMapper;
+
 
     @Override
     public Entry saveEntry(Entry entry)
@@ -49,26 +51,11 @@ public class EntryServiceImplementation implements EntryService
         entryRepository.deleteById(entryID);
     }
 
-    /*
-    public EntryDataTransfer getEntryDataTransferFrom(Entry entry)
-    {
-        ArrayList<String> tagList = new ArrayList<String>();
-        for( Tag tag : tagRepository.findByEntryEquals(entry) )
-        {
-            tagList.add(tag.getName());
-        }
+    @Override
+    public Optional<Entry> findById(Long id) {
 
-        EntryDataTransfer entryDataTransfer = new EntryDataTransfer();
-        entryDataTransfer.setKey(entry.getId());
-        entryDataTransfer.setType(entry.getType());
-        entryDataTransfer.setChecked(entry.getChecked());
-        entryDataTransfer.setDateCreated(entry.getDateCreated());
-        entryDataTransfer.setTags(tagList);
-        entryDataTransfer.setContent(entry.getContent());
-
-        return entryDataTransfer;
+        return entryRepository.findById(id);
     }
-    */
 
     public EntryDataTransfer convertToDTO(Entry entry)
     {
@@ -76,18 +63,20 @@ public class EntryServiceImplementation implements EntryService
         return entryData;
     }
 
-    /*
     public Entry convertToEntity(EntryDataTransfer entryData) throws ParseException
     {
         Entry entry = modelMapper.map(entryData, Entry.class);
-        if( entryData.getId() != null ) {
-            Entry oldEntry = getEntryById(entryData.getId());
+        if( entryData.getId() != null )
+        {
+            Entry oldEntry = findById(entryData.getId()).get();
             entry.setType(oldEntry.getType());
             entry.setChecked(oldEntry.getChecked());
             entry.setDateCreated(oldEntry.getDateCreated());
+            entry.setContent(oldEntry.getContent());
+            entry.setTags(oldEntry.getTags());
             // NOTE: check for values existing in the data transfer
             // and only load those to the new entry
         }
+        return entry;
     }
-    */
 }
