@@ -19,8 +19,6 @@ public class EntryDataTransfer implements Serializable
     //@Id
     private Long id;
 
-    private Long key;
-
     @Enumerated(EnumType.STRING)
     private Type type;
 
@@ -30,87 +28,53 @@ public class EntryDataTransfer implements Serializable
 
     private String content;
 
-    public EntryDataTransfer()
-    {
+    public EntryDataTransfer() {}
+
+    public Long getId() {
+        return this.id;
     }
 
-    public EntryDataTransfer(Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
-    {
-        this.type = type;
-        this.checked = checked;
-        this.dateCreated = dateCreated;
-        this.tags = tags;
-        this.content = content;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public EntryDataTransfer(Long key, Type type, boolean checked, ZonedDateTime dateCreated, ArrayList<String> tags, String content)
-    {
-        this.key = key;
-        this.type = type;
-        this.checked = checked;
-        this.dateCreated = dateCreated;
-        this.tags = tags;
-        this.content = content;
-    }
-
-    public Long getKey()
-    {
-        return this.key;
-    }
-
-    public void setKey(Long key)
-    {
-        this.key = key;
-    }
-
-    public Type getType()
-    {
+    public Type getType() {
         return this.type;
     }
 
-    public void setType(Type type)
-    {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public boolean getChecked()
-    {
+    public boolean getChecked() {
         return this.checked;
     }
 
-    public void setChecked(boolean checked)
-    {
+    public void setChecked(boolean checked) {
         this.checked = checked;
     }
 
-    public ZonedDateTime getDateCreated()
-    {
+    public ZonedDateTime getDateCreated() {
         return this.dateCreated;
     }
 
-    public void setDateCreated(ZonedDateTime dateCreated)
-    {
+    public void setDateCreated(ZonedDateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public ArrayList<String> getTags()
-    {
+    public ArrayList<String> getTags() {
         return this.tags;
     }
 
-    public void setTags(ArrayList<String> tags)
-    {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 
-    public String getContent()
-    {
+    public String getContent() {
         return this.content;
     }
 
-    public void setContent(String content)
-    {
+    public void setContent(String content) {
         this.content = content;
     }
-
 }
