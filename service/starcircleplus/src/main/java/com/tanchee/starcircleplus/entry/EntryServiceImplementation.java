@@ -19,14 +19,17 @@ import org.modelmapper.ModelMapper;
 public class EntryServiceImplementation implements EntryService
 {
 
-    @Autowired
-    private EntryRepository entryRepository;
+    private final EntryRepository entryRepository;
+    private final TagRepository tagRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private TagRepository tagRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public EntryServiceImplementation(EntryRepository entryRepository, TagRepository tagRepository, ModelMapper modelMapper)
+    {
+        this.entryRepository = entryRepository;
+        this.tagRepository = tagRepository;
+        this.modelMapper = modelMapper;
+    }
 
 
     @Override
