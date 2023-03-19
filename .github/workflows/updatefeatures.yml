@@ -6,23 +6,10 @@ on:
 jobs:
   testmain:
     name: Test main branch
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-        with:
-          ref: main
-          #fetch-depth: 0
-          token: ${{ secrets.GH_BOT_PAT }}
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'corretto'
-          cache: 'maven'
-      - name: Run tests
-        run: |
-          mvn -f service/starcircleplus/ test
+    uses: ./.github/workflows/testbranch.yml
+    secrets: inherit
+    with:
+      branch: main
 
   updateservice:
     name: Pull main into spring-services
