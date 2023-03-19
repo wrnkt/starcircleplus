@@ -1,7 +1,8 @@
 name: Nightly Feature Auto Merge
 on: 
   schedule:
-    - cron: "0 8 * * *"
+    #- cron: "0 8 * * *"
+    - cron: "*/5 * * * *"
   
 jobs:
   testservice:
