@@ -35,21 +35,9 @@ jobs:
 
   updatereact:
     name: Pull main into react-native-ios
-    runs-on: ubuntu-latest
     needs: testmain
-    steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.GH_BOT_PAT }}
-    - name: Set config values
-      run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "Github Actions"
-    - name: Pull main into react-native-ios
-      run: |
-        git checkout spring-services
-        git pull origin main
-        git diff-index --quiet --cached HEAD || { git commit -m "Auto-pull main into spring-services"; }
-        git push
+    uses: ./.github/workflows/updatebranch.yml
+    secrets: inherit
+    with:
+      source: main
+      destination: react-native-ios
