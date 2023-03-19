@@ -25,25 +25,13 @@ jobs:
           mvn -f service/starcircleplus/ test
 
   updateservice:
-    name: Update backend
-    runs-on: ubuntu-latest
+    name: Pull main into spring-services
     needs: testmain
-    steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.GH_BOT_PAT }}
-    - name: Set config values
-      run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "Github Actions"
-    - name: Pull main into spring-services
-      run: |
-        git checkout spring-services
-        git pull origin main
-        git diff-index --quiet --cached HEAD || { git commit -m "Auto-pull main into spring-services"; }
-        git push
+    uses: ./.github/workflows/updatebranch.yml
+    secrets: inherit
+    with:
+      source: main
+      destination: spring-services
 
   updatereact:
     name: Pull main into react-native-ios

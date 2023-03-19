@@ -1,0 +1,30 @@
+on:
+  workflow_call:
+    inputs:
+      source:
+        required: true
+        type: string
+      destination:
+        required: true
+        type: string
+
+jobs:
+  update:
+    #name: Pull ${{ inputs.source }} into ${{ inputs.destination }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GH_BOT_PAT }}
+    - name: Set config values
+      run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+    - name: Pull ${{ inputs.source }} into ${{ inputs.destination }}
+      run: |
+        git checkout ${{ inputs.destination }}
+        git pull origin ${{ inputs.source }}
+        git diff-index --quiet --cached HEAD || { git commit -m "Auto-pull ${{ inputs.source }} into ${{ inputs.destination }}"; }
+        git push
