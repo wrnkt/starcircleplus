@@ -17,7 +17,7 @@ import org.modelmapper.ModelMapper;
 
 public class EntryServiceUnitTests {
 
-    private EntryServiceImplementation entryService;
+    private EntryService entryService;
     private EntryRepository entryRepository;
     private TagRepository tagRepository;
     private ModelMapper modelMapper = new ModelMapper();
@@ -25,8 +25,7 @@ public class EntryServiceUnitTests {
     @BeforeEach
     void initEntryService()
     {
-        entryService = new EntryServiceImplementation(
-                entryRepository, tagRepository, modelMapper);
+        entryService = new EntryService(entryRepository, tagRepository, modelMapper);
     }
 
     @Test
