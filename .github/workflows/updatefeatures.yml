@@ -2,6 +2,8 @@ name: Update Feature Branches
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * *" # 4AM EST
 
 jobs:
   updatemain:
