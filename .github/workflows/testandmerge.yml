@@ -32,6 +32,7 @@ jobs:
 
   mergereact:
     name: Merge iOS React feature branch into main
+    needs: [testservice, mergeservice]
     uses: ./.github/workflows/mergebranch.yml
     secrets: inherit
     with:

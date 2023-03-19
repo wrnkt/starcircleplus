@@ -26,6 +26,7 @@ jobs:
     - name: Merge ${{ inputs.source }} into ${{ inputs.destination }}
       run: |
         git checkout ${{ inputs.destination }}
+        git pull --ff-only origin ${{ inputs.destination }}
         git merge --no-ff origin/${{ inputs.source }}
         git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge ${{ inputs.source }} into ${{ inputs.destination }}"; }
         git push
