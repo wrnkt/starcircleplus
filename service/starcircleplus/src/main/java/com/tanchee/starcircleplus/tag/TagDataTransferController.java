@@ -38,7 +38,7 @@ public class TagDataTransferController
     private EntryRepository entryRepository;
 
     @Autowired
-    private EntryServiceImplementation entryService;
+    private EntryService entryService;
 
     @Autowired
     private TagRepository tagRepository;

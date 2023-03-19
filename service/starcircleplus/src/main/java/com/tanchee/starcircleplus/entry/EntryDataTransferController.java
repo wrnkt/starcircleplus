@@ -34,7 +34,7 @@ import org.modelmapper.ModelMapper;
 public class EntryDataTransferController
 {
     @Autowired
-    private EntryServiceImplementation entryService;
+    private EntryService entryService;
 
     @Autowired
     private EntryRepository entryRepository;
@@ -58,7 +58,7 @@ public class EntryDataTransferController
     public EntryDataTransfer saveEntry(@RequestBody EntryDataTransfer entryData) throws ParseException
     {
         Entry newEntry = entryService.convertToEntity(entryData);
-        newEntry = entryRepository.save(newEntry);
+        newEntry = entryService.saveEntry(newEntry);
         return entryService.convertToDTO(newEntry);
     }
 
