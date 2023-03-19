@@ -54,92 +54,11 @@ public class EntryDataTransferController
         return dataTransferList;
     }
 
-    // NOTE: Add @Valid before @RequestBody
     @PostMapping(path="/save")
-    public EntryDataTransfer saveEntry(@RequestBody EntryDataTransfer entryData)
+    public EntryDataTransfer saveEntry(@RequestBody EntryDataTransfer entryData) throws ParseException
     {
-            
-        Optional<Entry> dbEntryOpt = entryRepository.findById(entryData.getId());
-        Entry newEntry = new Entry();
-
-        if (dbEntryOpt.isPresent()) {
-            Entry dbEntry = dbEntryOpt.get();
-            newEntry.setId(dbEntry.getId()); // NOTE: it shoulde be doing this automatically already in dbEntry.get();
-            newEntry.setType(entryData.getType());
-            newEntry.setChecked(entryData.getChecked());
-            newEntry.setContent(entryData.getContent());
-            //newEntry.setTags(); // WARN: will require looping through previous tags, removing ones that are now missing
-        } else { // new entry, with unspecified id, must be returned after entry is saved
-            //newEntry.setId(entryData.getId()); // WARN: may set null Id
-            newEntry.setType(entryData.getType());
-            newEntry.setChecked(entryData.getChecked());
-            newEntry.setDateCreated(ZonedDateTime.now());
-            newEntry.setContent(entryData.getContent());
-        }
-
-    
-        //for tag in tags 
-
-        newEntry = entryRepository.save(newEntry);
-
-        // NOTE: Check for entryID here and do tags stuff
-        // after ID is set.
-
-        for (String tagName : entryData.getTags())
-        {
-            List<Tag> dbTagMatchList = tagRepository.findByNameEquals(tagName);
-
-            if (dbTagMatchList.isEmpty()) {
-                Tag newTag = new Tag(tagName);
-
-                newTag.addEntry(newEntry);
-                newEntry.addTag(newTag);
-
-                tagRepository.save(newTag);
-            } else {
-                Tag tagMatch = dbTagMatchList.remove(0);
-                tagMatch.addEntry(newEntry);
-                //tagMatch.getId()
-            }
-            newEntry = entryRepository.save(newEntry);
-            
-        }
-
-        return entryService.convertToDTO(newEntry);
-    }
-
-    @PostMapping(path="/save2")
-    public EntryDataTransfer saveEntryRework(@RequestBody EntryDataTransfer entryData) throws ParseException
-    {
-            
         Entry newEntry = entryService.convertToEntity(entryData);
         newEntry = entryRepository.save(newEntry);
-
-
-        // NOTE: Check for entryID here and do tags stuff
-        // after ID is set.
-
-        /*
-        for (String tagName : entryData.getTags())
-        {
-            List<Tag> dbTagMatchList = tagRepository.findByNameEquals(tagName);
-
-            if (dbTagMatchList.isEmpty()) {
-                Tag newTag = new Tag(tagName);
-
-                newTag.addEntry(newEntry);
-                newEntry.addTag(newTag);
-
-                tagRepository.save(newTag);
-            } else {
-                Tag tagMatch = dbTagMatchList.remove(0);
-                tagMatch.addEntry(newEntry);
-                //tagMatch.getId()
-            }
-            newEntry = entryRepository.save(newEntry);
-            
-        }
-        */
         return entryService.convertToDTO(newEntry);
     }
 
