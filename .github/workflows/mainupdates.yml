@@ -1,4 +1,4 @@
-name: Main Update Flow
+name: Build-push to DockerHub
 
 on:
   push:

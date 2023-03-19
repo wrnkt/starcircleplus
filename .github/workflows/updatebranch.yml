@@ -1,3 +1,5 @@
+name: Update Branch [Reusable]
+
 on:
   workflow_call:
     inputs:
@@ -9,7 +11,7 @@ on:
         type: string
 
 jobs:
-  update:
+  pullbranch:
     #name: Pull ${{ inputs.source }} into ${{ inputs.destination }}
     runs-on: ubuntu-latest
     steps:
@@ -25,6 +27,6 @@ jobs:
     - name: Pull ${{ inputs.source }} into ${{ inputs.destination }}
       run: |
         git checkout ${{ inputs.destination }}
-        git pull origin ${{ inputs.source }}
+        git pull --ff-only origin ${{ inputs.source }}
         git diff-index --quiet --cached HEAD || { git commit -m "Auto-pull ${{ inputs.source }} into ${{ inputs.destination }}"; }
         git push
