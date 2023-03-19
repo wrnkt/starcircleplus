@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 
 
-public class EntryServiceUnitTest {
+public class EntryServiceUnitTests {
 
     private EntryServiceImplementation entryService;
     private EntryRepository entryRepository;
