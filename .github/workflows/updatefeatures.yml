@@ -4,13 +4,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  test_then_update_main:
+  updatemain:
     name: Test features and update main
     uses: ./.github/workflows/testandmerge.yml
     secrets: inherit
 
   testmain:
     name: Test main branch
+    needs: updatemain
     uses: ./.github/workflows/testbranch.yml
     secrets: inherit
     with:
