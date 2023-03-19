@@ -25,7 +25,7 @@ public class EntryService
     private final ModelMapper modelMapper;
 
     @Autowired
-    public EntryServiceImplementation(EntryRepository entryRepository, TagRepository tagRepository, ModelMapper modelMapper)
+    public EntryService(EntryRepository entryRepository, TagRepository tagRepository, ModelMapper modelMapper)
     {
         this.entryRepository = entryRepository;
         this.tagRepository = tagRepository;
@@ -33,16 +33,12 @@ public class EntryService
     }
 
 
-    /*
     @Transactional
-    @Override
     public Entry saveEntry(Entry entry)
     {
         return entryRepository.save(entry);
     }
-    */
 
-    @Override
     public List<Entry> fetchEntryList()
     {
         return (List<Entry>) entryRepository.findAll();
@@ -53,13 +49,11 @@ public class EntryService
     public Entry updateEntry(Entry entry, Long entryID);
     */
 
-    @Override
     public void deleteEntryByID(Long entryID)
     {
         entryRepository.deleteById(entryID);
     }
 
-    @Override
     public Optional<Entry> findById(Long id) {
 
         return entryRepository.findById(id);
