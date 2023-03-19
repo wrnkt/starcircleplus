@@ -5,6 +5,10 @@ import com.tanchee.starcircleplus.tag.Tag;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.time.ZonedDateTime;
+
+import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +19,18 @@ import org.modelmapper.ModelMapper;
 public class EntryServiceImplementation implements EntryService
 {
 
-    @Autowired
-    private EntryRepository entryRepository;
+    private final EntryRepository entryRepository;
+    private final TagRepository tagRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private TagRepository tagRepository;
+    public EntryServiceImplementation(EntryRepository entryRepository, TagRepository tagRepository, ModelMapper modelMapper)
+    {
+        this.entryRepository = entryRepository;
+        this.tagRepository = tagRepository;
+        this.modelMapper = modelMapper;
+    }
 
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Override
     public Entry saveEntry(Entry entry)
@@ -47,26 +55,11 @@ public class EntryServiceImplementation implements EntryService
         entryRepository.deleteById(entryID);
     }
 
-    /*
-    public EntryDataTransfer getEntryDataTransferFrom(Entry entry)
-    {
-        ArrayList<String> tagList = new ArrayList<String>();
-        for( Tag tag : tagRepository.findByEntryEquals(entry) )
-        {
-            tagList.add(tag.getName());
-        }
+    @Override
+    public Optional<Entry> findById(Long id) {
 
-        EntryDataTransfer entryDataTransfer = new EntryDataTransfer();
-        entryDataTransfer.setKey(entry.getId());
-        entryDataTransfer.setType(entry.getType());
-        entryDataTransfer.setChecked(entry.getChecked());
-        entryDataTransfer.setDateCreated(entry.getDateCreated());
-        entryDataTransfer.setTags(tagList);
-        entryDataTransfer.setContent(entry.getContent());
-
-        return entryDataTransfer;
+        return entryRepository.findById(id);
     }
-    */
 
     public EntryDataTransfer convertToDTO(Entry entry)
     {
@@ -74,15 +67,22 @@ public class EntryServiceImplementation implements EntryService
         return entryData;
     }
 
-    /*
     public Entry convertToEntity(EntryDataTransfer entryData) throws ParseException
     {
         Entry entry = modelMapper.map(entryData, Entry.class);
-        if( entryData.getId != null ) {
-            Entry oldEntry = getEntryById(entryData.getId());
+        if( entryData.getId() != null )
+        {
+            Entry oldEntry = findById(entryData.getId()).get();
             entry.setType(oldEntry.getType());
-            //etc
+            entry.setChecked(oldEntry.getChecked());
+            entry.setDateCreated(oldEntry.getDateCreated());
+            entry.setContent(oldEntry.getContent());
+            entry.setTags(oldEntry.getTags());
+            // NOTE: check for values existing in the data transfer
+            // and only load those to the new entry
+        } else {
+            entry.setDateCreated(ZonedDateTime.now());
         }
+        return entry;
     }
-    */
 }

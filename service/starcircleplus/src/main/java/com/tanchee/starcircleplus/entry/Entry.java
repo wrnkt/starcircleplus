@@ -124,6 +124,14 @@ public class Entry implements Serializable
     {
         this.content = content;
     }
+
+    public Set<Tag> getTags() {
+        return this.tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
     
     public void addTag(Tag tag)
     {
