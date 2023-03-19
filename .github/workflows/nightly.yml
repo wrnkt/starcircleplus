@@ -18,7 +18,7 @@ jobs:
     uses: ./.github/workflows/testbranch.yml
     secrets: inherit
     with:
-      branch: service
+      branch: spring-services
 
   mergeservice:
     name: Merge Spring Web service feature branch into main
