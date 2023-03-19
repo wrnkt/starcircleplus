@@ -1,8 +1,6 @@
 name: Feature Test & Auto Merge
 
 on: 
-  schedule:
-    - cron: "0 8 * * *" # 4AM EST
   workflow_call:
   workflow_dispatch:
     #inputs:
