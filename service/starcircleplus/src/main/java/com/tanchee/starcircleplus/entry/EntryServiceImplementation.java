@@ -11,12 +11,13 @@ import java.time.ZonedDateTime;
 import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import org.modelmapper.ModelMapper;
 
 @Service
-public class EntryServiceImplementation implements EntryService
+public class EntryServiceImplementation
 {
 
     private final EntryRepository entryRepository;
@@ -32,11 +33,14 @@ public class EntryServiceImplementation implements EntryService
     }
 
 
+    /*
+    @Transactional
     @Override
     public Entry saveEntry(Entry entry)
     {
         return entryRepository.save(entry);
     }
+    */
 
     @Override
     public List<Entry> fetchEntryList()
