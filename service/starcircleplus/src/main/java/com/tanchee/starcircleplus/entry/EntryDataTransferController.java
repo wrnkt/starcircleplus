@@ -33,15 +33,17 @@ import org.modelmapper.ModelMapper;
 @RequestMapping(path="/entry")
 public class EntryDataTransferController
 {
-    @Autowired
-    private EntryService entryService;
+    private final EntryService entryService;
+    private final EntryRepository entryRepository;
+    private final TagRepository tagRepository;
 
     @Autowired
-    private EntryRepository entryRepository;
-
-    @Autowired
-    private TagRepository tagRepository;
-
+    public EntryDataTransferController(EntryService entryService, EntryRepository entryRepository, TagRepository tagRepository)
+    {
+        this.entryService = entryService;
+        this.entryRepository = entryRepository;
+        this.tagRepository = tagRepository;
+    }
 
     @GetMapping(path="/all")
     public Iterable<EntryDataTransfer> getAll()
