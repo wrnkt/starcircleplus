@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
 @Service
-public class EntryServiceImplementation
+public class EntryService
 {
 
     private final EntryRepository entryRepository;
