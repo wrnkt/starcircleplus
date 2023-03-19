@@ -1,4 +1,4 @@
-name: Pull main into feature branches
+name: Update Feature Branches
 
 on:
   workflow_dispatch:

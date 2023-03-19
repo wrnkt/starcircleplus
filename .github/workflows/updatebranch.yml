@@ -1,3 +1,5 @@
+name: Update Branch [Reusable]
+
 on:
   workflow_call:
     inputs:
