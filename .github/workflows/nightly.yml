@@ -23,45 +23,16 @@ jobs:
   mergeservice:
     name: Merge Spring Web service feature branch into main
     needs: testservice
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.GH_BOT_PAT }}
-    - name: Set config values
-      run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "Github Actions"
-    - name: Merge spring-services into main
-      run: |
-        git checkout main
-        git merge --no-ff origin/spring-services
-        git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge spring-services into main"; }
-        git push
+    uses: ./.github/workflows/mergebranch.yml
+    secrets: inherit
+    with:
+      source: spring-services
+      destination: main
 
   mergereact:
     name: Merge iOS React feature branch into main
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.GH_BOT_PAT }}
-    - name: Set config values
-      run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "Github Actions"
-    - name: Merge react-native-ios into main
-      run: |
-        git checkout main
-        git merge --no-ff origin/react-native-ios
-        git diff-index --quiet --cached HEAD || { git commit -m "Auto-merge react-native-ios into main"; }
-        git push
-
-
-
-
-      
+    uses: ./.github/workflows/mergebranch.yml
+    secrets: inherit
+    with:
+      source: react-native-ios
+      destination: main
