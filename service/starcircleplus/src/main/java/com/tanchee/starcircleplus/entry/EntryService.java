@@ -16,9 +16,13 @@ import org.springframework.stereotype.Service;
 
 import org.modelmapper.ModelMapper;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @Service
 public class EntryService
 {
+    private static final Logger logger = LogManager.getLogger(EntryService.class);
 
     private final EntryRepository entryRepository;
     private final TagRepository tagRepository;
@@ -34,8 +38,17 @@ public class EntryService
 
 
     @Transactional
-    public Entry saveEntry(Entry entry)
+    public Entry saveEntry(Entry newEntry)
     {
+        logger.debug("Attempting to save newEntry: {}", () -> newEntry);
+        Entry entry = entryRepository.findById(newEntry.getId())
+            .orElse(new Entry());
+
+        entry.setType(newEntry.getType());
+        entry.setChecked(newEntry.isChecked());
+        entry.setContent(newEntry.getContent());
+        entry.setTags(newEntry.getTags());
+        
         return entryRepository.save(entry);
     }
 
@@ -72,7 +85,7 @@ public class EntryService
         {
             Entry oldEntry = findById(entryData.getId()).get();
             entry.setType(oldEntry.getType());
-            entry.setChecked(oldEntry.getChecked());
+            entry.setChecked(oldEntry.isChecked());
             entry.setDateCreated(oldEntry.getDateCreated());
             entry.setContent(oldEntry.getContent());
             entry.setTags(oldEntry.getTags());
