@@ -44,6 +44,10 @@ public class EntryModelMapperUnitTests {
 
         EntryDataTransfer entryDTO = this.modelMapper.map(entry, EntryDataTransfer.class);
 
+        assertThat(entry.getId()).isEqualTo(entryDTO.getId());
+        assertThat(entry.getType()).isEqualTo(entryDTO.getType());
+        assertThat(entry.isChecked()).isEqualTo(entryDTO.isChecked());
+        assertThat(entry.getDateCreated()).isEqualTo(entryDTO.getDateCreated());
         assertThat(entry.getContent()).isEqualTo(entryDTO.getContent());
     }
     
