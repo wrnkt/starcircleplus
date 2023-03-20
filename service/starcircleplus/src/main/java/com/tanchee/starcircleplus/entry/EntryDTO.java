@@ -14,7 +14,7 @@ import jakarta.persistence.EnumType;
 
 
 @Entity
-public class EntryDataTransfer implements Serializable
+public class EntryDTO implements Serializable
 {
     //@Id
     private Long id;
@@ -28,7 +28,7 @@ public class EntryDataTransfer implements Serializable
 
     private String content;
 
-    public EntryDataTransfer() {}
+    public EntryDTO() {}
 
     public Long getId() {
         return this.id;

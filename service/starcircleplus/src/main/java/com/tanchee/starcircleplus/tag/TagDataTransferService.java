@@ -2,7 +2,7 @@ package com.tanchee.starcircleplus.tag;
 
 import com.tanchee.starcircleplus.entry.Entry;
 import com.tanchee.starcircleplus.entry.EntryRepository;
-import com.tanchee.starcircleplus.entry.EntryDataTransfer;
+import com.tanchee.starcircleplus.entry.EntryDTO;
 
 import java.util.List;
 import java.util.ArrayList;

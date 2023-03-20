@@ -72,13 +72,13 @@ public class EntryService
         return entryRepository.findById(id);
     }
 
-    public EntryDataTransfer convertToDTO(Entry entry)
+    public EntryDTO convertToDTO(Entry entry)
     {
-        EntryDataTransfer entryData = modelMapper.map(entry, EntryDataTransfer.class);
+        EntryDTO entryData = modelMapper.map(entry, EntryDTO.class);
         return entryData;
     }
 
-    public Entry convertToEntity(EntryDataTransfer entryData) throws ParseException
+    public Entry convertToEntity(EntryDTO entryData) throws ParseException
     {
         Entry entry = modelMapper.map(entryData, Entry.class);
         if( entryData.getId() != null )

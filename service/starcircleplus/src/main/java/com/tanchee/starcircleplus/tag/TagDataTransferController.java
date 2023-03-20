@@ -69,7 +69,7 @@ public class TagDataTransferController
     @GetMapping("/{tagname}")
     public ResponseEntity<?> individualTagView(@PathVariable String tagname)
     {
-        ArrayList<EntryDataTransfer> entryDataList = new ArrayList<EntryDataTransfer>();
+        ArrayList<EntryDTO> entryDataList = new ArrayList<EntryDTO>();
         List<Entry> entryList = entryRepository.findByTagsEquals(
                 tagRepository.findByNameEquals(tagname).get(0)
         );

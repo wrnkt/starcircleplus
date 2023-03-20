@@ -37,7 +37,7 @@ public class EntryServiceUnitTests {
         entry.setDateCreated(ZonedDateTime.now());
         entry.setContent("test content");
         //entry.setTags(Arrays.asList({"test"}));
-        EntryDataTransfer entryData = entryService.convertToDTO(entry);
+        EntryDTO entryData = entryService.convertToDTO(entry);
         assertThat(entryData.getContent()).isNotNull();
     }
     

@@ -46,9 +46,9 @@ public class EntryDataTransferController
     }
 
     @GetMapping(path="/all")
-    public Iterable<EntryDataTransfer> getAll()
+    public Iterable<EntryDTO> getAll()
     {
-        ArrayList<EntryDataTransfer> dataTransferList = new ArrayList<EntryDataTransfer>();
+        ArrayList<EntryDTO> dataTransferList = new ArrayList<EntryDTO>();
         for(Entry entry : entryService.fetchEntryList())
         {
             dataTransferList.add(entryService.convertToDTO(entry));
@@ -57,7 +57,7 @@ public class EntryDataTransferController
     }
 
     @PostMapping(path="/save")
-    public EntryDataTransfer saveEntry(@RequestBody EntryDataTransfer entryData) throws ParseException
+    public EntryDTO saveEntry(@RequestBody EntryDTO entryData) throws ParseException
     {
         Entry newEntry = entryService.convertToEntity(entryData);
         newEntry = entryService.saveEntry(newEntry);
