@@ -95,7 +95,7 @@ public class Entry implements Serializable
         this.type = type;
     }
 
-    public boolean getChecked()
+    public boolean isChecked()
     {
         return this.checked;
     }
