@@ -10,7 +10,7 @@ public class EntryConfig
       @Bean
       public EntryService entryService()
       {
-        return new EntryServiceImplementation(entryRepository());
+        return new EntryService(entryRepository());
       }
 
       @Bean
