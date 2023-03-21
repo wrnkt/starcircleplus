@@ -15,17 +15,15 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 
 
-public class EntryServiceUnitTests {
+public class EntryRestControllerUnitTests {
 
-    private EntryService entryService;
-    private EntryRepository entryRepository;
-    private TagRepository tagRepository;
+    private EntryRestController entryController;
     private ModelMapper modelMapper = new ModelMapper();
 
     @BeforeEach
     void initEntryService()
     {
-        entryService = new EntryService(entryRepository, tagRepository, modelMapper);
+        entryController = new EntryRestController();
     }
 
     @Test
@@ -37,7 +35,7 @@ public class EntryServiceUnitTests {
         entry.setDateCreated(ZonedDateTime.now());
         entry.setContent("test content");
         //entry.setTags(Arrays.asList({"test"}));
-        EntryDTO entryData = entryService.convertToDTO(entry);
+        EntryDTO entryData = entryController.convertToDTO(entry);
         assertThat(entryData.getContent()).isNotNull();
     }
     
