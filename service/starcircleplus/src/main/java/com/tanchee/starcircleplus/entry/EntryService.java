@@ -38,7 +38,7 @@ public class EntryService
 
 
     @Transactional
-    public Entry saveEntry(Entry newEntry)
+    public Entry save(Entry newEntry)
     {
         logger.debug("Attempting to save newEntry: {}", () -> newEntry);
         Entry entry = entryRepository.findById(newEntry.getId())
