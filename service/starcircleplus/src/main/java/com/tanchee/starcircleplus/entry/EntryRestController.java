@@ -49,7 +49,6 @@ public class EntryRestController
 
 
 
-
     @GetMapping(path="/all")
     public ResponseEntity<Iterable<EntryDTO>> getAll()
     {
@@ -67,12 +66,12 @@ public class EntryRestController
     {
         //logger.debug("Recieved entryDTO: {}", entryDTO);
 
-        Entry newEntry = convertToEntity(entryDTO);
-        newEntry = entryService.save(newEntry);
+        Entry entry = convertToEntry(entryDTO);
+        entry = entryService.save(entry);
 
-        //logger.debug("Entry from entry data: {}", newEntry);
+        //logger.debug("Entry from entry data: {}", entry);
 
-        return ResponseEntity.ok(convertToDTO(newEntry));
+        return ResponseEntity.ok(convertToDTO(entry));
     }
 
 
@@ -82,24 +81,27 @@ public class EntryRestController
     public EntryDTO convertToDTO(Entry entry)
     {
         logger.debug("Recieved entry: {}", entry);
-
-        //TypeMap<Entry, EntryDTO> typeMap = mapper.createTypeMap(Entry.class, EntryDTO.class);
+        
+        //mapper.createTypeMap(Entry.class, EntryDTO.class);
         /*
         typeMap.addMappings(
                 mapper -> mapper.map(src -> src.getContent(), EntryDTO::setContent));
                 */
 
-        EntryDTO entryDTO = new EntryDTO();
+        //EntryDTO entryDTO = new EntryDTO();
 
-        entryDTO = mapper.map(entry, EntryDTO.class);
-
+        EntryDTO entryDTO = mapper.map(entry, EntryDTO.class);
         logger.debug("entryDTO from recieved entry : {}", entryDTO);
+
         return entryDTO;
     }
 
-    public Entry convertToEntity(EntryDTO entryData) throws ParseException
+    public Entry convertToEntry(EntryDTO entryDTO)
     {
-        Entry entry = mapper.map(entryData, Entry.class);
+        logger.debug("Recieved entryDTO: {}", entryDTO);
+
+        Entry entry = mapper.map(entryDTO, Entry.class);
+        logger.debug("entry from recieved entryDTO : {}", entry);
         /*
         if( entryData.getId() != null )
         {
