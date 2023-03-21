@@ -2,6 +2,9 @@ package com.tanchee.starcircleplus.entry;
 
 import com.tanchee.starcircleplus.tag.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.HashSet;
@@ -22,6 +25,8 @@ import org.modelmapper.TypeMap;
 
 public class EntryModelMapperUnitTests {
 
+    private static final Logger logger = LogManager.getLogger(EntryRestController.class);
+
     private ModelMapper mapper;
     private TypeMap<Entry, EntryDTO> typeMap;
 
@@ -29,6 +34,7 @@ public class EntryModelMapperUnitTests {
     void init()
     {
         mapper = new ModelMapper();
+        /*
         typeMap = this.mapper.typeMap(Entry.class, EntryDTO.class);
         typeMap.addMappings(
                 mapper -> {
@@ -37,8 +43,9 @@ public class EntryModelMapperUnitTests {
                     mapper.map(src -> src.getDateCreated(), EntryDTO::setDateCreated);
                     mapper.map(src -> src.isChecked(), EntryDTO::setChecked);
                     mapper.map(src -> src.getContent(), EntryDTO::setContent);
-                    //mapper.map(src -> src.getTags().stream().map(t -> t.getName()).collect(Collectors.toCollection(ArrayList::new)), EntryDTO::setTags);
+                    mapper.map(src -> src.getTags().stream().map(t -> t.getName()).collect(Collectors.toCollection(ArrayList::new)), EntryDTO::setTags);
         });
+        */
     }
 
     @Test
