@@ -2,28 +2,77 @@ package com.tanchee.starcircleplus.entry;
 
 import com.tanchee.starcircleplus.tag.*;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.text.ParseException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.*;
 //import static org.mockito.AdditionalAnswers.*;
 //import static org.mockito.ArgumentMatchers.any;
 //import static org.mockito.Mockito.*;
-
+//
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import org.modelmapper.ModelMapper;
 
 
+@ExtendWith(MockitoExtension.class)
 public class EntryRestControllerUnitTests {
 
-    private EntryRestController entryController;
-    private ModelMapper modelMapper = new ModelMapper();
+    @InjectMocks
+    EntryRestController entryController;
 
+    @Mock
+    EntryService entryService;
+
+    @Mock
+    ModelMapper mapper;
+
+
+    /*
     @BeforeEach
-    void initEntryService()
+    void init()
     {
         entryController = new EntryRestController();
+    }
+    */
+
+    @Test
+    public void testAddEntry() throws ParseException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+
+        //when(entryService.save(any(Entry.class))).thenReturn(true);
+
+        EntryDTO entryDTO = new EntryDTO();
+        entryDTO.setType(Type.STAR);
+        entryDTO.setChecked(true);
+        entryDTO.setDateCreated(ZonedDateTime.now());
+        entryDTO.setContent("test content");
+        //entryDTO.setTags(Arrays.asList({"test"}));
+        //
+        ResponseEntity<EntryDTO> responseEntity = entryController.addEntry(entryDTO);
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200); // 200 OK
+        assertThat(responseEntity.getHeaders().getLocation().getPath()).isEqualTo("/1");
     }
 
     @Test
