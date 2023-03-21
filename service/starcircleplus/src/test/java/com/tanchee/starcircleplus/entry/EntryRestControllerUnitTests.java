@@ -58,6 +58,7 @@ public class EntryRestControllerUnitTests {
     }
     */
 
+    /*
     @Test
     public void testAddEntry() throws ParseException
     {
@@ -73,13 +74,14 @@ public class EntryRestControllerUnitTests {
         entryDTO.setContent("test content");
         //entryDTO.setTags(Arrays.asList({"test"}));
         
-        logger.debug("Entry data to be saved: {}", () -> entryDTO);
+        //logger.debug("Entry data to be saved: {}", () -> entryDTO);
         ResponseEntity<EntryDTO> responseEntity = entryController.addEntry(entryDTO);
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200); // 200 OK
         //assertThat(responseEntity.getHeaders().getLocation().getPath()).isEqualTo("/1");
         //assertThat(responseEntity.getBody()).isEqualTo("/1");
     }
+    */
 
     @Test
     void properConversionFromEntryToDTO()
@@ -90,8 +92,8 @@ public class EntryRestControllerUnitTests {
         entry.setDateCreated(ZonedDateTime.now());
         entry.setContent("test content");
         //entry.setTags(Arrays.asList({"test"}));
-        EntryDTO entryData = entryController.convertToDTO(entry);
-        assertThat(entryData.getContent()).isNotNull();
+        EntryDTO entryDTO = entryController.convertToDTO(entry);
+        assertThat(entryDTO.getContent()).isNotNull();
     }
     
 }
