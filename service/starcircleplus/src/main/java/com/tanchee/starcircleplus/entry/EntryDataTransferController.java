@@ -2,6 +2,10 @@ package com.tanchee.starcircleplus.entry;
 
 import com.tanchee.starcircleplus.tag.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +13,6 @@ import java.util.Arrays;
 import java.time.ZonedDateTime;
 import java.text.ParseException;
 
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -33,16 +36,20 @@ import org.modelmapper.ModelMapper;
 @RequestMapping(path="/entry")
 public class EntryDataTransferController
 {
+    private static final Logger logger = LogManager.getLogger(EntryDataTransferController.class);
+
     private final EntryService entryService;
     private final EntryRepository entryRepository;
     private final TagRepository tagRepository;
+    private final ModelMapper mapper;
 
     @Autowired
-    public EntryDataTransferController(EntryService entryService, EntryRepository entryRepository, TagRepository tagRepository)
+    public EntryDataTransferController(EntryService entryService, EntryRepository entryRepository, TagRepository tagRepository, ModelMapper mapper)
     {
         this.entryService = entryService;
         this.entryRepository = entryRepository;
         this.tagRepository = tagRepository;
+        this.mapper = mapper;
     }
 
     @GetMapping(path="/all")
@@ -59,6 +66,8 @@ public class EntryDataTransferController
     @PostMapping(path="/save")
     public EntryDTO saveEntry(@RequestBody EntryDTO entryData) throws ParseException
     {
+        logger.debug("Recieved entry data: {}", () -> entryData);
+
         Entry newEntry = convertToEntity(entryData);
         newEntry = entryService.saveEntry(newEntry);
         return convertToDTO(newEntry);
@@ -66,13 +75,13 @@ public class EntryDataTransferController
 
     public EntryDTO convertToDTO(Entry entry)
     {
-        EntryDTO entryData = modelMapper.map(entry, EntryDTO.class);
+        EntryDTO entryData = mapper.map(entry, EntryDTO.class);
         return entryData;
     }
 
     public Entry convertToEntity(EntryDTO entryData) throws ParseException
     {
-        Entry entry = modelMapper.map(entryData, Entry.class);
+        Entry entry = mapper.map(entryData, Entry.class);
         /*
         if( entryData.getId() != null )
         {
