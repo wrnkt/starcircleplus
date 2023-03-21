@@ -41,17 +41,14 @@ public class EntryRestController
 {
     private static final Logger logger = LogManager.getLogger(EntryRestController.class);
 
-    private final EntryService entryService;
-    private final ModelMapper mapper;
-    private TypeMap<Entry, EntryDTO> typeMap;
+    @Autowired
+    private EntryService entryService;
 
     @Autowired
-    public EntryRestController(EntryService entryService, EntryRepository entryRepository, TagRepository tagRepository, ModelMapper mapper, TypeMap typeMap)
-    {
-        this.entryService = entryService;
-        this.mapper = mapper;
-        this.typeMap = typeMap;
-    }
+    private ModelMapper mapper;
+
+
+
 
     @GetMapping(path="/all")
     public ResponseEntity<Iterable<EntryDTO>> getAll()
@@ -68,30 +65,35 @@ public class EntryRestController
     @PostMapping(path="/save")
     public ResponseEntity<EntryDTO> addEntry(@RequestBody EntryDTO entryDTO) throws ParseException
     {
-        //logger.debug("Recieved entryDTO: {}", () -> entryDTO);
+        //logger.debug("Recieved entryDTO: {}", entryDTO);
 
         Entry newEntry = convertToEntity(entryDTO);
         newEntry = entryService.save(newEntry);
 
-        //logger.debug("Entry from entry data: {}", () -> newEntry);
+        //logger.debug("Entry from entry data: {}", newEntry);
 
         return ResponseEntity.ok(convertToDTO(newEntry));
     }
 
 
+    //////////////////////////
     // NOTE: HELPER FUNCTIONS
 
     public EntryDTO convertToDTO(Entry entry)
     {
-        logger.debug("Recieved entry: {}", () -> entry);
+        logger.debug("Recieved entry: {}", entry);
 
-        typeMap = mapper.createTypeMap(Entry.class, EntryDTO.class);
+        //TypeMap<Entry, EntryDTO> typeMap = mapper.createTypeMap(Entry.class, EntryDTO.class);
+        /*
         typeMap.addMappings(
                 mapper -> mapper.map(src -> src.getContent(), EntryDTO::setContent));
+                */
 
+        EntryDTO entryDTO = new EntryDTO();
 
-        EntryDTO entryDTO = mapper.map(entry, EntryDTO.class);
-        logger.debug("entryDTO from recieved entry : {}", () -> entryDTO);
+        entryDTO = mapper.map(entry, EntryDTO.class);
+
+        logger.debug("entryDTO from recieved entry : {}", entryDTO);
         return entryDTO;
     }
 
