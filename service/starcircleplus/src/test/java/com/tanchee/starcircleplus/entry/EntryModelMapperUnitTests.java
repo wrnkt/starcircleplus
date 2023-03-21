@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.stream.*;
 
 import static org.assertj.core.api.Assertions.*;
 //import static org.mockito.AdditionalAnswers.*;
@@ -28,46 +29,16 @@ public class EntryModelMapperUnitTests {
     void init()
     {
         mapper = new ModelMapper();
-        typeMap = this.mapper.createTypeMap(Entry.class, EntryDTO.class);
+        typeMap = this.mapper.typeMap(Entry.class, EntryDTO.class);
         typeMap.addMappings(
                 mapper -> {
                     mapper.map(src -> src.getId(), EntryDTO::setId);
-                }
-        );
-        typeMap.addMappings(
-                mapper -> {
                     mapper.map(src -> src.getType(), EntryDTO::setType);
-                }
-        );
-        typeMap.addMappings(
-                mapper -> {
                     mapper.map(src -> src.getDateCreated(), EntryDTO::setDateCreated);
-                }
-        );
-        typeMap.addMappings(
-                mapper -> {
                     mapper.map(src -> src.isChecked(), EntryDTO::setChecked);
-                }
-        );
-        typeMap.addMappings(
-                mapper -> {
                     mapper.map(src -> src.getContent(), EntryDTO::setContent);
-                }
-        );
-        /*
-        typeMap.addMappings(
-                mapper -> {
-                    mapper.map(src -> {
-                        ArrayList<String> tagsList = new ArrayList<String>();
-                        for( Tag tag : src.getTags() ) {
-                            tagsList.add(tag.getName());
-                        }
-                        return tagsList;
-                    },
-                    EntryDTO::setTags);
-                }
-        );
-        */
+                    //mapper.map(src -> src.getTags().stream().map(t -> t.getName()).collect(Collectors.toCollection(ArrayList::new)), EntryDTO::setTags);
+        });
     }
 
     @Test
