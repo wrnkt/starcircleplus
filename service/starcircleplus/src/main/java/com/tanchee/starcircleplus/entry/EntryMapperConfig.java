@@ -15,14 +15,6 @@ public class EntryMapperConfig {
         return new ModelMapper();
     }
 
-    @Bean
-    public ModelMapper entryToEntryDTOMapper()
-    {
-        ModelMapper mapper = new ModelMapper();
-
-        return mapper;
-    }
-
     /*
     @Bean
     public TypeMap typeMap()
