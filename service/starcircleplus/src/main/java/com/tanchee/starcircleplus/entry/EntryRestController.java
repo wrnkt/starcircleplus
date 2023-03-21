@@ -34,9 +34,9 @@ import org.modelmapper.ModelMapper;
 
 @RestController
 @RequestMapping(path="/entry")
-public class EntryDataTransferController
+public class EntryRestController
 {
-    private static final Logger logger = LogManager.getLogger(EntryDataTransferController.class);
+    private static final Logger logger = LogManager.getLogger(EntryRestController.class);
 
     private final EntryService entryService;
     private final EntryRepository entryRepository;
@@ -44,7 +44,7 @@ public class EntryDataTransferController
     private final ModelMapper mapper;
 
     @Autowired
-    public EntryDataTransferController(EntryService entryService, EntryRepository entryRepository, TagRepository tagRepository, ModelMapper mapper)
+    public EntryRestController(EntryService entryService, EntryRepository entryRepository, TagRepository tagRepository, ModelMapper mapper)
     {
         this.entryService = entryService;
         this.entryRepository = entryRepository;
