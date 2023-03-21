@@ -2,8 +2,10 @@ package com.tanchee.starcircleplus.entry;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.stream.*;
 
 import java.io.Serializable;
+import java.lang.StringBuilder;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ import jakarta.persistence.EnumType;
 
 
 @Entity
-public class EntryDataTransfer implements Serializable
+public class EntryDTO implements Serializable
 {
     //@Id
     private Long id;
@@ -28,7 +30,7 @@ public class EntryDataTransfer implements Serializable
 
     private String content;
 
-    public EntryDataTransfer() {}
+    public EntryDTO() {}
 
     public Long getId() {
         return this.id;
@@ -46,7 +48,7 @@ public class EntryDataTransfer implements Serializable
         this.type = type;
     }
 
-    public boolean getChecked() {
+    public boolean isChecked() {
         return this.checked;
     }
 
@@ -76,5 +78,22 @@ public class EntryDataTransfer implements Serializable
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder desc = new StringBuilder();
+        desc.append("\n");
+        desc.append("id: " + getId() + "\n");
+        desc.append("type: " + getType() + "\n");
+        desc.append("checked: " + isChecked() + "\n");
+        desc.append("dateCreated: " + getDateCreated() + "\n");
+        desc.append("content: " + getContent() + "\n");
+        String tags = (getTags() == null) ?
+            ("None") :
+            (getTags().stream().collect(Collectors.joining(",")));
+        desc.append("tags: " + tags + "\n");
+
+        return desc.toString();
     }
 }

@@ -6,7 +6,15 @@ import org.springframework.context.annotation.Bean;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Configuration
-public class EntryConfig
-{
+public class EntryMapperConfig {
+
+    @Bean
+    public ModelMapper mapper()
+    {
+        return new ModelMapper();
+    }
+
 }

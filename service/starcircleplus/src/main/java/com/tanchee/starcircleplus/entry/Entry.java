@@ -4,6 +4,7 @@ import com.tanchee.starcircleplus.tag.*;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.stream.*;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -146,5 +147,22 @@ public class Entry implements Serializable
                 );
     }
     */
+
+    @Override
+    public String toString() {
+        StringBuilder desc = new StringBuilder();
+        desc.append("\n");
+        desc.append("id: " + getId() + "\n");
+        desc.append("type: " + getType() + "\n");
+        desc.append("checked: " + isChecked() + "\n");
+        desc.append("dateCreated: " + getDateCreated() + "\n");
+        desc.append("content: " + getContent() + "\n");
+        String tags = (getTags() == null) ?
+            ("None") :
+            (getTags().stream().map(t -> t.getName()).collect(Collectors.joining(",")));
+        desc.append("tags: " + tags + "\n");
+
+        return desc.toString();
+    }
 
 }

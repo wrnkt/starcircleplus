@@ -38,7 +38,7 @@ public class EntryService
 
 
     @Transactional
-    public Entry saveEntry(Entry newEntry)
+    public Entry save(Entry newEntry)
     {
         logger.debug("Attempting to save newEntry: {}", () -> newEntry);
         Entry entry = entryRepository.findById(newEntry.getId())
@@ -72,28 +72,4 @@ public class EntryService
         return entryRepository.findById(id);
     }
 
-    public EntryDataTransfer convertToDTO(Entry entry)
-    {
-        EntryDataTransfer entryData = modelMapper.map(entry, EntryDataTransfer.class);
-        return entryData;
-    }
-
-    public Entry convertToEntity(EntryDataTransfer entryData) throws ParseException
-    {
-        Entry entry = modelMapper.map(entryData, Entry.class);
-        if( entryData.getId() != null )
-        {
-            Entry oldEntry = findById(entryData.getId()).get();
-            entry.setType(oldEntry.getType());
-            entry.setChecked(oldEntry.isChecked());
-            entry.setDateCreated(oldEntry.getDateCreated());
-            entry.setContent(oldEntry.getContent());
-            entry.setTags(oldEntry.getTags());
-            // NOTE: check for values existing in the data transfer
-            // and only load those to the new entry
-        } else {
-            entry.setDateCreated(ZonedDateTime.now());
-        }
-        return entry;
-    }
 }

@@ -4,6 +4,8 @@ import com.tanchee.starcircleplus.entry.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Arrays;
 import java.time.ZonedDateTime;
 
@@ -31,7 +33,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping(path="/tag")
-public class TagDataTransferController
+public class TagController
 {
 
     @Autowired
@@ -44,7 +46,7 @@ public class TagDataTransferController
     private TagRepository tagRepository;
 
     @Autowired
-    private TagDataTransferService tagDataTransferService;
+    private TagService tagService;
 
 
     /*
@@ -63,23 +65,40 @@ public class TagDataTransferController
     @GetMapping("/")
     public ResponseEntity<?> getAllTagsWithFrequency()
     {
-        return ResponseEntity.ok(tagDataTransferService.getTagFreqMapForAllTags());
+        return ResponseEntity.ok(getTagFreqMapForAllTags());
     }
 
     @GetMapping("/{tagname}")
     public ResponseEntity<?> individualTagView(@PathVariable String tagname)
     {
-        ArrayList<EntryDataTransfer> entryDataList = new ArrayList<EntryDataTransfer>();
+        ArrayList<EntryDTO> entryDataList = new ArrayList<EntryDTO>();
         List<Entry> entryList = entryRepository.findByTagsEquals(
                 tagRepository.findByNameEquals(tagname).get(0)
         );
         
+        /*
         for (Entry entry : entryList)
         {
             entryDataList.add(entryService.convertToDTO(entry));
         }
+        */
 
         return ResponseEntity.ok(entryDataList);
+    }
+
+
+    Map<String, Integer> getTagFreqMapForAllTags()
+    {
+        Map<String, Integer> tagFreqMap = new HashMap<>();
+
+        for (Tag tag : tagService.findAll())
+        {
+            int count = entryRepository.findByTagsEquals(tag).size();
+            tagFreqMap.put(tag.getName(), Integer.valueOf(count));
+        }
+
+        return tagFreqMap; 
+
     }
 
 }
