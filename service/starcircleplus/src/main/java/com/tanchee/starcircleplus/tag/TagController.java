@@ -4,6 +4,8 @@ import com.tanchee.starcircleplus.entry.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Arrays;
 import java.time.ZonedDateTime;
 
@@ -63,7 +65,7 @@ public class TagController
     @GetMapping("/")
     public ResponseEntity<?> getAllTagsWithFrequency()
     {
-        return ResponseEntity.ok(tagService.getTagFreqMapForAllTags());
+        return ResponseEntity.ok(getTagFreqMapForAllTags());
     }
 
     @GetMapping("/{tagname}")
@@ -82,6 +84,21 @@ public class TagController
         */
 
         return ResponseEntity.ok(entryDataList);
+    }
+
+
+    Map<String, Integer> getTagFreqMapForAllTags()
+    {
+        Map<String, Integer> tagFreqMap = new HashMap<>();
+
+        for (Tag tag : tagService.findAll())
+        {
+            int count = entryRepository.findByTagsEquals(tag).size();
+            tagFreqMap.put(tag.getName(), Integer.valueOf(count));
+        }
+
+        return tagFreqMap; 
+
     }
 
 }

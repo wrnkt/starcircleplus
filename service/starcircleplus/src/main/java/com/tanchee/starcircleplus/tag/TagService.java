@@ -23,22 +23,10 @@ public class TagService
     private TagRepository tagRepository;
 
 
-    Map<String, Integer> getTagFreqMapForAllTags()
+    public List<Tag> findAll()
     {
-        /*
-        TagDataTransfer tagDataTransfer = new TagDataTransfer();
-        tagDataTransfer.setTagsList(new ArrayList<String>());
-        */
-
-        Map<String, Integer> tagFreqMap = new HashMap<>();
-
-        for (Tag tag : tagRepository.findAll())
-        {
-            int count = entryRepository.findByTagsEquals(tag).size();
-            tagFreqMap.put(tag.getName(), Integer.valueOf(count));
-        }
-
-        return tagFreqMap; 
-
+        return (List<Tag>) tagRepository.findAll();
     }
+
+
 }
