@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Component
-public class TagDataTransferService
+public class TagService
 {
     @Autowired
     private EntryRepository entryRepository;

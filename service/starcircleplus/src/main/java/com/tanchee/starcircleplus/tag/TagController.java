@@ -31,7 +31,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping(path="/tag")
-public class TagDataTransferController
+public class TagController
 {
 
     @Autowired
@@ -44,7 +44,7 @@ public class TagDataTransferController
     private TagRepository tagRepository;
 
     @Autowired
-    private TagDataTransferService tagDataTransferService;
+    private TagService tagService;
 
 
     /*
@@ -63,7 +63,7 @@ public class TagDataTransferController
     @GetMapping("/")
     public ResponseEntity<?> getAllTagsWithFrequency()
     {
-        return ResponseEntity.ok(tagDataTransferService.getTagFreqMapForAllTags());
+        return ResponseEntity.ok(tagService.getTagFreqMapForAllTags());
     }
 
     @GetMapping("/{tagname}")
@@ -74,10 +74,12 @@ public class TagDataTransferController
                 tagRepository.findByNameEquals(tagname).get(0)
         );
         
+        /*
         for (Entry entry : entryList)
         {
             entryDataList.add(entryService.convertToDTO(entry));
         }
+        */
 
         return ResponseEntity.ok(entryDataList);
     }

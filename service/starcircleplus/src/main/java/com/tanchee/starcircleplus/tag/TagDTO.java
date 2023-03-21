@@ -14,18 +14,18 @@ import jakarta.persistence.EnumType;
 
 
 @Entity
-public class TagDataTransfer implements Serializable
+public class TagDTO implements Serializable
 {
     @Id
     private Long id;
 
     private ArrayList<String> tagsList;
 
-    public TagDataTransfer()
+    public TagDTO()
     {
     }
 
-    public TagDataTransfer(ArrayList<String> tagsList)
+    public TagDTO(ArrayList<String> tagsList)
     {
         this.tagsList = tagsList;
     }
