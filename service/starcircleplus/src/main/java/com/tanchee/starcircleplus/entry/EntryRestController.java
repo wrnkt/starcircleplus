@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.springframework.http.ResponseEntity;
+
 import org.modelmapper.ModelMapper;
 
 @RestController
@@ -39,39 +41,40 @@ public class EntryRestController
     private static final Logger logger = LogManager.getLogger(EntryRestController.class);
 
     private final EntryService entryService;
-    private final EntryRepository entryRepository;
-    private final TagRepository tagRepository;
     private final ModelMapper mapper;
 
     @Autowired
     public EntryRestController(EntryService entryService, EntryRepository entryRepository, TagRepository tagRepository, ModelMapper mapper)
     {
         this.entryService = entryService;
-        this.entryRepository = entryRepository;
-        this.tagRepository = tagRepository;
         this.mapper = mapper;
     }
 
     @GetMapping(path="/all")
-    public Iterable<EntryDTO> getAll()
+    public ResponseEntity<Iterable<EntryDTO>> getAll()
     {
         ArrayList<EntryDTO> dataTransferList = new ArrayList<EntryDTO>();
         for(Entry entry : entryService.fetchEntryList())
         {
             dataTransferList.add(convertToDTO(entry));
         }
-        return dataTransferList;
+        return ResponseEntity.ok(dataTransferList);
     }
 
+    // NOTE: Consider changing response to Entry
     @PostMapping(path="/save")
-    public EntryDTO saveEntry(@RequestBody EntryDTO entryData) throws ParseException
+    public ResponseEntity<EntryDTO> addEntry(@RequestBody EntryDTO entryData) throws ParseException
     {
         logger.debug("Recieved entry data: {}", () -> entryData);
 
         Entry newEntry = convertToEntity(entryData);
-        newEntry = entryService.saveEntry(newEntry);
-        return convertToDTO(newEntry);
+        newEntry = entryService.save(newEntry);
+
+        return ResponseEntity.ok(convertToDTO(newEntry));
     }
+
+
+    // NOTE: HELPER FUNCTIONS
 
     public EntryDTO convertToDTO(Entry entry)
     {
