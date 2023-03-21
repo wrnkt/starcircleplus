@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.ResponseEntity;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 
 @RestController
 @RequestMapping(path="/entry")
@@ -42,12 +43,14 @@ public class EntryRestController
 
     private final EntryService entryService;
     private final ModelMapper mapper;
+    private TypeMap<Entry, EntryDTO> typeMap;
 
     @Autowired
-    public EntryRestController(EntryService entryService, EntryRepository entryRepository, TagRepository tagRepository, ModelMapper mapper)
+    public EntryRestController(EntryService entryService, EntryRepository entryRepository, TagRepository tagRepository, ModelMapper mapper, TypeMap typeMap)
     {
         this.entryService = entryService;
         this.mapper = mapper;
+        this.typeMap = typeMap;
     }
 
     @GetMapping(path="/all")
@@ -65,12 +68,12 @@ public class EntryRestController
     @PostMapping(path="/save")
     public ResponseEntity<EntryDTO> addEntry(@RequestBody EntryDTO entryDTO) throws ParseException
     {
-        logger.debug("Recieved entryDTO: {}", () -> entryDTO);
+        //logger.debug("Recieved entryDTO: {}", () -> entryDTO);
 
         Entry newEntry = convertToEntity(entryDTO);
         newEntry = entryService.save(newEntry);
 
-        logger.debug("Entry from entry data: {}", () -> newEntry);
+        //logger.debug("Entry from entry data: {}", () -> newEntry);
 
         return ResponseEntity.ok(convertToDTO(newEntry));
     }
@@ -81,6 +84,11 @@ public class EntryRestController
     public EntryDTO convertToDTO(Entry entry)
     {
         logger.debug("Recieved entry: {}", () -> entry);
+
+        typeMap = mapper.createTypeMap(Entry.class, EntryDTO.class);
+        typeMap.addMappings(
+                mapper -> mapper.map(src -> src.getContent(), EntryDTO::setContent));
+
 
         EntryDTO entryDTO = mapper.map(entry, EntryDTO.class);
         logger.debug("entryDTO from recieved entry : {}", () -> entryDTO);
