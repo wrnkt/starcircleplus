@@ -63,12 +63,14 @@ public class EntryRestController
 
     // NOTE: Consider changing response to Entry
     @PostMapping(path="/save")
-    public ResponseEntity<EntryDTO> addEntry(@RequestBody EntryDTO entryData) throws ParseException
+    public ResponseEntity<EntryDTO> addEntry(@RequestBody EntryDTO entryDTO) throws ParseException
     {
-        logger.debug("Recieved entry data: {}", () -> entryData);
+        logger.debug("Recieved entryDTO: {}", () -> entryDTO);
 
-        Entry newEntry = convertToEntity(entryData);
+        Entry newEntry = convertToEntity(entryDTO);
         newEntry = entryService.save(newEntry);
+
+        logger.debug("Entry from entry data: {}", () -> newEntry);
 
         return ResponseEntity.ok(convertToDTO(newEntry));
     }
@@ -78,8 +80,11 @@ public class EntryRestController
 
     public EntryDTO convertToDTO(Entry entry)
     {
-        EntryDTO entryData = mapper.map(entry, EntryDTO.class);
-        return entryData;
+        logger.debug("Recieved entry: {}", () -> entry);
+
+        EntryDTO entryDTO = mapper.map(entry, EntryDTO.class);
+        logger.debug("entryDTO from recieved entry : {}", () -> entryDTO);
+        return entryDTO;
     }
 
     public Entry convertToEntity(EntryDTO entryData) throws ParseException
