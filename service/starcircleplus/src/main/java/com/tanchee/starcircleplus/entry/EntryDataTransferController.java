@@ -51,7 +51,7 @@ public class EntryDataTransferController
         ArrayList<EntryDTO> dataTransferList = new ArrayList<EntryDTO>();
         for(Entry entry : entryService.fetchEntryList())
         {
-            dataTransferList.add(entryService.convertToDTO(entry));
+            dataTransferList.add(convertToDTO(entry));
         }
         return dataTransferList;
     }
@@ -59,9 +59,35 @@ public class EntryDataTransferController
     @PostMapping(path="/save")
     public EntryDTO saveEntry(@RequestBody EntryDTO entryData) throws ParseException
     {
-        Entry newEntry = entryService.convertToEntity(entryData);
+        Entry newEntry = convertToEntity(entryData);
         newEntry = entryService.saveEntry(newEntry);
-        return entryService.convertToDTO(newEntry);
+        return convertToDTO(newEntry);
     }
 
+    public EntryDTO convertToDTO(Entry entry)
+    {
+        EntryDTO entryData = modelMapper.map(entry, EntryDTO.class);
+        return entryData;
+    }
+
+    public Entry convertToEntity(EntryDTO entryData) throws ParseException
+    {
+        Entry entry = modelMapper.map(entryData, Entry.class);
+        /*
+        if( entryData.getId() != null )
+        {
+            Entry oldEntry = findById(entryData.getId()).get();
+            entry.setType(oldEntry.getType());
+            entry.setChecked(oldEntry.isChecked());
+            entry.setDateCreated(oldEntry.getDateCreated());
+            entry.setContent(oldEntry.getContent());
+            entry.setTags(oldEntry.getTags());
+            // NOTE: check for values existing in the data transfer
+            // and only load those to the new entry
+        } else {
+            entry.setDateCreated(ZonedDateTime.now());
+        }
+        */
+        return entry;
+    }
 }

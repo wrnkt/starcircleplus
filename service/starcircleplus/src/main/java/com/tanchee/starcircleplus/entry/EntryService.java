@@ -72,28 +72,4 @@ public class EntryService
         return entryRepository.findById(id);
     }
 
-    public EntryDTO convertToDTO(Entry entry)
-    {
-        EntryDTO entryData = modelMapper.map(entry, EntryDTO.class);
-        return entryData;
-    }
-
-    public Entry convertToEntity(EntryDTO entryData) throws ParseException
-    {
-        Entry entry = modelMapper.map(entryData, Entry.class);
-        if( entryData.getId() != null )
-        {
-            Entry oldEntry = findById(entryData.getId()).get();
-            entry.setType(oldEntry.getType());
-            entry.setChecked(oldEntry.isChecked());
-            entry.setDateCreated(oldEntry.getDateCreated());
-            entry.setContent(oldEntry.getContent());
-            entry.setTags(oldEntry.getTags());
-            // NOTE: check for values existing in the data transfer
-            // and only load those to the new entry
-        } else {
-            entry.setDateCreated(ZonedDateTime.now());
-        }
-        return entry;
-    }
 }
