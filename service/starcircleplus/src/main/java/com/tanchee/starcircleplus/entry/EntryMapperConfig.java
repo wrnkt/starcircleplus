@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Configuration
 public class EntryMapperConfig {
 
@@ -15,27 +17,4 @@ public class EntryMapperConfig {
         return new ModelMapper();
     }
 
-    /*
-    @Bean
-    public TypeMap typeMap()
-    {
-        return mapper.createTypeMap(Entry.class, EntryDTO.class);;
-
-    }
-    */
-    
 }
-        /*
-        typeMap.addMappings(
-                mapper -> {
-                    mapper.map(src -> {
-                        ArrayList<String> tagsList = new ArrayList<String>();
-                        for( Tag tag : src.getTags() ) {
-                            tagsList.add(tag.getName());
-                        }
-                        return tagsList;
-                    },
-                    EntryDTO::setTags);
-                }
-        );
-        */
