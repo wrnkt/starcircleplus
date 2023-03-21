@@ -21,17 +21,43 @@ import org.modelmapper.TypeMap;
 
 public class EntryModelMapperUnitTests {
 
-    private ModelMapper modelMapper;
+    private ModelMapper mapper;
+    private TypeMap<Entry, EntryDTO> typeMap;
 
     @BeforeEach
     void init()
     {
-        modelMapper = new ModelMapper();
+        mapper = new ModelMapper();
+        typeMap = this.mapper.createTypeMap(Entry.class, EntryDTO.class);
+        typeMap.addMappings(
+                mapper -> {
+                    mapper.map(src -> src.getId(), EntryDTO::setId);
+                }
+        );
+        typeMap.addMappings(
+                mapper -> {
+                    mapper.map(src -> src.getType(), EntryDTO::setType);
+                }
+        );
+        typeMap.addMappings(
+                mapper -> {
+                    mapper.map(src -> src.getDateCreated(), EntryDTO::setDateCreated);
+                }
+        );
+        typeMap.addMappings(
+                mapper -> {
+                    mapper.map(src -> src.isChecked(), EntryDTO::setChecked);
+                }
+        );
+        typeMap.addMappings(
+                mapper -> {
+                    mapper.map(src -> src.getContent(), EntryDTO::setContent);
+                }
+        );
         /*
-        TypeMap<Entry, EntryDTO> propertyMapper = this.modelMapper.createTypeMap(Entry.class, EntryDTO.class);
-        propertyMapper.addMappings(
-                modelMapper -> {
-                    modelMapper.map(src -> {
+        typeMap.addMappings(
+                mapper -> {
+                    mapper.map(src -> {
                         ArrayList<String> tagsList = new ArrayList<String>();
                         for( Tag tag : src.getTags() ) {
                             tagsList.add(tag.getName());
@@ -49,8 +75,8 @@ public class EntryModelMapperUnitTests {
     {
         Entry entry = new Entry();
         entry.setId(1L);
-        EntryDTO entryDTO = this.modelMapper.map(entry, EntryDTO.class);
-        assertThat(entry.getId()).isEqualTo(entryDTO.getId());
+        EntryDTO entryDTO = this.mapper.map(entry, EntryDTO.class);
+        assertThat(entryDTO.getId()).isEqualTo(entry.getId());
     }
 
     @Test
@@ -58,8 +84,8 @@ public class EntryModelMapperUnitTests {
     {
         Entry entry = new Entry();
         entry.setType(Type.STAR);
-        EntryDTO entryDTO = this.modelMapper.map(entry, EntryDTO.class);
-        assertThat(entry.getType()).isEqualTo(entryDTO.getType());
+        EntryDTO entryDTO = this.mapper.map(entry, EntryDTO.class);
+        assertThat(entryDTO.getType()).isEqualTo(entry.getType());
     }
 
     @Test
@@ -67,8 +93,8 @@ public class EntryModelMapperUnitTests {
     {
         Entry entry = new Entry();
         entry.setChecked(false);
-        EntryDTO entryDTO = this.modelMapper.map(entry, EntryDTO.class);
-        assertThat(entry.isChecked()).isEqualTo(entryDTO.isChecked());
+        EntryDTO entryDTO = this.mapper.map(entry, EntryDTO.class);
+        assertThat(entryDTO.isChecked()).isEqualTo(entry.isChecked());
     }
 
     @Test
@@ -76,8 +102,8 @@ public class EntryModelMapperUnitTests {
     {
         Entry entry = new Entry();
         entry.setDateCreated(ZonedDateTime.now());
-        EntryDTO entryDTO = this.modelMapper.map(entry, EntryDTO.class);
-        assertThat(entry.getDateCreated()).isEqualTo(entryDTO.getDateCreated());
+        EntryDTO entryDTO = this.mapper.map(entry, EntryDTO.class);
+        assertThat(entryDTO.getDateCreated()).isEqualTo(entry.getDateCreated());
     }
     
     @Test
@@ -85,8 +111,8 @@ public class EntryModelMapperUnitTests {
     {
         Entry entry = new Entry();
         entry.setContent("Test content");
-        EntryDTO entryDTO = this.modelMapper.map(entry, EntryDTO.class);
-        assertThat(entry.getContent()).isEqualTo(entryDTO.getContent());
+        EntryDTO entryDTO = this.mapper.map(entry, EntryDTO.class);
+        assertThat(entryDTO.getContent()).isEqualTo(entry.getContent());
     }
 
     /*
@@ -100,7 +126,7 @@ public class EntryModelMapperUnitTests {
         Entry entry = new Entry();
         entry.setTags(tagSet);
 
-        EntryDTO entryDTO = this.modelMapper.map(entry, EntryDTO.class);
+        EntryDTO entryDTO = this.mapper.map(entry, EntryDTO.class);
 
         for(Tag tag : entry.getTags())
         {
@@ -115,8 +141,8 @@ public class EntryModelMapperUnitTests {
     {
         EntryDTO entryDTO = new EntryDTO();
         entryDTO.setId(1L);
-        Entry entry = this.modelMapper.map(entryDTO, Entry.class);
-        assertThat(entry.getId()).isEqualTo(entryDTO.getId());
+        Entry entry = this.mapper.map(entryDTO, Entry.class);
+        assertThat(entryDTO.getId()).isEqualTo(entry.getId());
     }
 
     @Test
@@ -124,8 +150,8 @@ public class EntryModelMapperUnitTests {
     {
         EntryDTO entryDTO = new EntryDTO();
         entryDTO.setType(Type.STAR);
-        Entry entry = this.modelMapper.map(entryDTO, Entry.class);
-        assertThat(entry.getType()).isEqualTo(entryDTO.getType());
+        Entry entry = this.mapper.map(entryDTO, Entry.class);
+        assertThat(entryDTO.getType()).isEqualTo(entry.getType());
     }
 
     @Test
@@ -133,8 +159,8 @@ public class EntryModelMapperUnitTests {
     {
         EntryDTO entryDTO = new EntryDTO();
         entryDTO.setChecked(true);
-        Entry entry = this.modelMapper.map(entryDTO, Entry.class);
-        assertThat(entry.isChecked()).isEqualTo(entryDTO.isChecked());
+        Entry entry = this.mapper.map(entryDTO, Entry.class);
+        assertThat(entryDTO.isChecked()).isEqualTo(entry.isChecked());
     }
 
     @Test
@@ -142,8 +168,8 @@ public class EntryModelMapperUnitTests {
     {
         EntryDTO entryDTO = new EntryDTO();
         entryDTO.setDateCreated(ZonedDateTime.now());
-        Entry entry = this.modelMapper.map(entryDTO, Entry.class);
-        assertThat(entry.getDateCreated()).isEqualTo(entryDTO.getDateCreated());
+        Entry entry = this.mapper.map(entryDTO, Entry.class);
+        assertThat(entryDTO.getDateCreated()).isEqualTo(entry.getDateCreated());
     }
 
     @Test
@@ -151,8 +177,8 @@ public class EntryModelMapperUnitTests {
     {
         EntryDTO entryDTO = new EntryDTO();
         entryDTO.setContent("Test content");
-        Entry entry = this.modelMapper.map(entryDTO, Entry.class);
-        assertThat(entry.getContent()).isEqualTo(entryDTO.getContent());
+        Entry entry = this.mapper.map(entryDTO, Entry.class);
+        assertThat(entryDTO.getContent()).isEqualTo(entry.getContent());
     }
     
     /*
@@ -166,7 +192,7 @@ public class EntryModelMapperUnitTests {
         EntryDTO entryDTO = new EntryDTO();
         entryDTO.setTags(tagList);
 
-        Entry entry = this.modelMapper.map(entryDTO, Entry.class);
+        Entry entry = this.mapper.map(entryDTO, Entry.class);
 
 
         for(Tag tag : entry.getTags())
