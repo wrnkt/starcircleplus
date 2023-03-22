@@ -18,7 +18,7 @@ import jakarta.persistence.EnumType;
 @Entity
 public class EntryDTO implements Serializable
 {
-    //@Id
+    @Id
     private Long id;
 
     @Enumerated(EnumType.STRING)
