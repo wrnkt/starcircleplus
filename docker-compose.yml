@@ -11,7 +11,7 @@ services:
     ports:
       - "6603:6603"
   backend:
-    image: "wrnkt/scpbackend:latest"
+    #image: "wrnkt/scpbackend:latest"
     build: .
     ports:
       - "8080:8080"

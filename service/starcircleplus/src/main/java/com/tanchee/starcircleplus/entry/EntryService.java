@@ -38,17 +38,15 @@ public class EntryService
 
 
     @Transactional
-    public Entry save(Entry newEntry)
+    public Entry save(Entry entry)
     {
-        logger.debug("Attempting to save newEntry: {}", () -> newEntry);
-        Entry entry = entryRepository.findById(newEntry.getId())
-            .orElse(new Entry());
+        logger.debug("Attempting to save entry: {}", () -> entry);
+        return entryRepository.save(entry);
+    }
 
-        entry.setType(newEntry.getType());
-        entry.setChecked(newEntry.isChecked());
-        entry.setContent(newEntry.getContent());
-        entry.setTags(newEntry.getTags());
-        
+    @Transactional
+    public Entry update(Entry entry)
+    {
         return entryRepository.save(entry);
     }
 

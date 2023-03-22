@@ -98,13 +98,16 @@ public class EntryModelMapperUnitTests {
     void properlyConvertsEntryToEntryDTOTags()
     {
         Set<Tag> tagSet = new HashSet<Tag>();
+        
         tagSet.add(new Tag("tag1"));
         tagSet.add(new Tag("tag2"));
 
         Entry entry = new Entry();
         entry.setTags(tagSet);
 
+        logger.debug("Entry: {}", entry);
         EntryDTO entryDTO = this.mapper.map(entry, EntryDTO.class);
+        logger.debug("EntryDTO: {}", entryDTO);
 
         for(Tag tag : entry.getTags())
         {

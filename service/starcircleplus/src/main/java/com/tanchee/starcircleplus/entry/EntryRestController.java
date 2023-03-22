@@ -41,13 +41,16 @@ public class EntryRestController
 {
     private static final Logger logger = LogManager.getLogger(EntryRestController.class);
 
-    @Autowired
-    private EntryService entryService;
-
-    @Autowired
-    private ModelMapper mapper;
+    @Autowired private EntryService entryService;
+    @Autowired private ModelMapper mapper;
 
 
+    @GetMapping(path="/test")
+    public ResponseEntity<String> getEntry()
+    {
+        String response = "Hello";
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping(path="/all")
     public ResponseEntity<Iterable<EntryDTO>> getAll()
@@ -60,7 +63,7 @@ public class EntryRestController
         return ResponseEntity.ok(dataTransferList);
     }
 
-    // NOTE: Consider changing response to Entry
+
     @PostMapping(path="/save")
     public ResponseEntity<EntryDTO> addEntry(@RequestBody EntryDTO entryDTO) throws ParseException
     {
@@ -73,6 +76,8 @@ public class EntryRestController
 
         return ResponseEntity.ok(convertToDTO(entry));
     }
+
+
 
 
     //////////////////////////

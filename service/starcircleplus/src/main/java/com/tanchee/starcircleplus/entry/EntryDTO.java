@@ -7,21 +7,11 @@ import java.util.stream.*;
 import java.io.Serializable;
 import java.lang.StringBuilder;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
 
-
-@Entity
 public class EntryDTO implements Serializable
 {
-    //@Id
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     private Type type;
 
     private boolean checked;
