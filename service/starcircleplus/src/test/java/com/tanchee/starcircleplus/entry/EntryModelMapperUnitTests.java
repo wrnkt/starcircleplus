@@ -93,7 +93,6 @@ public class EntryModelMapperUnitTests {
         assertThat(entryDTO.getContent()).isEqualTo(entry.getContent());
     }
 
-    /*
     @Test
     void properlyConvertsEntryToEntryDTOTags()
     {
@@ -104,14 +103,15 @@ public class EntryModelMapperUnitTests {
         Entry entry = new Entry();
         entry.setTags(tagSet);
 
+        logger.debug("Entry: {}", entry);
         EntryDTO entryDTO = this.mapper.map(entry, EntryDTO.class);
+        logger.debug("EntryDTO: {}", entryDTO);
 
         for(Tag tag : entry.getTags())
         {
             assertThat(entryDTO.getTags()).contains(tag.getName());
         }
     }
-    */
 
     // TEST: EntryDTO -> Entry
     @Test
