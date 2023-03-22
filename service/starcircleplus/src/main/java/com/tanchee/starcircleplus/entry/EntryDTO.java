@@ -2,6 +2,8 @@ package com.tanchee.starcircleplus.entry;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.*;
 
 import java.io.Serializable;
@@ -16,7 +18,7 @@ public class EntryDTO implements Serializable
 
     private boolean checked;
     private ZonedDateTime dateCreated;
-    private List<String> tags;
+    private List<String> tags = new ArrayList<String>();
 
     private String content;
 
@@ -55,6 +57,7 @@ public class EntryDTO implements Serializable
     }
 
     public List<String> getTags() {
+        //return new ArrayList(Arrays.asList("TESTING1", "TESTING2"));
         return this.tags;
     }
 
