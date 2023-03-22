@@ -1,6 +1,5 @@
 ### StarCirclePlus
 
-
 #### Stack/Technologies
 + Service:
     - Spring Data JPA
@@ -16,3 +15,6 @@
     - CSS
     - HTML
     - Swift ?
+
+#### Spring Boot
+NOTE: Service layer only works with entities, not DTOs.
