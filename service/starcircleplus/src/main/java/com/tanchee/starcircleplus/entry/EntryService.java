@@ -30,7 +30,7 @@ public class EntryService
     private final TagRepository tagRepository;
 
     @Autowired
-    public EntryService(EntryRepository entryRepository, TagRepository tagRepository, ModelMapper modelMapper)
+    public EntryService(EntryRepository entryRepository, TagRepository tagRepository)
     {
         this.entryRepository = entryRepository;
         this.tagRepository = tagRepository;
@@ -40,6 +40,7 @@ public class EntryService
         List<String> extraneousTags = entry.getTags().stream()
                                             .map(t -> t.getName())
                                             .collect(Collectors.toList());
+
         for( String name : tagNames ) {
             Tag tag = tagRepository.findByName(name).orElse(null);
             if( tag != null ) {
@@ -54,7 +55,6 @@ public class EntryService
         }
         
         if( !extraneousTags.isEmpty() ) {
-            logger.debug("THESE ARE THE TAGS THAT NEED REMOVING {}", extraneousTags);
             for( String name : extraneousTags ) {
                 Tag tag = tagRepository.findByName(name).orElse(null);
                 tag.getEntries().remove(entry);
