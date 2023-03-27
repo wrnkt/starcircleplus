@@ -33,8 +33,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springframework.http.ResponseEntity;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 
 @RestController
 @RequestMapping(path="/entry")
@@ -42,9 +40,14 @@ public class EntryRestController
 {
     private static final Logger logger = LogManager.getLogger(EntryRestController.class);
 
-    @Autowired private EntryService entryService;
-    @Autowired private TagRepository tagRepository;
-    @Autowired private ModelMapper mapper;
+    private EntryService entryService;
+    private TagRepository tagRepository;
+
+    @Autowired
+    public EntryRestController(EntryService entryService, TagRepository tagRepository) {
+        this.entryService = entryService;
+        this.tagRepository = tagRepository;
+    }
 
 
     @GetMapping(path="/")
@@ -67,19 +70,11 @@ public class EntryRestController
 
 
     @PostMapping(path="/save")
-    public ResponseEntity<EntryDTO> addEntry(@RequestBody EntryDTO entryDTO) throws ParseException
+    public ResponseEntity<EntryDTO> saveSingleEntry(@RequestBody EntryDTO entryDTO) throws ParseException
     {
-        //logger.debug("Recieved entryDTO: {}", entryDTO);
-
-        //Entry entry = convertToEntry(entryDTO);
         Entry entry = entryService.save(entryDTO);
         return ResponseEntity.ok(convertToDTO(entry));
-
-        //logger.debug("Entry from entry data: {}", entry);
-
     }
-
-
 
 
     //////////////////////////
@@ -105,26 +100,4 @@ public class EntryRestController
         return entryDTO;
     }
 
-
-
-
-    public Entry convertToEntry(EntryDTO entryDTO) throws ParseException
-    {
-        logger.debug("Recieved entryDTO: {}", entryDTO);
-
-        Entry entry = new Entry();
-        entry.setId(entryDTO.getId());
-        entry.setType(entryDTO.getType());
-        entry.setChecked(entryDTO.isChecked());
-        entry.setContent(entryDTO.getContent());
-        entry.setTags(
-                entryDTO.getTags().stream()
-                .map(n -> new Tag(n))
-                .collect(Collectors.toSet())
-        );
-
-        logger.debug("entry from recieved entryDTO : {}", entry);
-
-        return entry;
-    }
 }
