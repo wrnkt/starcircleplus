@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.*;
 import java.time.ZonedDateTime;
 
 import java.text.ParseException;
@@ -35,17 +36,56 @@ public class EntryService
         this.tagRepository = tagRepository;
     }
 
-    public Entry save(EntryDTO entryDTO) {
-        Entry entry = new Entry();
+    private void updateTagsListAndAssociations(List<String> tagNames, Entry entry) {
+        List<String> extraneousTags = entry.getTags().stream()
+                                            .map(t -> t.getName())
+                                            .collect(Collectors.toList());
+        for( String name : tagNames ) {
+            Tag tag = tagRepository.findByName(name).orElse(null);
+            if( tag != null ) {
+                extraneousTags.remove(tag.getName());
+            } else {
+                tag = new Tag(name);
+            }
+            if( !tag.getEntries().contains(entry) )
+                tag.addEntry(entry);
+            if( !entry.getTags().contains(tag) )
+                entry.addTag(tag);
+        }
+        
+        if( !extraneousTags.isEmpty() ) {
+            logger.debug("THESE ARE THE TAGS THAT NEED REMOVING {}", extraneousTags);
+            for( String name : extraneousTags ) {
+                Tag tag = tagRepository.findByName(name).orElse(null);
+                tag.getEntries().remove(entry);
+                entry.getTags().remove(tag);
+            }
+        }
+    }
 
-        entry.setId(entryDTO.getId());
+
+    @Transactional
+    public Entry save(EntryDTO entryDTO) {
+        Long passedId = entryDTO.getId();
+        Entry entry;
+
+        if( passedId != null ) { // ENTRY EXISTS
+            entry = entryRepository.getReferenceById(passedId);
+
+        } else { // ENTRY DOESNT EXIST ALREADY
+            entry = new Entry();
+            entry.setDateCreated(ZonedDateTime.now());
+        }
+
+        updateTagsListAndAssociations(entryDTO.getTags(), entry);
+
         entry.setType(entryDTO.getType());
         entry.setChecked(entryDTO.isChecked());
-        entry.setDateCreated(entryDTO.getDateCreated());
         entry.setContent(entryDTO.getContent());
 
         return entryRepository.persist(entry);
     }
+
 
     public List<Entry> getAll()
     {
