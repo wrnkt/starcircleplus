@@ -108,4 +108,27 @@ public class EntryService
         return entryRepository.findByTagsEquals(tag);
     }
 
+    //////////////////////////
+    // NOTE: HELPER FUNCTIONS
+
+    public EntryDTO convertToDTO(Entry entry)
+    {
+        logger.debug("Recieved entry: {}", entry);
+
+        EntryDTO entryDTO = new EntryDTO();
+        entryDTO.setId(entry.getId());
+        entryDTO.setType(entry.getType());
+        entryDTO.setDateCreated(entry.getDateCreated());
+        entryDTO.setChecked(entry.isChecked());
+        entryDTO.setContent(entry.getContent());
+        entryDTO.setTags(
+                entry.getTags().stream()
+                .map(t -> t.getName())
+                .collect(Collectors.toList())
+        );
+        logger.debug("entryDTO from recieved entry : {}", entryDTO);
+
+        return entryDTO;
+    }
+
 }
