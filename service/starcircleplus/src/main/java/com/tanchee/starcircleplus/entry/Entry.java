@@ -108,12 +108,20 @@ public class Entry implements Serializable
 
     public ZonedDateTime getDateCreated()
     {
+        if (this.dateCreated == null) {
+            this.dateCreated = ZonedDateTime.now();
+        }
         return this.dateCreated;
     }
 
     public void setDateCreated(ZonedDateTime dateCreated)
     {
         this.dateCreated = dateCreated;
+    }
+
+    public void setDateCreated()
+    {
+        this.dateCreated = ZonedDateTime.now();
     }
 
     public String getContent()
