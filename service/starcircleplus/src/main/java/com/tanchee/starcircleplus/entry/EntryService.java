@@ -41,8 +41,9 @@ public class EntryService
                                             .map(t -> t.getName())
                                             .collect(Collectors.toList());
 
+        Tag tag;
         for( String name : tagNames ) {
-            Tag tag = tagRepository.findByName(name).orElse(null);
+            tag = tagRepository.findByName(name).orElse(null);
             if( tag != null ) {
                 extraneousTags.remove(tag.getName());
             } else {
@@ -55,10 +56,11 @@ public class EntryService
         }
         
         if( !extraneousTags.isEmpty() ) {
+            Tag extraTag;
             for( String name : extraneousTags ) {
-                Tag tag = tagRepository.findByName(name).orElse(null);
-                tag.getEntries().remove(entry);
-                entry.getTags().remove(tag);
+                extraTag = tagRepository.findByName(name).orElse(null);
+                extraTag.getEntries().remove(entry);
+                entry.getTags().remove(extraTag);
             }
         }
     }
