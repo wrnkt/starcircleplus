@@ -104,4 +104,8 @@ public class EntryService
         return entryRepository.findById(id);
     }
 
+    public List<Entry> findByTagsEquals(Tag tag) {
+        return entryRepository.findByTagsEquals(tag);
+    }
+
 }
