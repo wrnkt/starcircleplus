@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ public class TagService
     public List<Tag> findAll()
     {
         return (List<Tag>) tagRepository.findAll();
+    }
+
+    public Optional<Tag> findByNameEquals(String name)
+    {
+        return tagRepository.findByName(name);
     }
 
 

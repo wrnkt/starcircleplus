@@ -37,30 +37,11 @@ public class TagController
 {
 
     @Autowired
-    private EntryRepository entryRepository;
-
-    @Autowired
     private EntryService entryService;
-
-    @Autowired
-    private TagRepository tagRepository;
 
     @Autowired
     private TagService tagService;
 
-
-    /*
-    @GetMapping
-    public TagDataTransfer getAll()
-    {
-        ArrayList<String> tagNameList = new ArrayList<String>();
-        Iterable<Tag> tagList = tagRepository.findAll();
-        for (Tag tag : tagList) {
-            tagNameList.add(tag.getName());
-        }
-        return new TagDataTransfer(tagNameList);
-    }
-    */
 
     @GetMapping("/")
     public ResponseEntity<?> getAllTagsWithFrequency()
@@ -68,12 +49,13 @@ public class TagController
         return ResponseEntity.ok(getTagFreqMapForAllTags());
     }
 
+    // BROKEN
     @GetMapping("/{tagname}")
     public ResponseEntity<?> individualTagView(@PathVariable String tagname)
     {
         ArrayList<EntryDTO> entryDataList = new ArrayList<EntryDTO>();
-        List<Entry> entryList = entryRepository.findByTagsEquals(
-                tagRepository.findByNameEquals(tagname).get(0)
+        List<Entry> entryList = entryService.findByTagsEquals(
+                tagService.findByNameEquals(tagname).get()
         );
         
         /*
@@ -93,7 +75,7 @@ public class TagController
 
         for (Tag tag : tagService.findAll())
         {
-            int count = entryRepository.findByTagsEquals(tag).size();
+            int count = entryService.findByTagsEquals(tag).size();
             tagFreqMap.put(tag.getName(), Integer.valueOf(count));
         }
 
