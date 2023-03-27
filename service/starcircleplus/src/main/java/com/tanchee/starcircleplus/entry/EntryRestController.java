@@ -71,8 +71,8 @@ public class EntryRestController
     {
         //logger.debug("Recieved entryDTO: {}", entryDTO);
 
-        Entry entry = convertToEntry(entryDTO);
-        entry = entryService.save(entry);
+        //Entry entry = convertToEntry(entryDTO);
+        Entry entry = entryService.save(entryDTO);
         return ResponseEntity.ok(convertToDTO(entry));
 
         //logger.debug("Entry from entry data: {}", entry);
