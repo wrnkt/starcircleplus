@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
+import java.util.stream.*;
 import java.time.ZonedDateTime;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -52,21 +53,15 @@ public class TagController
         return ResponseEntity.ok(tagService.getFreqMapForTags(tagService.findAll()));
     }
 
-    // BROKEN
     @GetMapping("/{tagname}")
     public ResponseEntity<?> individualTagView(@PathVariable String tagname)
     {
-        ArrayList<EntryDTO> entryDataList = new ArrayList<EntryDTO>();
-        List<Entry> entryList = entryService.findByTagsEquals(
-                tagService.findByNameEquals(tagname).get()
-        );
-        
-        /*
-        for (Entry entry : entryList)
-        {
-            entryDataList.add(entryService.convertToDTO(entry));
-        }
-        */
+        List<EntryDTO> entryDataList = entryService.findByTagsEquals(
+                tagService.findByNameEquals(tagname).get())
+                    .stream()
+                    .map(entry -> entryService.convertToDTO(entry))
+                    .collect(Collectors.toList());
+
 
         return ResponseEntity.ok(entryDataList);
     }
