@@ -35,18 +35,21 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping(path="/tag")
 public class TagController
 {
-
-    @Autowired
     private EntryService entryService;
+    private TagService tagService;
 
     @Autowired
-    private TagService tagService;
+    public TagController(EntryService entryService, TagService tagService)
+    {
+        this.entryService = entryService;
+        this.tagService = tagService;
+    }
 
 
     @GetMapping("/")
     public ResponseEntity<?> getAllTagsWithFrequency()
     {
-        return ResponseEntity.ok(getTagFreqMapForAllTags());
+        return ResponseEntity.ok(tagService.getFreqMapForTags(tagService.findAll()));
     }
 
     // BROKEN
@@ -68,19 +71,5 @@ public class TagController
         return ResponseEntity.ok(entryDataList);
     }
 
-
-    Map<String, Integer> getTagFreqMapForAllTags()
-    {
-        Map<String, Integer> tagFreqMap = new HashMap<>();
-
-        for (Tag tag : tagService.findAll())
-        {
-            int count = entryService.findByTagsEquals(tag).size();
-            tagFreqMap.put(tag.getName(), Integer.valueOf(count));
-        }
-
-        return tagFreqMap; 
-
-    }
 
 }
