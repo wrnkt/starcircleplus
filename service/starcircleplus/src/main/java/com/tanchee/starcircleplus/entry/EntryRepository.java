@@ -5,13 +5,19 @@ import com.tanchee.starcircleplus.tag.Tag;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 //import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import io.hypersistence.utils.spring.repository.BaseJpaRepository;
+
 @Repository
-public interface EntryRepository extends JpaRepository<Entry, Long>
+public interface EntryRepository extends BaseJpaRepository<Entry, Long>
 {
     List<Entry> findByTagsEquals(Tag tag);
+
+    @Query("from Entry")
+    List<Entry> findAll();
 
     /*
     @Modifying

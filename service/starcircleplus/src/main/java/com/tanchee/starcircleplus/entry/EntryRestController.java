@@ -58,7 +58,7 @@ public class EntryRestController
     public ResponseEntity<Iterable<EntryDTO>> getAll()
     {
         ArrayList<EntryDTO> dataTransferList = new ArrayList<EntryDTO>();
-        for(Entry entry : entryService.fetchEntryList())
+        for(Entry entry : entryService.getAll())
         {
             dataTransferList.add(convertToDTO(entry));
         }

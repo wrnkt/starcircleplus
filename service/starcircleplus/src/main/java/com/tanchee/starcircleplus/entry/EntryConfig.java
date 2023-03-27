@@ -2,11 +2,18 @@ package com.tanchee.starcircleplus.entry;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
+import io.hypersistence.utils.spring.repository.BaseJpaRepositoryImpl;
+
 
 @Configuration
+@EnableJpaRepositories(
+    value = {"com.tanchee.starcircleplus.entry",
+             "com.tanchee.starcircleplus.tag",
+             "com.tanchee.starcircleplus.user"}, 
+    repositoryBaseClass = BaseJpaRepositoryImpl.class
+)
 public class EntryConfig
 {
 }
