@@ -30,7 +30,7 @@ public class EntryService
     private final TagRepository tagRepository;
 
     @Autowired
-    public EntryService(EntryRepository entryRepository, TagRepository tagRepository, ModelMapper modelMapper)
+    public EntryService(EntryRepository entryRepository, TagRepository tagRepository)
     {
         this.entryRepository = entryRepository;
         this.tagRepository = tagRepository;
@@ -40,8 +40,10 @@ public class EntryService
         List<String> extraneousTags = entry.getTags().stream()
                                             .map(t -> t.getName())
                                             .collect(Collectors.toList());
+
+        Tag tag;
         for( String name : tagNames ) {
-            Tag tag = tagRepository.findByName(name).orElse(null);
+            tag = tagRepository.findByName(name).orElse(null);
             if( tag != null ) {
                 extraneousTags.remove(tag.getName());
             } else {
@@ -54,11 +56,11 @@ public class EntryService
         }
         
         if( !extraneousTags.isEmpty() ) {
-            logger.debug("THESE ARE THE TAGS THAT NEED REMOVING {}", extraneousTags);
+            Tag extraTag;
             for( String name : extraneousTags ) {
-                Tag tag = tagRepository.findByName(name).orElse(null);
-                tag.getEntries().remove(entry);
-                entry.getTags().remove(tag);
+                extraTag = tagRepository.findByName(name).orElse(null);
+                extraTag.getEntries().remove(entry);
+                entry.getTags().remove(extraTag);
             }
         }
     }
@@ -100,6 +102,33 @@ public class EntryService
     public Optional<Entry> findById(Long id) {
 
         return entryRepository.findById(id);
+    }
+
+    public List<Entry> findByTagsEquals(Tag tag) {
+        return entryRepository.findByTagsEquals(tag);
+    }
+
+    //////////////////////////
+    // NOTE: HELPER FUNCTIONS
+
+    public EntryDTO convertToDTO(Entry entry)
+    {
+        logger.debug("Recieved entry: {}", entry);
+
+        EntryDTO entryDTO = new EntryDTO();
+        entryDTO.setId(entry.getId());
+        entryDTO.setType(entry.getType());
+        entryDTO.setDateCreated(entry.getDateCreated());
+        entryDTO.setChecked(entry.isChecked());
+        entryDTO.setContent(entry.getContent());
+        entryDTO.setTags(
+                entry.getTags().stream()
+                .map(t -> t.getName())
+                .collect(Collectors.toList())
+        );
+        logger.debug("entryDTO from recieved entry : {}", entryDTO);
+
+        return entryDTO;
     }
 
 }

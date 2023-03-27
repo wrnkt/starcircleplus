@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
+import java.util.stream.*;
 import java.time.ZonedDateTime;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -35,70 +36,35 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping(path="/tag")
 public class TagController
 {
-
-    @Autowired
-    private EntryRepository entryRepository;
-
-    @Autowired
     private EntryService entryService;
-
-    @Autowired
-    private TagRepository tagRepository;
-
-    @Autowired
     private TagService tagService;
 
-
-    /*
-    @GetMapping
-    public TagDataTransfer getAll()
+    @Autowired
+    public TagController(EntryService entryService, TagService tagService)
     {
-        ArrayList<String> tagNameList = new ArrayList<String>();
-        Iterable<Tag> tagList = tagRepository.findAll();
-        for (Tag tag : tagList) {
-            tagNameList.add(tag.getName());
-        }
-        return new TagDataTransfer(tagNameList);
+        this.entryService = entryService;
+        this.tagService = tagService;
     }
-    */
+
 
     @GetMapping("/")
     public ResponseEntity<?> getAllTagsWithFrequency()
     {
-        return ResponseEntity.ok(getTagFreqMapForAllTags());
+        return ResponseEntity.ok(tagService.getFreqMapForTags(tagService.findAll()));
     }
 
     @GetMapping("/{tagname}")
     public ResponseEntity<?> individualTagView(@PathVariable String tagname)
     {
-        ArrayList<EntryDTO> entryDataList = new ArrayList<EntryDTO>();
-        List<Entry> entryList = entryRepository.findByTagsEquals(
-                tagRepository.findByNameEquals(tagname).get(0)
-        );
-        
-        /*
-        for (Entry entry : entryList)
-        {
-            entryDataList.add(entryService.convertToDTO(entry));
-        }
-        */
+        List<EntryDTO> entryDataList = entryService.findByTagsEquals(
+                tagService.findByNameEquals(tagname).get())
+                    .stream()
+                    .map(entry -> entryService.convertToDTO(entry))
+                    .collect(Collectors.toList());
+
 
         return ResponseEntity.ok(entryDataList);
     }
 
-
-    Map<String, Integer> getTagFreqMapForAllTags()
-    {
-        Map<String, Integer> tagFreqMap = new HashMap<>();
-
-        for (Tag tag : tagService.findAll())
-        {
-            int count = entryRepository.findByTagsEquals(tag).size();
-            tagFreqMap.put(tag.getName(), Integer.valueOf(count));
-        }
-
-        return tagFreqMap; 
-
-    }
 
 }
