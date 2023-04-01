@@ -66,5 +66,4 @@ public class TagController
         return ResponseEntity.ok(entryDataList);
     }
 
-
 }

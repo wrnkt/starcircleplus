@@ -16,5 +16,14 @@
     - HTML
     - Swift ?
 
-#### Spring Boot
-NOTE: Service layer only works with entities, not DTOs.
+
+
+#### Endpoints
+POST /entry/save : saves a single entry or updates if it exists
+GET /entry/{id} : get a single entry by id
+GET entry/all : all entries
+
+GET /tag : a list of tags as json keys and the number of associated entries as the value
+GET /tag/{tagname} : a list of all entries with {tagname}
+
+

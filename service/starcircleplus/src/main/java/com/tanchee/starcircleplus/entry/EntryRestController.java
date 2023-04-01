@@ -49,14 +49,6 @@ public class EntryRestController
         this.tagRepository = tagRepository;
     }
 
-
-    @GetMapping(path="/")
-    public ResponseEntity<EntryDTO> getEntry(@RequestParam Long id)
-    {
-        Entry entry = entryService.findById(id).orElse(null);
-        return ResponseEntity.ok(entryService.convertToDTO(entry));
-    }
-
     @GetMapping(path="/all")
     public ResponseEntity<Iterable<EntryDTO>> getAll()
     {
@@ -66,6 +58,13 @@ public class EntryRestController
             dataTransferList.add(entryService.convertToDTO(entry));
         }
         return ResponseEntity.ok(dataTransferList);
+    }
+
+    @GetMapping(path="/")
+    public ResponseEntity<EntryDTO> getEntry(@RequestParam Long id)
+    {
+        Entry entry = entryService.findById(id).orElse(null);
+        return ResponseEntity.ok(entryService.convertToDTO(entry));
     }
 
 
