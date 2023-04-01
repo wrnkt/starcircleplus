@@ -6,7 +6,7 @@ struct ItemRow: View {
     
     var body: some View {
         NavigationLink(destination: ItemDetail(item: item)) {
-            Text(item.summary)
+            Text(item.textContent)
             Spacer()
             if item.isComplete {
                 Image(systemName: "checkmark")

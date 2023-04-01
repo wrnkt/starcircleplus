@@ -10,7 +10,7 @@ struct ItemsView: View {
     @ObservedResults(Item.self) var item
     @EnvironmentObject var errorHandler: ErrorHandler
 
-    @State var itemSummary = ""
+    @State var itemContent = ""
     @State var user: User
     @State var isInCreateItemView = false
     @State var showOfflineNote = false

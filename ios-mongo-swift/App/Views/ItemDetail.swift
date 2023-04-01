@@ -9,10 +9,10 @@ struct ItemDetail: View {
     
     var body: some View {
         Form {
-            Section(header: Text("Edit Item Summary")) {
+            Section(header: Text("Edit Item Content")) {
                 // Accessing the observed item object lets us update the live object
                 // No need to explicitly update the object in a write transaction
-                TextField("Summary", text: $item.summary)
+                TextField("Content", text: $item.textContent)
             }
             Section {
                 Toggle(isOn: $item.isComplete) {

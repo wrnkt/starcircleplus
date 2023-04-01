@@ -14,17 +14,17 @@ struct CreateItemView: View {
     // with the new Item and we should return to the ItemsView.
     @Binding var isInCreateItemView: Bool
     @State var user: User
-    @State var itemSummary = ""
+    @State var itemTextContent = ""
     @State var priority = PriorityLevel.medium
 
     var body: some View {
         Form {
-            Section(header: Text("Item Name")) {
+            Section(header: Text("Item Content")) {
                 // When using Atlas Device Sync, binding directly to the
                 // synced property can cause performance issues. Instead,
                 // we'll bind to a `@State` variable and then assign to the
                 // synced property when the user presses `Save`
-                TextField("New item", text: $itemSummary)
+                TextField("New item", text: $itemTextContent)
             }
             Section(header: Text("Priority")) {
                 Picker(selection: $priority, label: Text("Set priority")) {
@@ -39,7 +39,7 @@ struct CreateItemView: View {
                     // To avoid updating too many times and causing Sync-related
                     // performance issues, we only assign to the `newItem.summary`
                     // once when the user presses `Save`.
-                    newItem.summary = itemSummary
+                    newItem.textContent = itemTextContent
                     newItem.priority = priority
                     // Appending the new Item object to the ``items``
                     // ObservedResults collection adds it to the
