@@ -4,22 +4,20 @@ class Item: Object, ObjectKeyIdentifiable {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var isComplete = false
     @Persisted var textContent: String
-    @Persisted var priority: PriorityLevel
+    @Persisted var type: EntryType
     @Persisted var owner_id: String
 }
 
-enum PriorityLevel: Int, PersistableEnum, CaseIterable {
-    case severe = 0
-    case high = 1
-    case medium = 2
-    case low = 3
+enum EntryType: Int, PersistableEnum, CaseIterable {
+    case todo = 0
+    case special = 1
+    case note = 2
     
     var description: String {
         switch self {
-        case .severe: return "Severe"
-        case .high: return "High"
-        case .medium: return "Medium"
-        case .low: return "Low"
+        case .todo: return "Circle"
+        case .special: return "Star"
+        case .note: return "Plus"
         }
     }
 }
