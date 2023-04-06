@@ -5,14 +5,17 @@ struct ItemRow: View {
     @ObservedRealmObject var item: Item
     
     var body: some View {
-        NavigationLink(destination: ItemDetail(item: item)) {
+        HStack {
             TypeDisplay(item: item)
-            Spacer()
-            Text(item.textContent)
-            Spacer()
-            
-            if item.owner_id == app.currentUser?.id {
-                //Text("(mine)")
+                .padding(.trailing, 20)
+            NavigationLink(destination: ItemDetail(item: item)) {
+                Spacer()
+                Text(item.textContent)
+                Spacer()
+                
+                if item.owner_id == app.currentUser?.id {
+                    //Text("(mine)")
+                }
             }
         }
     }
@@ -21,18 +24,31 @@ struct ItemRow: View {
 struct TypeDisplay: View {
     @ObservedRealmObject var item: Item
     
+    let todoTypeCheckedIcon = Image(systemName: "checkmark.circle")
+    let todoTypeUncheckedIcon = Image(systemName: "circle")
+    let noteTypeIcon = Image(systemName: "plus")
+    let specialTypeIcon = Image(systemName: "star.fill")
+    
     var body: some View {
         switch item.type {
             case EntryType.todo:
                 if item.isComplete {
-                    Image(systemName: "checkmark.circle")
+                    todoTypeCheckedIcon
+                       .resizable()
+                       .frame(width: 32.0, height: 32.0)
                 } else {
-                    Image(systemName: "circle")
+                    todoTypeUncheckedIcon
+                       .resizable()
+                       .frame(width: 32.0, height: 32.0)
                 }
             case EntryType.note:
-                Image(systemName: "plus")
+                noteTypeIcon
+                    .resizable()
+                    .frame(width: 32.0, height: 32.0)
             case EntryType.special:
-                Image(systemName: "star.fill")
+                specialTypeIcon
+                .resizable()
+                   .frame(width: 32.0, height: 32.0)
         }
     }
 }
