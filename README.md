@@ -1,8 +1,5 @@
-### StarCirclePlus
+# StarCirclePlus #
 
-
-#### Concept
-------------
 In order to simplify life, this app manages 3 important forms of information.  
 1. STAR (*): Something to remember.  
 2. CIRCLE (o): Something to do. Can be checked off.  
@@ -10,17 +7,17 @@ In order to simplify life, this app manages 3 important forms of information.
 Entries must be one of these types. The timeline presented will be a quick reference, a reminder to be happy, and a productivity guide.
 
 
-#### Project Structure
 ----------------------
+### Project Structure ###
 
 
 
-#### Workflow/Contributing:
 --------------------------
+### Workflow/Contributing: ###
 
 
-#### Technologies Reference
----------------------------
+#### Stack/Technologies
+>>>>>>> react-native-ios
 + Service:
     - Spring Data JPA
     - Jakarta Persistence API
@@ -35,3 +32,13 @@ Entries must be one of these types. The timeline presented will be a quick refer
     - CSS
     - HTML
     - Swift ?
+
+#### Endpoints
+POST /entry/save : saves a single entry or updates if it exists
+GET /entry/{id} : get a single entry by id
+GET entry/all : all entries
+
+GET /tag : a list of tags as json keys and the number of associated entries as the value
+GET /tag/{tagname} : a list of all entries with {tagname}
+
+

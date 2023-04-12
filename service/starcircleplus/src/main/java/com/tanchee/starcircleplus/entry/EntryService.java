@@ -4,8 +4,10 @@ import com.tanchee.starcircleplus.tag.TagRepository;
 import com.tanchee.starcircleplus.tag.Tag;
 
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.*;
 import java.time.ZonedDateTime;
 
 import java.text.ParseException;
@@ -26,39 +28,71 @@ public class EntryService
 
     private final EntryRepository entryRepository;
     private final TagRepository tagRepository;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public EntryService(EntryRepository entryRepository, TagRepository tagRepository, ModelMapper modelMapper)
+    public EntryService(EntryRepository entryRepository, TagRepository tagRepository)
     {
         this.entryRepository = entryRepository;
         this.tagRepository = tagRepository;
-        this.modelMapper = modelMapper;
+    }
+
+    private void updateTagsListAndAssociations(List<String> tagNames, Entry entry) {
+        List<String> extraneousTags = entry.getTags().stream()
+                                            .map(t -> t.getName())
+                                            .collect(Collectors.toList());
+
+        Tag tag;
+        for( String name : tagNames ) {
+            tag = tagRepository.findByName(name).orElse(null);
+            if( tag != null ) {
+                extraneousTags.remove(tag.getName());
+            } else {
+                tag = new Tag(name);
+            }
+            if( !tag.getEntries().contains(entry) )
+                tag.addEntry(entry);
+            if( !entry.getTags().contains(tag) )
+                entry.addTag(tag);
+        }
+        
+        if( !extraneousTags.isEmpty() ) {
+            Tag extraTag;
+            for( String name : extraneousTags ) {
+                extraTag = tagRepository.findByName(name).orElse(null);
+                extraTag.getEntries().remove(entry);
+                entry.getTags().remove(extraTag);
+            }
+        }
     }
 
 
     @Transactional
-    public Entry save(Entry entry)
-    {
-        logger.debug("Attempting to save entry: {}", () -> entry);
-        return entryRepository.save(entry);
+    public Entry save(EntryDTO entryDTO) {
+        Long passedId = entryDTO.getId();
+        Entry entry;
+
+        if( passedId != null ) { // ENTRY EXISTS
+            entry = entryRepository.getReferenceById(passedId);
+
+        } else { // ENTRY DOESNT EXIST ALREADY
+            entry = new Entry();
+            entry.setDateCreated(ZonedDateTime.now());
+        }
+
+        updateTagsListAndAssociations(entryDTO.getTags(), entry);
+
+        entry.setType(entryDTO.getType());
+        entry.setChecked(entryDTO.isChecked());
+        entry.setContent(entryDTO.getContent());
+
+        return entryRepository.persist(entry);
     }
 
-    @Transactional
-    public Entry update(Entry entry)
-    {
-        return entryRepository.save(entry);
-    }
 
-    public List<Entry> fetchEntryList()
+    public List<Entry> getAll()
     {
         return (List<Entry>) entryRepository.findAll();
     }
-
-    /*
-    @Override
-    public Entry updateEntry(Entry entry, Long entryID);
-    */
 
     public void deleteEntryByID(Long entryID)
     {
@@ -68,6 +102,33 @@ public class EntryService
     public Optional<Entry> findById(Long id) {
 
         return entryRepository.findById(id);
+    }
+
+    public List<Entry> findByTagsEquals(Tag tag) {
+        return entryRepository.findByTagsEquals(tag);
+    }
+
+    //////////////////////////
+    // NOTE: HELPER FUNCTIONS
+
+    public EntryDTO convertToDTO(Entry entry)
+    {
+        logger.debug("Recieved entry: {}", entry);
+
+        EntryDTO entryDTO = new EntryDTO();
+        entryDTO.setId(entry.getId());
+        entryDTO.setType(entry.getType());
+        entryDTO.setDateCreated(entry.getDateCreated());
+        entryDTO.setChecked(entry.isChecked());
+        entryDTO.setContent(entry.getContent());
+        entryDTO.setTags(
+                entry.getTags().stream()
+                .map(t -> t.getName())
+                .collect(Collectors.toList())
+        );
+        logger.debug("entryDTO from recieved entry : {}", entryDTO);
+
+        return entryDTO;
     }
 
 }

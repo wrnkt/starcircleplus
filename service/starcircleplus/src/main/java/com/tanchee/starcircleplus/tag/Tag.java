@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Column;
 
 @Entity
 public class Tag
@@ -21,6 +22,7 @@ public class Tag
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+    @Column(unique=true)
     private String name;
 
     @ManyToMany(cascade = { CascadeType.ALL })
@@ -64,5 +66,16 @@ public class Tag
     public void addEntry(Entry entry)
     {
         this.entry.add(entry);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        if (o instanceof Tag) {
+            return ((Tag) o).getName().equals(this.getName());
+        }
+        return false;
     }
 }
