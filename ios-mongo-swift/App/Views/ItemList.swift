@@ -10,7 +10,7 @@ struct ItemList: View {
     
     var body: some View {
         VStack {
-            List {
+            LazyVStack {
                 ForEach(items) { item in
                     ItemRow(item: item)
                 }
@@ -22,5 +22,11 @@ struct ItemList: View {
                 .frame(maxWidth: 300, alignment: .center)
         }
         .navigationBarTitle("Items", displayMode: .inline)
+    }
+}
+
+struct Previews_ItemList_Previews: PreviewProvider {
+    static var previews: some View {
+        ItemList()
     }
 }
