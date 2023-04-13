@@ -62,6 +62,8 @@ struct TypeDisplay: View {
 
 struct Previews_ItemRow_Previews: PreviewProvider {
     static var previews: some View {
-        ItemRow(item: Item.testNote)
+        let realm = Item.previewRealm
+        let item = realm.objects(Item.self)
+        ItemRow(item: item.first!)
     }
 }
