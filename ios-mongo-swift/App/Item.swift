@@ -8,6 +8,32 @@ class Item: Object, ObjectKeyIdentifiable {
     @Persisted var isComplete = false
     @Persisted var textContent: String
     @Persisted var tags: List<Tag>
+    
+    static var previewRealm: Realm {
+        var realm: Realm
+        let identifier = "previewRealm"
+        let config = Realm.Configuration(inMemoryIdentifier: identifier)
+        do {
+            realm = try Realm(configuration: config)
+            // Check to see whether the in-memory realm already contains an Item.
+            // If it does, we'll just return the existing realm.
+            // If it doesn't, we'll add an Item and append the Tags.
+            let realmObjects = realm.objects(Item.self)
+            if realmObjects.count != 0 {
+                return realm
+            } else {
+                try realm.write {
+                    realm.add(Item.testNote)
+                    realm.add(Item.testTodo)
+                    realm.add(Item.testSpecial)
+                }
+                return realm
+            }
+        } catch let error {
+            fatalError("Can't bootstrap item data: \(error.localizedDescription)")
+        }
+    }
+
  
 }
 
