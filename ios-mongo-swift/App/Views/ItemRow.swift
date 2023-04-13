@@ -5,17 +5,24 @@ struct ItemRow: View {
     @ObservedRealmObject var item: Item
     
     var body: some View {
-        HStack {
-            TypeDisplay(item: item)
-                .padding(.trailing, 20)
-            NavigationLink(destination: ItemDetail(item: item)) {
-                Spacer()
-                Text(item.textContent)
-                Spacer()
-                
-                if item.owner_id == app.currentUser?.id {
-                    //Text("(mine)")
+        ZStack {
+            HStack {
+                NavigationLink(
+                    destination: ItemDetail(item: item)
+                ) {
+                    Spacer()
+                    Text(item.textContent)
+                    Spacer()
+                    
+                    if item.owner_id == app.currentUser?.id {
+                        //Text("(mine)")
+                    }
                 }
+            }
+            HStack {
+                TypeDisplay(item: item)
+                    .padding(.trailing, 20)
+                Spacer()
             }
         }
     }
@@ -55,6 +62,6 @@ struct TypeDisplay: View {
 
 struct Previews_ItemRow_Previews: PreviewProvider {
     static var previews: some View {
-        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+        ItemRow()
     }
 }
