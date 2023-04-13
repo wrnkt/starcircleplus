@@ -28,5 +28,6 @@ struct ItemList: View {
 struct Previews_ItemList_Previews: PreviewProvider {
     static var previews: some View {
         ItemList()
+            .environment(\.realm, Item.previewRealm)
     }
 }
