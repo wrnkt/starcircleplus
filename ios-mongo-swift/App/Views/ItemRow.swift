@@ -62,6 +62,6 @@ struct TypeDisplay: View {
 
 struct Previews_ItemRow_Previews: PreviewProvider {
     static var previews: some View {
-        ItemRow()
+        ItemRow(item: Item.testNote())
     }
 }
