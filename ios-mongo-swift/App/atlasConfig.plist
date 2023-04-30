@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>appId</key>
+	<string>starcircleplus-qdqoo</string>
+	<key>appUrl</key>
+	<string>https://https://realm.mongodb.com/groups/64288cf5549ae447ec98ce1c/apps/64288d3500b264566e35dcad</string>
+	<key>baseUrl</key>
+	<string>https://realm.mongodb.com</string>
+	<key>dataSourceName</key>
+	<string>mongodb-atlas</string>
+</dict>
+</plist>
