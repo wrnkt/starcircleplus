@@ -67,3 +67,10 @@ struct ItemsView: View {
         }
     }
 }
+
+struct Previews_ItemsView_Previews: PreviewProvider {
+    static var previews: some View {
+        Text("hello")
+        // ItemsView()
+    }
+}

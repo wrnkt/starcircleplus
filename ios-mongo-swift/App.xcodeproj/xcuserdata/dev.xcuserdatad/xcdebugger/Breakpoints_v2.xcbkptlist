@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "ED0A98E2-9210-4985-9D80-2820E9719554"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F02B3D26-E78C-41AE-841D-A47AF7A5242F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "App/Views/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "12"
+            endingLineNumber = "12"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "F02B3D26-E78C-41AE-841D-A47AF7A5242F - ba1317de7e210436"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "App.ContentView.body.getter : some"
+                  moduleName = "App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dev/Desktop/projects/starcircleplus/ios-mongo-swift/App/Views/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "1103">
+               </Location>
+               <Location
+                  uuid = "F02B3D26-E78C-41AE-841D-A47AF7A5242F - e2d12863d513a7b7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (RealmSwift.SyncSubscriptionSet) -&gt; () in App.ContentView.body.getter : some"
+                  moduleName = "App"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dev/Desktop/projects/starcircleplus/ios-mongo-swift/App/Views/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "67">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
