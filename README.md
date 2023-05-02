@@ -1,19 +1,46 @@
 # StarCirclePlus #
 
-In order to simplify life, this app manages 3 important forms of information.  
-1. STAR (*): Something to remember.  
-2. CIRCLE (o): Something to do. Can be checked off.  
-3. PLUS (+): Something positive.  
-Entries must be one of these types. The timeline presented will be a quick reference, a reminder to be happy, and a productivity guide.
+Organize the content of your day with three forms of information:
+1. Information to remember. (plus)
+2. A TODO. (circle or checked circle)
+3. Something positive. (star)
 
-
+Each entry has:
+- A type. (Star, Circle, Plus)
+- Date created.
+- Text content.
+- A set of tags.
+- *A list of modification dates.
 ----------------------
-### Project Structure ###
 
+## Project Structure ###
+*see READMEs in folders for more info*
 
+`cli/` : Java command line utility demonstrating project concept with a local MySQL database.  
+
+`frontend/` :   
+
+`ios-mongo-react/` :   
+
+`ios-mongo-react/` :   
+
+`react-native/` :   
+
+`service/` :   
+
+`recompose.sh` :   
+
+`.env` :   
+
+`Dockerfile` :   
+
+`docker-compose.yml` :   
 
 --------------------------
+
 ### Workflow/Contributing: ###
+
+### Example Workflows:
 
 
 #### Stack/Technologies
